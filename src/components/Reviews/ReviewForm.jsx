@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { createReview } from '../../services/reviewService';
 
 const ReviewForm = () => {
@@ -10,13 +10,12 @@ const ReviewForm = () => {
   const swap = searchParams.get('swap');
 
   const [formData, setFormData] = useState({
-    reviewedUser: '',
-    swap: '',
+    reviewedUser: reviewedUser || '',
+    swap: swap || '',
     rating: '',
     comment: '',
   });
 
-  
   const [message, setMessage] = useState('');
 
   const handleChange = (evt) => {
@@ -25,6 +24,15 @@ const ReviewForm = () => {
     setFormData({
       ...formData,
       [evt.target.name]: evt.target.value,
+    });
+  };
+
+  const handleRating = (rating) => {
+    setMessage('');
+
+    setFormData({
+      ...formData,
+      rating,
     });
   };
 
@@ -71,21 +79,33 @@ const ReviewForm = () => {
         </div>
 
         <div>
-          <label htmlFor="rating">Rating:</label>
-          <select
-            id="rating"
+          <p>Rating:</p>
+
+          <div>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => handleRating(star)}
+                aria-label={`${star} star${star > 1 ? 's' : ''}`}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '2rem',
+                }}
+              >
+                {star <= Number(formData.rating) ? '★' : '☆'}
+              </button>
+            ))}
+          </div>
+
+          <input
+            type="hidden"
             name="rating"
             value={formData.rating}
-            onChange={handleChange}
             required
-          >
-            <option value="">Select Rating</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+          />
         </div>
 
         <div>
