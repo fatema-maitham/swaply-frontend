@@ -14,6 +14,7 @@ import AdminUsers from './components/Admin/AdminUsers';
 import AdminSkills from './components/Admin/AdminSkills';
 import AdminSwaps from './components/Admin/AdminSwaps';
 import AdminReviews from './components/Admin/AdminReviews';
+import AdminAuditLogs from './components/Admin/AdminAuditLogs';
 
 import Landing from './components/Landing/Landing';
 
@@ -235,6 +236,13 @@ const App = () => {
             ) : (
               <SignInForm />
             )
+          }
+        />
+
+        <Route
+          path="/admin/audit-logs"
+          element={
+            isAdmin ? <AdminAuditLogs /> : <SignInForm />
           }
         />
       </Routes>
