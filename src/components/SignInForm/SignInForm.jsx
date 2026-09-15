@@ -1,18 +1,25 @@
 import { useState, useContext } from 'react';
+
 import { useNavigate } from 'react-router';
+
 import { Eye, EyeOff } from 'lucide-react';
+
 import { signIn } from '../../services/authService';
+
 import { UserContext } from '../../contexts/UserContext';
+
 import '../../Auth.css';
 
 const SignInForm = () => {
   const navigate = useNavigate();
+
   const { setUser } = useContext(UserContext);
 
   const [message, setMessage] = useState('');
 
   const [formData, setFormData] = useState({
-    email: localStorage.getItem('rememberedEmail') || '',
+    email:
+      localStorage.getItem('rememberedEmail') || '',
     password: '',
   });
 
@@ -65,7 +72,11 @@ const SignInForm = () => {
       );
 
       if (rememberMe) {
-        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem(
+          'rememberMe',
+          'true'
+        );
+
         localStorage.setItem(
           'rememberedEmail',
           formData.email
@@ -76,7 +87,12 @@ const SignInForm = () => {
       }
 
       setUser(signedInUser);
-      navigate('/dashboard');
+
+      if (signedInUser.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setMessage(err.message);
     }
@@ -84,9 +100,11 @@ const SignInForm = () => {
 
   return (
     <main className="auth-page">
+
       <section className="auth-card">
 
         <div className="auth-left">
+
           <img
             src="/logoW.png"
             alt="Skill Swap"
@@ -94,11 +112,15 @@ const SignInForm = () => {
           />
 
           <div className="auth-left-content">
-            <h1>Welcome Back</h1>
+
+            <h1>
+              Welcome Back
+            </h1>
 
             <p>
               Sign in to continue your skill exchange journey.
             </p>
+
           </div>
 
           <img
@@ -106,9 +128,11 @@ const SignInForm = () => {
             alt=""
             className="auth-decoration"
           />
+
         </div>
 
         <div className="auth-right">
+
           <div className="auth-form-content">
 
             {message && (
@@ -124,6 +148,7 @@ const SignInForm = () => {
             >
 
               <div className="form-group">
+
                 <label htmlFor="email">
                   Email
                 </label>
@@ -138,9 +163,11 @@ const SignInForm = () => {
                   autoComplete="off"
                   required
                 />
+
               </div>
 
               <div className="form-group">
+
                 <label htmlFor="password">
                   Password
                 </label>
@@ -182,11 +209,13 @@ const SignInForm = () => {
                   </button>
 
                 </div>
+
               </div>
 
               <div className="auth-options">
 
                 <label className="remember-me">
+
                   <input
                     type="checkbox"
                     checked={rememberMe}
@@ -196,6 +225,7 @@ const SignInForm = () => {
                   <span>
                     Remember me
                   </span>
+
                 </label>
 
                 <button
@@ -219,6 +249,7 @@ const SignInForm = () => {
               </button>
 
               <p className="auth-switch">
+
                 Don’t have an account?{' '}
 
                 <button
@@ -229,17 +260,19 @@ const SignInForm = () => {
                 >
                   Sign Up
                 </button>
+
               </p>
 
             </form>
 
           </div>
+
         </div>
 
       </section>
+
     </main>
   );
 };
 
 export default SignInForm;
-
