@@ -8,7 +8,6 @@
   align-items: center;
   justify-content: center;
   padding: 40px 30px;
-  background: #f6f6fb;
 }
 
 .auth-card {
@@ -480,4 +479,14 @@
   .auth-primary-button {
     height: 48px;
   }
+}
+
+html,
+body,
+#root {
+  background: #ffffff !important;
+}
+
+.auth-page {
+  background: #ffffff !important;
 }
