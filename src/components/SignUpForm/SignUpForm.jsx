@@ -17,6 +17,9 @@ const SignUpForm = () => {
     passwordConf: '',
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const { name, email, password, passwordConf } = formData;
 
   const handleChange = (evt) => {
@@ -46,6 +49,7 @@ const SignUpForm = () => {
       name &&
       email &&
       password &&
+      passwordConf &&
       password === passwordConf
     );
   };
@@ -56,7 +60,7 @@ const SignUpForm = () => {
 
         <div className="auth-left">
           <img
-            src="/logoW.png"
+            src="/logo.png"
             alt="Skill Swap"
             className="auth-logo"
           />
@@ -91,6 +95,7 @@ const SignUpForm = () => {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
+
               <div className="form-group">
                 <label htmlFor="name">Name</label>
 
@@ -122,15 +127,69 @@ const SignUpForm = () => {
               <div className="form-group">
                 <label htmlFor="password">Password</label>
 
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handleChange}
-                  placeholder="Create a password"
-                  required
-                />
+                <div className="password-input-wrapper">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                    placeholder="Create a password"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="password-eye"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword
+                        ? 'Hide password'
+                        : 'Show password'
+                    }
+                  >
+                    {showPassword ? '◉' : '◌'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="passwordConf">
+                  Confirm Password
+                </label>
+
+                <div className="password-input-wrapper">
+                  <input
+                    type={
+                      showConfirmPassword
+                        ? 'text'
+                        : 'password'
+                    }
+                    id="passwordConf"
+                    name="passwordConf"
+                    value={passwordConf}
+                    onChange={handleChange}
+                    placeholder="Confirm your password"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="password-eye"
+                    onClick={() =>
+                      setShowConfirmPassword(
+                        !showConfirmPassword
+                      )
+                    }
+                    aria-label={
+                      showConfirmPassword
+                        ? 'Hide confirm password'
+                        : 'Show confirm password'
+                    }
+                  >
+                    {showConfirmPassword ? '◉' : '◌'}
+                  </button>
+                </div>
               </div>
 
               <button
@@ -150,6 +209,7 @@ const SignUpForm = () => {
                   Sign In
                 </button>
               </p>
+
             </form>
           </div>
         </div>

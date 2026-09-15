@@ -418,3 +418,32 @@
     height: 48px;
   }
 }
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 48px;
+}
+
+.password-eye {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  color: #717382;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.password-eye:hover {
+  color: #382bff;
+}
