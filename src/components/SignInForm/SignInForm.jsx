@@ -1,10 +1,12 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+
 import { signIn } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
 
 const SignInForm = () => {
   const navigate = useNavigate();
+
   const { setUser } = useContext(UserContext);
 
   const [message, setMessage] = useState('');
@@ -23,6 +25,10 @@ const SignInForm = () => {
     });
   };
 
+  const isFormInvalid = () => {
+    return !formData.email || !formData.password;
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
@@ -38,51 +44,97 @@ const SignInForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign In</h1>
+    <main className="auth-page">
+      <section className="auth-card">
 
-      <p>{message}</p>
-
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-
-          <input
-            type="email"
-            autoComplete="off"
-            id="email"
-            value={formData.email}
-            name="email"
-            onChange={handleChange}
-            required
+        <div className="auth-image">
+          <img
+            src="/login-banner.jpeg"
+            alt="Skill Swap"
           />
         </div>
 
-        <div>
-          <label htmlFor="password">Password:</label>
+        <div className="auth-form-section">
+          <h1>Login</h1>
 
-          <input
-            type="password"
+          <p className="auth-subtitle">
+            Welcome back! Login to continue swapping skills.
+          </p>
+
+          {message && (
+            <p className="auth-message">{message}</p>
+          )}
+
+          <form
+            className="auth-form"
             autoComplete="off"
-            id="password"
-            value={formData.password}
-            name="password"
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <button type="submit">Sign In</button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/')}
+            onSubmit={handleSubmit}
           >
-            Cancel
-          </button>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+
+              <input
+                type="email"
+                autoComplete="off"
+                id="email"
+                value={formData.email}
+                name="email"
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+
+              <input
+                type="password"
+                autoComplete="off"
+                id="password"
+                value={formData.password}
+                name="password"
+                onChange={handleChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div className="auth-options">
+              <label className="remember-me">
+                <input type="checkbox" />
+                <span>Remember me</span>
+              </label>
+
+              <button
+                type="button"
+                className="forgot-password"
+              >
+                Forgot password
+              </button>
+            </div>
+
+            <button
+              className="auth-primary-button"
+              type="submit"
+              disabled={isFormInvalid()}
+            >
+              Login
+            </button>
+
+            <p className="auth-switch">
+              Don't have an account?{' '}
+              <button
+                type="button"
+                onClick={() => navigate('/sign-up')}
+              >
+                Sign up
+              </button>
+            </p>
+          </form>
         </div>
-      </form>
+
+      </section>
     </main>
   );
 };

@@ -33,6 +33,7 @@ import ReviewDetails from './components/Reviews/ReviewDetails';
 import ReviewForm from './components/Reviews/ReviewForm';
 
 import { UserContext } from './contexts/UserContext';
+import './App.css';
 
 import './App.css';
 

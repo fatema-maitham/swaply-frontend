@@ -1,10 +1,14 @@
 import { useContext, useState } from 'react';
+
 import { useNavigate } from 'react-router';
+
 import { signUp } from '../../services/authService';
+
 import { UserContext } from '../../contexts/UserContext';
 
 const SignUpForm = () => {
   const { setUser } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const [message, setMessage] = useState('');
@@ -51,80 +55,109 @@ const SignUpForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
+    <main className="auth-page">
+      <section className="auth-card">
 
-      <p>{message}</p>
-
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-
-          <input
-            type="text"
-            id="name"
-            value={name}
-            name="name"
-            onChange={handleChange}
-            required
+        <div className="auth-image">
+          <img
+            src="/login-banner.jpeg"
+            alt="Skill Swap"
           />
         </div>
 
-        <div>
-          <label htmlFor="email">Email:</label>
+        <div className="auth-form-section">
+          <h1>Create Account</h1>
 
-          <input
-            type="email"
-            id="email"
-            value={email}
-            name="email"
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <p className="auth-subtitle">
+            Join Skill Swap and start sharing your skills.
+          </p>
 
-        <div>
-          <label htmlFor="password">Password:</label>
+          {message && (
+            <p className="auth-message">{message}</p>
+          )}
 
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="confirm">Confirm Password:</label>
-
-          <input
-            type="password"
-            id="confirm"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            disabled={isFormInvalid()}
+          <form
+            className="auth-form"
+            autoComplete="off"
+            onSubmit={handleSubmit}
           >
-            Sign Up
-          </button>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
 
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-          >
-            Cancel
-          </button>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                name="name"
+                onChange={handleChange}
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+
+              <input
+                type="email"
+                id="email"
+                value={email}
+                name="email"
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+
+              <input
+                type="password"
+                id="password"
+                value={password}
+                name="password"
+                onChange={handleChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirm">Confirm Password</label>
+
+              <input
+                type="password"
+                id="confirm"
+                value={passwordConf}
+                name="passwordConf"
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+
+            <button
+              className="auth-primary-button"
+              type="submit"
+              disabled={isFormInvalid()}
+            >
+              Sign Up
+            </button>
+
+            <p className="auth-switch">
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={() => navigate('/sign-in')}
+              >
+                Login
+              </button>
+            </p>
+          </form>
         </div>
-      </form>
+
+      </section>
     </main>
   );
 };
