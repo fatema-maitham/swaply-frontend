@@ -5,73 +5,117 @@ const getAuthHeaders = () => ({
 });
 
 const getDashboard = async () => {
-  const response = await fetch(`${BASE_URL}/dashboard`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await fetch(
+    `${BASE_URL}/dashboard`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to load dashboard');
+    throw new Error(
+      data.err || 'Failed to load dashboard'
+    );
   }
 
   return data.statistics;
 };
 
 const getUsers = async () => {
-  const response = await fetch(`${BASE_URL}/users`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await fetch(
+    `${BASE_URL}/users`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to load users');
+    throw new Error(
+      data.err || 'Failed to load users'
+    );
   }
 
   return data.users;
 };
 
 const getSkills = async () => {
-  const response = await fetch(`${BASE_URL}/skills`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await fetch(
+    `${BASE_URL}/skills`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to load skills');
+    throw new Error(
+      data.err || 'Failed to load skills'
+    );
   }
 
   return data.skills;
 };
 
 const getSwaps = async () => {
-  const response = await fetch(`${BASE_URL}/swaps`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await fetch(
+    `${BASE_URL}/swaps`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to load swaps');
+    throw new Error(
+      data.err || 'Failed to load swaps'
+    );
   }
 
   return data.swaps;
 };
 
 const getReviews = async () => {
-  const response = await fetch(`${BASE_URL}/reviews`, {
-    headers: getAuthHeaders(),
-  });
+  const response = await fetch(
+    `${BASE_URL}/reviews`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to load reviews');
+    throw new Error(
+      data.err || 'Failed to load reviews'
+    );
   }
 
   return data.reviews;
+};
+
+const getAuditLogs = async () => {
+  const response = await fetch(
+    `${BASE_URL}/audit-logs`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.err || 'Failed to load audit logs'
+    );
+  }
+
+  return data.auditLogs;
 };
 
 const toggleUserStatus = async (userId) => {
@@ -86,7 +130,9 @@ const toggleUserStatus = async (userId) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to update user status');
+    throw new Error(
+      data.err || 'Failed to update user status'
+    );
   }
 
   return data.user;
@@ -104,7 +150,9 @@ const deleteUser = async (userId) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to delete user');
+    throw new Error(
+      data.err || 'Failed to delete user'
+    );
   }
 
   return data;
@@ -122,7 +170,9 @@ const deleteSkill = async (skillId) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to delete skill');
+    throw new Error(
+      data.err || 'Failed to delete skill'
+    );
   }
 
   return data;
@@ -140,7 +190,9 @@ const deleteReview = async (reviewId) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.err || 'Failed to delete review');
+    throw new Error(
+      data.err || 'Failed to delete review'
+    );
   }
 
   return data;
@@ -152,8 +204,10 @@ export {
   getSkills,
   getSwaps,
   getReviews,
+  getAuditLogs,
   toggleUserStatus,
   deleteUser,
   deleteSkill,
   deleteReview,
 };
+
