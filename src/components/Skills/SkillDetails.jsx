@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+
 import {
   Link,
   useNavigate,
@@ -15,7 +16,6 @@ import { UserContext } from '../../contexts/UserContext';
 const SkillDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { user } = useContext(UserContext);
 
   const [skill, setSkill] = useState(null);
@@ -43,12 +43,15 @@ const SkillDetails = () => {
       setMessage('');
 
       await deleteSkill(id);
-
       navigate('/skills');
     } catch (err) {
       setMessage(err.message);
       setIsDeleting(false);
     }
+  };
+
+  const handleRequestSwap = () => {
+    navigate(`/swaps/new?skill=${skill._id}`);
   };
 
   if (!skill) {
@@ -113,9 +116,14 @@ const SkillDetails = () => {
           </div>
 
           <div className="skill-actions">
-            <button type="button">
-              Request Skill Swap
-            </button>
+            {!isOwner && (
+              <button
+                type="button"
+                onClick={handleRequestSwap}
+              >
+                Request Skill Swap
+              </button>
+            )}
           </div>
 
           {isOwner && (
@@ -167,7 +175,6 @@ const SkillDetails = () => {
 
       <section className="about-skill">
         <h2>About Skill</h2>
-
         <p>{skill.description}</p>
       </section>
     </main>

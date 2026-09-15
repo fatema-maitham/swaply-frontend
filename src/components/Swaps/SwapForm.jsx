@@ -1,9 +1,28 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useContext, useEffect, useState } from 'react';
+
+import {
+  useNavigate,
+  useSearchParams,
+} from 'react-router';
+
 import { createSwap } from '../../services/swapService';
+
+import {
+  getSkill,
+  getSkills,
+} from '../../services/skillService';
+
+import { UserContext } from '../../contexts/UserContext';
 
 const SwapForm = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { user } = useContext(UserContext);
+
+  const skillId = searchParams.get('skill');
+
+  const [requestedSkill, setRequestedSkill] = useState(null);
+  const [mySkills, setMySkills] = useState([]);
 
   const [formData, setFormData] = useState({
     receiver: '',
@@ -13,6 +32,52 @@ const SwapForm = () => {
   });
 
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSwapData = async () => {
+      try {
+        setIsLoading(true);
+        setMessage('');
+
+        if (!skillId) {
+          throw new Error('No skill was selected.');
+        }
+
+        const [selectedSkill, skills] = await Promise.all([
+          getSkill(skillId),
+          getSkills(),
+        ]);
+
+        setRequestedSkill(selectedSkill);
+
+        const userSkills = skills.filter((skill) => {
+          const ownerId = skill.owner?._id || skill.owner;
+          const currentUserId = user?._id || user?.id;
+
+          return String(ownerId) === String(currentUserId);
+        });
+
+        setMySkills(userSkills);
+
+        setFormData((prev) => ({
+          ...prev,
+          receiver: String(
+            selectedSkill.owner?._id || selectedSkill.owner
+          ),
+          skillRequested: String(selectedSkill._id),
+        }));
+      } catch (error) {
+        setMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (user) {
+      loadSwapData();
+    }
+  }, [skillId, user]);
 
   const handleChange = (evt) => {
     setMessage('');
@@ -34,65 +99,125 @@ const SwapForm = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <main className="swap-form-page">
+        <p className="swap-form-loading">
+          Loading swap details...
+        </p>
+      </main>
+    );
+  }
+
+  if (message && !requestedSkill) {
+    return (
+      <main className="swap-form-page">
+        <p className="swap-form-message">{message}</p>
+      </main>
+    );
+  }
+
   return (
-    <main>
-      <h1>Create Swap</h1>
+    <main className="swap-form-page">
+      <div className="swap-form-header">
+        <p className="swap-form-eyebrow">
+          START A SWAP
+        </p>
 
-      {message && <p>{message}</p>}
+        <h1>Request a Skill Swap</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="receiver">Receiver:</label>
-          <input
-            type="text"
-            id="receiver"
-            name="receiver"
-            value={formData.receiver}
-            onChange={handleChange}
-            required
-          />
+        <p>
+          Choose one of your skills to offer in exchange.
+        </p>
+      </div>
+
+      {message && (
+        <p className="swap-form-message">
+          {message}
+        </p>
+      )}
+
+      <form
+        className="swap-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="swap-requested-skill">
+          <span className="swap-requested-label">
+            YOU WANT TO LEARN
+          </span>
+
+          <h2>{requestedSkill.name}</h2>
+
+          <p>
+            {requestedSkill.owner?.name || 'Unknown'}
+          </p>
+
+          <span className="swap-requested-category">
+            {requestedSkill.category}
+          </span>
         </div>
 
-        <div>
-          <label htmlFor="skillOffered">Skill Offered:</label>
-          <input
-            type="text"
-            id="skillOffered"
-            name="skillOffered"
-            value={formData.skillOffered}
-            onChange={handleChange}
-            required
-          />
+        <div className="swap-form-fields">
+          <div className="swap-form-field swap-form-field-full">
+            <label htmlFor="skillOffered">
+              Offer One of Your Skills
+            </label>
+
+            <select
+              id="skillOffered"
+              name="skillOffered"
+              value={formData.skillOffered}
+              onChange={handleChange}
+              required
+            >
+              <option value="">
+                Select a skill
+              </option>
+
+              {mySkills.map((skill) => (
+                <option
+                  key={skill._id}
+                  value={skill._id}
+                >
+                  {skill.name}
+                </option>
+              ))}
+            </select>
+
+            {mySkills.length === 0 && (
+              <p className="swap-form-helper">
+                You need to add a skill before creating a swap.
+              </p>
+            )}
+          </div>
+
+          <div className="swap-form-field swap-form-field-full">
+            <label htmlFor="scheduledDate">
+              Scheduled Date
+            </label>
+
+            <input
+              type="datetime-local"
+              id="scheduledDate"
+              name="scheduledDate"
+              value={formData.scheduledDate}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="skillRequested">Skill Requested:</label>
-          <input
-            type="text"
-            id="skillRequested"
-            name="skillRequested"
-            value={formData.skillRequested}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="scheduledDate">Scheduled Date:</label>
-          <input
-            type="datetime-local"
-            id="scheduledDate"
-            name="scheduledDate"
-            value={formData.scheduledDate}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <button type="submit">Create Swap</button>
+        <div className="swap-form-actions">
+          <button
+            type="submit"
+            className="swap-create-button"
+            disabled={mySkills.length === 0}
+          >
+            Send Swap Request
+          </button>
 
           <button
             type="button"
+            className="swap-cancel-button"
             onClick={() => navigate('/swaps')}
           >
             Cancel
