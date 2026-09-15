@@ -1,8 +1,7 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}auth`;
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/auth`;
 
 const getUserFromToken = (token) => {
   const payload = token.split('.')[1];
-
   const tokenJSON = atob(payload);
 
   return JSON.parse(tokenJSON);
@@ -13,7 +12,6 @@ const signUp = async (formData) => {
     const res = await fetch(`${BASE_URL}/sign-up`, {
       method: 'POST',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
@@ -33,7 +31,6 @@ const signUp = async (formData) => {
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-
     throw new Error(err.message);
   }
 };
@@ -43,7 +40,6 @@ const signIn = async (formData) => {
     const res = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
@@ -57,14 +53,12 @@ const signIn = async (formData) => {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
-
       return getUserFromToken(data.token);
     }
 
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-
     throw new Error(err.message);
   }
 };
