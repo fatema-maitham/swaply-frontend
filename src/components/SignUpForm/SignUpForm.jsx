@@ -1,14 +1,11 @@
 import { useContext, useState } from 'react';
-
 import { useNavigate } from 'react-router';
-
 import { signUp } from '../../services/authService';
-
 import { UserContext } from '../../contexts/UserContext';
+import '../../Auth.css';
 
 const SignUpForm = () => {
   const { setUser } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   const [message, setMessage] = useState('');
@@ -38,7 +35,6 @@ const SignUpForm = () => {
       const newUser = await signUp(formData);
 
       setUser(newUser);
-
       navigate('/');
     } catch (error) {
       setMessage(error.message);
@@ -58,103 +54,104 @@ const SignUpForm = () => {
     <main className="auth-page">
       <section className="auth-card">
 
-        <div className="auth-image">
+        <div className="auth-left">
           <img
-            src="/login-banner.jpeg"
+            src="/logoW.png"
             alt="Skill Swap"
+            className="auth-logo"
+          />
+
+          <div className="auth-left-content">
+            <h1>Join Skill Swap</h1>
+
+            <p>
+              Create an account and start learning,
+              teaching, and growing together.
+            </p>
+          </div>
+
+          <img
+            src="/bgcolor.png"
+            alt=""
+            className="auth-decoration"
           />
         </div>
 
-        <div className="auth-form-section">
-          <h1>Create Account</h1>
+        <div className="auth-right">
+          <div className="auth-form-content">
 
-          <p className="auth-subtitle">
-            Join Skill Swap and start sharing your skills.
-          </p>
+            {message && (
+              <p className="auth-message">
+                {message}
+              </p>
+            )}
 
-          {message && (
-            <p className="auth-message">{message}</p>
-          )}
-
-          <form
-            className="auth-form"
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-
-              <input
-                type="text"
-                id="name"
-                value={name}
-                name="name"
-                onChange={handleChange}
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-
-              <input
-                type="email"
-                id="email"
-                value={email}
-                name="email"
-                onChange={handleChange}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-
-              <input
-                type="password"
-                id="password"
-                value={password}
-                name="password"
-                onChange={handleChange}
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="confirm">Confirm Password</label>
-
-              <input
-                type="password"
-                id="confirm"
-                value={passwordConf}
-                name="passwordConf"
-                onChange={handleChange}
-                placeholder="Confirm your password"
-                required
-              />
-            </div>
-
-            <button
-              className="auth-primary-button"
-              type="submit"
-              disabled={isFormInvalid()}
+            <form
+              className="auth-form"
+              autoComplete="off"
+              onSubmit={handleSubmit}
             >
-              Sign Up
-            </button>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
 
-            <p className="auth-switch">
-              Already have an account?{' '}
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={name}
+                  onChange={handleChange}
+                  placeholder="Your full name"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  required
+                />
+              </div>
+
               <button
-                type="button"
-                onClick={() => navigate('/sign-in')}
+                className="auth-primary-button"
+                type="submit"
+                disabled={isFormInvalid()}
               >
-                Login
+                Sign Up
               </button>
-            </p>
-          </form>
+
+              <p className="auth-switch">
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => navigate('/sign-in')}
+                >
+                  Sign In
+                </button>
+              </p>
+            </form>
+          </div>
         </div>
 
       </section>

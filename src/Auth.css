@@ -1,0 +1,420 @@
+/* =========================
+   AUTH PAGE
+========================= */
+
+.auth-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 30px;
+  background: #f6f6fb;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 1050px;
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #ffffff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(20, 23, 84, 0.12);
+}
+
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.auth-left {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  padding: 50px;
+  box-sizing: border-box;
+  background: #141754;
+}
+
+
+/* LOGO */
+
+.auth-logo {
+  position: relative;
+  z-index: 2;
+  width: 175px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+/* LEFT TEXT */
+
+.auth-left-content {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
+  margin: 90px auto 0;
+  text-align: center;
+}
+
+.auth-left-content h1 {
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.auth-left-content p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* =========================
+   BOTTOM-LEFT DECORATION
+========================= */
+
+.auth-decoration {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  width: 330px;
+  height: auto;
+  display: block;
+}
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.auth-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 55px 70px;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.auth-form-content {
+  width: 100%;
+  max-width: 390px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.auth-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 19px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #141754;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border: 1.5px solid #dedee7;
+  border-radius: 10px;
+  outline: none;
+  background: #ffffff;
+  color: #141754;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #a4a4af;
+}
+
+.form-group input:focus {
+  border-color: #382bff;
+  box-shadow: 0 0 0 3px rgba(56, 43, 255, 0.09);
+}
+
+
+/* =========================
+   REMEMBER ME
+========================= */
+
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 24px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #717382;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.remember-me input {
+  width: 16px;
+  height: 16px;
+  accent-color: #382bff;
+}
+
+.forgot-password {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #382bff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.auth-primary-button {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: #382bff;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.auth-primary-button:hover:not(:disabled) {
+  background: #2d22dc;
+  transform: translateY(-1px);
+}
+
+.auth-primary-button:disabled {
+  background: #382bff;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   SWITCH
+========================= */
+
+.auth-switch {
+  margin: 20px 0 0;
+  text-align: center;
+  color: #717382;
+  font-size: 13px;
+}
+
+.auth-switch button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #ff386c;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-switch button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.auth-message {
+  margin: 0 0 18px;
+  padding: 11px 14px;
+  border: 1px solid #ffd1da;
+  border-radius: 9px;
+  background: #fff0f3;
+  color: #d81b4e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .auth-page {
+    min-height: 100vh;
+    padding: 25px 15px;
+  }
+
+  .auth-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    min-height: auto;
+    border-radius: 18px;
+  }
+
+  .auth-left {
+    min-height: 330px;
+    padding: 35px 25px;
+  }
+
+
+  /* Bigger centered mobile logo */
+
+  .auth-logo {
+    width: 145px;
+    margin: 0 auto;
+  }
+
+
+  /* Move text higher */
+
+  .auth-left-content {
+    margin: 50px auto 0;
+    max-width: 340px;
+    text-align: center;
+  }
+
+  .auth-left-content h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .auth-left-content p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+
+  /* Bigger mobile decoration */
+
+  .auth-decoration {
+    width: 220px;
+    left: 0;
+    bottom: 0;
+  }
+
+
+  .auth-right {
+    padding: 40px 30px;
+  }
+
+  .auth-form-content {
+    max-width: 390px;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 450px) {
+
+  .auth-page {
+    padding: 15px 12px;
+  }
+
+  .auth-card {
+    border-radius: 16px;
+  }
+
+  .auth-left {
+    min-height: 300px;
+    padding: 28px 20px;
+  }
+
+
+  /* Logo */
+
+  .auth-logo {
+    width: 125px;
+  }
+
+
+  /* Text */
+
+  .auth-left-content {
+    margin-top: 42px;
+    max-width: 300px;
+  }
+
+  .auth-left-content h1 {
+    font-size: 27px;
+    margin-bottom: 10px;
+  }
+
+  .auth-left-content p {
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+
+  /* Decoration stays visible and larger */
+
+  .auth-decoration {
+    width: 180px;
+    left: 0;
+    bottom: 0;
+  }
+
+
+  /* Form */
+
+  .auth-right {
+    padding: 32px 20px;
+  }
+
+  .form-group {
+    margin-bottom: 17px;
+  }
+
+  .form-group input {
+    height: 48px;
+  }
+
+  .auth-options {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .remember-me,
+  .forgot-password {
+    font-size: 12px;
+  }
+
+  .auth-primary-button {
+    height: 48px;
+  }
+}

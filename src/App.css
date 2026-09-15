@@ -308,8 +308,9 @@ body {
   background: #ffffff;
 }
 
+/* 
 /* =========================
-   LOGIN / SIGN UP PAGE
+   AUTH PAGE
 ========================= */
 
 .auth-page {
@@ -318,63 +319,125 @@ body {
   align-items: center;
   justify-content: center;
   padding: 40px 30px;
-  background: #ffffff;
+  background: #f6f6fb;
 }
 
 .auth-card {
   width: 100%;
   max-width: 1050px;
-  height: 650px;
+  min-height: 650px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.9fr 1.1fr;
   background: #ffffff;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 15px 45px rgba(20, 23, 84, 0.12);
+  box-shadow: 0 18px 50px rgba(20, 23, 84, 0.12);
 }
 
+
 /* =========================
-   LEFT IMAGE
+   LEFT IMAGE SIDE
 ========================= */
 
-.auth-image {
-  width: 100%;
-  height: 650px;
-  background: #141754;
+.auth-visual {
+  position: relative;
+  min-height: 650px;
   overflow: hidden;
+  background: #141754;
 }
 
-.auth-image img {
+.auth-background-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
+  z-index: 1;
 }
 
+.auth-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 23, 84, 0.18);
+  z-index: 2;
+}
+
+.auth-visual-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 55px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.auth-logo-image {
+  width: 135px;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.auth-visual-content h2 {
+  margin: auto 0 15px;
+  max-width: 360px;
+  color: #ffffff;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.auth-visual-content>p {
+  margin: 0;
+  max-width: 350px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
 /* =========================
-   RIGHT FORM
+   RIGHT FORM SIDE
 ========================= */
 
 .auth-form-section {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 40px 65px;
+  padding: 55px 70px;
+  background: #ffffff;
+}
+
+.auth-form-content {
+  width: 100%;
+  max-width: 390px;
+}
+
+.auth-mobile-logo {
+  display: none;
+  width: 120px;
+  height: auto;
+  margin-bottom: 25px;
 }
 
 .auth-form-section h1 {
   margin: 0;
   color: #141754;
-  font-size: 40px;
+  font-size: 38px;
+  line-height: 1.2;
   font-weight: 700;
 }
 
 .auth-subtitle {
-  margin: 6px 0 24px;
-  color: #666666;
+  margin: 10px 0 28px;
+  color: #717382;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
+
 
 /* =========================
    FORM
@@ -385,39 +448,41 @@ body {
 }
 
 .form-group {
-  margin-bottom: 14px;
+  margin-bottom: 17px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 7px;
-  color: #111111;
-  font-size: 14px;
+  margin-bottom: 8px;
+  color: #141754;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .form-group input {
   width: 100%;
   height: 50px;
+  box-sizing: border-box;
   padding: 0 16px;
-  border: 1.5px solid #dddddd;
+  border: 1.5px solid #dedee7;
   border-radius: 10px;
   outline: none;
   background: #ffffff;
-  color: #111111;
+  color: #141754;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
-  transition: 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-group input::placeholder {
-  color: #aaaaaa;
+  color: #a4a4af;
 }
 
 .form-group input:focus {
   border-color: #382bff;
-  box-shadow: 0 0 0 3px rgba(56, 43, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(56, 43, 255, 0.09);
 }
+
 
 /* =========================
    REMEMBER + FORGOT
@@ -427,14 +492,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2px 0 20px;
+  margin: 3px 0 22px;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #666666;
+  color: #717382;
   font-size: 13px;
   cursor: pointer;
 }
@@ -459,8 +524,9 @@ body {
   text-decoration: underline;
 }
 
+
 /* =========================
-   PRIMARY BUTTON
+   BUTTON
 ========================= */
 
 .auth-primary-button {
@@ -474,28 +540,30 @@ body {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.auth-primary-button:hover {
+.auth-primary-button:hover:not(:disabled) {
   background: #2d22dc;
+  transform: translateY(-1px);
 }
 
 .auth-primary-button:disabled {
   background: #382bff;
-  opacity: 0.45;
+  opacity: 0.55;
   color: #ffffff;
   cursor: not-allowed;
 }
 
+
 /* =========================
-   SIGN UP / LOGIN SWITCH
+   SWITCH LINK
 ========================= */
 
 .auth-switch {
-  margin: 14px 0 0;
+  margin: 18px 0 0;
   text-align: center;
-  color: #666666;
+  color: #717382;
   font-size: 13px;
 }
 
@@ -514,18 +582,22 @@ body {
   text-decoration: underline;
 }
 
+
 /* =========================
    ERROR MESSAGE
 ========================= */
 
 .auth-message {
-  margin: 0 0 15px;
-  padding: 10px 14px;
-  border-radius: 8px;
+  margin: 0 0 18px;
+  padding: 11px 14px;
+  border: 1px solid #ffd1da;
+  border-radius: 9px;
   background: #fff0f3;
   color: #d81b4e;
   font-size: 13px;
+  line-height: 1.5;
 }
+
 
 /* =========================
    MOBILE
@@ -534,19 +606,35 @@ body {
 @media (max-width: 768px) {
   .auth-page {
     min-height: 100vh;
-    padding: 25px 15px;
+    padding: 20px 15px;
   }
 
   .auth-card {
-    width: 100%;
     max-width: 500px;
-    height: auto;
+    min-height: auto;
     grid-template-columns: 1fr;
+    border-radius: 20px;
   }
 
-  .auth-image {
-    width: 100%;
-    height: 250px;
+  .auth-visual {
+    min-height: 260px;
+  }
+
+  .auth-visual-content {
+    padding: 35px 30px;
+  }
+
+  .auth-logo-image {
+    width: 115px;
+  }
+
+  .auth-visual-content h2 {
+    margin-top: 45px;
+    font-size: 30px;
+  }
+
+  .auth-visual-content>p {
+    font-size: 13px;
   }
 
   .auth-form-section {
@@ -558,17 +646,39 @@ body {
   }
 }
 
+
 @media (max-width: 450px) {
   .auth-page {
     padding: 15px;
   }
 
-  .auth-image {
-    height: 200px;
+  .auth-card {
+    border-radius: 16px;
+  }
+
+  .auth-visual {
+    min-height: 220px;
+  }
+
+  .auth-visual-content {
+    padding: 28px 22px;
+  }
+
+  .auth-logo-image {
+    width: 100px;
+  }
+
+  .auth-visual-content h2 {
+    margin-top: 30px;
+    font-size: 26px;
   }
 
   .auth-form-section {
     padding: 35px 22px;
+  }
+
+  .auth-form-section h1 {
+    font-size: 29px;
   }
 
   .auth-options {
@@ -576,8 +686,7 @@ body {
   }
 }
 
-
-
+*/
 /* =========================
    SKILLS PAGE
 ========================= */
