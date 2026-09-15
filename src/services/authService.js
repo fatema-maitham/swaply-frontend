@@ -26,7 +26,6 @@ const signUp = async (formData) => {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
-
       return getUserFromToken(data.token);
     }
 
