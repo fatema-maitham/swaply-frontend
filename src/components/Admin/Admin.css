@@ -964,3 +964,31 @@
     grid-template-columns: 1fr;
   }
 }
+
+.admin-management-card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.admin-card-arrow {
+  flex-shrink: 0;
+
+  color: #382bff;
+
+  font-size: 24px;
+  font-weight: 400;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-management-card:hover .admin-card-arrow {
+  transform: translateX(5px);
+  color: #141754;
+}

@@ -75,30 +75,71 @@ const AdminDashboard = () => {
         </section>
 
         <section className="admin-management">
+
           <h2>Management</h2>
 
           <div className="admin-management-grid">
-            <NavLink to="/admin/users" className="admin-management-card">
-              <h3>Users</h3>
-              <p>Manage registered users.</p>
+
+            <NavLink
+              to="/admin/users"
+              className="admin-management-card"
+            >
+              <div>
+                <h3>Users</h3>
+                <p>Manage registered users.</p>
+              </div>
+
+              <span className="admin-card-arrow">
+                →
+              </span>
             </NavLink>
 
-            <NavLink to="/admin/skills" className="admin-management-card">
-              <h3>Skills</h3>
-              <p>Manage skills available on Swaply.</p>
+            <NavLink
+              to="/admin/skills"
+              className="admin-management-card"
+            >
+              <div>
+                <h3>Skills</h3>
+                <p>Manage skills available on Swaply.</p>
+              </div>
+
+              <span className="admin-card-arrow">
+                →
+              </span>
             </NavLink>
 
-            <NavLink to="/admin/swaps" className="admin-management-card">
-              <h3>Swap Requests</h3>
-              <p>Manage user swap requests.</p>
+            <NavLink
+              to="/admin/swaps"
+              className="admin-management-card"
+            >
+              <div>
+                <h3>Swap Requests</h3>
+                <p>Manage user swap requests.</p>
+              </div>
+
+              <span className="admin-card-arrow">
+                →
+              </span>
             </NavLink>
 
-            <NavLink to="/admin/reviews" className="admin-management-card">
-              <h3>Reviews</h3>
-              <p>Manage user reviews.</p>
+            <NavLink
+              to="/admin/reviews"
+              className="admin-management-card"
+            >
+              <div>
+                <h3>Reviews</h3>
+                <p>Manage user reviews.</p>
+              </div>
+
+              <span className="admin-card-arrow">
+                →
+              </span>
             </NavLink>
+
           </div>
+
         </section>
+
       </section>
     </main>
   );
