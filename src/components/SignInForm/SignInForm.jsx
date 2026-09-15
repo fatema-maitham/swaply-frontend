@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+import { Eye, EyeOff } from 'lucide-react';
 import { signIn } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
 import '../../Auth.css';
@@ -11,9 +12,15 @@ const SignInForm = () => {
   const [message, setMessage] = useState('');
 
   const [formData, setFormData] = useState({
-    email: '',
+    email: localStorage.getItem('rememberedEmail') || '',
     password: '',
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [rememberMe, setRememberMe] = useState(
+    localStorage.getItem('rememberMe') === 'true'
+  );
 
   const handleChange = (evt) => {
     setMessage('');
@@ -28,11 +35,42 @@ const SignInForm = () => {
     return !formData.email || !formData.password;
   };
 
+  const handleRememberMe = (evt) => {
+    const checked = evt.target.checked;
+
+    setRememberMe(checked);
+
+    if (checked) {
+      localStorage.setItem('rememberMe', 'true');
+
+      if (formData.email) {
+        localStorage.setItem(
+          'rememberedEmail',
+          formData.email
+        );
+      }
+    } else {
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('rememberedEmail');
+    }
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
     try {
       const signedInUser = await signIn(formData);
+
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem(
+          'rememberedEmail',
+          formData.email
+        );
+      } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('rememberedEmail');
+      }
 
       setUser(signedInUser);
       navigate('/dashboard');
@@ -81,6 +119,7 @@ const SignInForm = () => {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
+
               <div className="form-group">
                 <label htmlFor="email">Email</label>
 
@@ -99,21 +138,52 @@ const SignInForm = () => {
               <div className="form-group">
                 <label htmlFor="password">Password</label>
 
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  autoComplete="off"
-                  required
-                />
+                <div className="password-input-wrapper">
+                  <input
+                    type={
+                      showPassword
+                        ? 'text'
+                        : 'password'
+                    }
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Enter your password"
+                    autoComplete="off"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="password-eye"
+                    onClick={() =>
+                      setShowPassword(!showPassword)
+                    }
+                    aria-label={
+                      showPassword
+                        ? 'Hide password'
+                        : 'Show password'
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff size={19} />
+                    ) : (
+                      <Eye size={19} />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div className="auth-options">
+
                 <label className="remember-me">
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={handleRememberMe}
+                  />
+
                   <span>Remember me</span>
                 </label>
 
@@ -123,6 +193,7 @@ const SignInForm = () => {
                 >
                   Forgot password?
                 </button>
+
               </div>
 
               <button
@@ -135,6 +206,7 @@ const SignInForm = () => {
 
               <p className="auth-switch">
                 Don’t have an account?{' '}
+
                 <button
                   type="button"
                   onClick={() => navigate('/sign-up')}
@@ -142,6 +214,7 @@ const SignInForm = () => {
                   Sign Up
                 </button>
               </p>
+
             </form>
           </div>
         </div>
@@ -152,3 +225,4 @@ const SignInForm = () => {
 };
 
 export default SignInForm;
+

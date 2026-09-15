@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Eye, EyeOff } from 'lucide-react';
 import { signUp } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
 import '../../Auth.css';
@@ -34,6 +35,11 @@ const SignUpForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
+    if (password !== passwordConf) {
+      setMessage('Passwords do not match.');
+      return;
+    }
+
     try {
       const newUser = await signUp(formData);
 
@@ -60,7 +66,7 @@ const SignUpForm = () => {
 
         <div className="auth-left">
           <img
-            src="/logo.png"
+            src="/logoW.png"
             alt="Skill Swap"
             className="auth-logo"
           />
@@ -141,14 +147,20 @@ const SignUpForm = () => {
                   <button
                     type="button"
                     className="password-eye"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() =>
+                      setShowPassword(!showPassword)
+                    }
                     aria-label={
                       showPassword
                         ? 'Hide password'
                         : 'Show password'
                     }
                   >
-                    {showPassword ? '◉' : '◌'}
+                    {showPassword ? (
+                      <EyeOff size={19} />
+                    ) : (
+                      <Eye size={19} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -187,7 +199,11 @@ const SignUpForm = () => {
                         : 'Show confirm password'
                     }
                   >
-                    {showConfirmPassword ? '◉' : '◌'}
+                    {showConfirmPassword ? (
+                      <EyeOff size={19} />
+                    ) : (
+                      <Eye size={19} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -202,6 +218,7 @@ const SignUpForm = () => {
 
               <p className="auth-switch">
                 Already have an account?{' '}
+
                 <button
                   type="button"
                   onClick={() => navigate('/sign-in')}
