@@ -2,44 +2,52 @@ import { Link } from 'react-router';
 
 const SkillCard = ({ skill }) => {
   return (
-    <article className="skill-card">
-      <div className="skill-card-image">
+    <article className="dashboard-skill-card">
+
+      <div className="dashboard-skill-image">
         {skill.skillImage ? (
           <img
             src={skill.skillImage}
             alt={skill.name}
           />
         ) : (
-          <span>Skill Image</span>
+          <div className="dashboard-skill-placeholder">
+            {skill.name?.slice(0, 2).toUpperCase()}
+          </div>
         )}
       </div>
 
-      <div className="skill-card-content">
-        <div className="skill-card-title">
-          <h2>{skill.name}</h2>
-        </div>
+      <span>
+        {skill.category?.toUpperCase()}
+      </span>
 
-        <p className="skill-category">
-          {skill.category}
-        </p>
+      <h3>{skill.name}</h3>
 
-        <p className="skill-owner">
-          By {skill.owner?.name || 'Unknown'}
-        </p>
+      <p>
+        By {skill.owner?.name || 'Unknown'}
+      </p>
 
-        <p className="skill-review">
-          Review: 8/10
-        </p>
+      <div className="dashboard-skill-bottom">
+        <strong>★ 8/10</strong>
 
-        <Link
-          to={`/skills/${skill._id}`}
-          className="view-skill-button"
+        <button
+          type="button"
+          aria-label={`Save ${skill.name}`}
         >
-          View Skill
-        </Link>
+          ♡
+        </button>
       </div>
+
+      <Link
+        to={`/skills/${skill._id}`}
+        className="dashboard-card-link"
+      >
+        View Skill
+      </Link>
+
     </article>
   );
 };
 
 export default SkillCard;
+

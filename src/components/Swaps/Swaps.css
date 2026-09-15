@@ -1,0 +1,353 @@
+/* =========================
+   SWAPS
+========================= */
+
+.swaps-page {
+  width: 90%;
+  max-width: 1200px;
+  margin: 55px auto 90px;
+}
+
+.swaps-header {
+  margin-bottom: 38px;
+}
+
+.swaps-eyebrow {
+  margin: 0 0 10px;
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.swaps-header h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(38px, 4vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.swaps-header > p:last-child {
+  max-width: 600px;
+  margin: 14px 0 0;
+  color: #717382;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.swaps-message {
+  margin: 0 0 25px;
+  color: var(--pink);
+  font-size: 13px;
+}
+
+.swaps-empty {
+  padding: 55px 25px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--light-gray);
+}
+
+.swaps-empty p {
+  margin: 0;
+  color: #717382;
+  font-size: 13px;
+}
+
+
+/* =========================
+   SWAPS GRID
+========================= */
+
+.swaps-grid {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  list-style: none;
+}
+
+
+/* =========================
+   SWAP CARD
+========================= */
+
+.swap-card {
+  min-width: 0;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 5px 20px rgba(26, 23, 84, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.swap-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(26, 23, 84, 0.08);
+}
+
+.swap-card-header {
+  min-height: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.swap-status {
+  padding: 7px 13px;
+  border-radius: 20px;
+  color: var(--navy);
+  background: var(--light-pink);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: capitalize;
+}
+
+.swap-status.pending {
+  color: var(--navy);
+  background: var(--light-pink);
+}
+
+.swap-status.accepted {
+  color: var(--navy);
+  background: var(--green);
+}
+
+.swap-status.completed {
+  color: var(--white);
+  background: var(--navy);
+}
+
+.swap-status.rejected {
+  color: var(--white);
+  background: var(--pink);
+}
+
+.swap-card-skills {
+  min-height: 125px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  border-radius: 16px;
+  background: var(--light-gray);
+}
+
+.swap-skill {
+  min-width: 0;
+}
+
+.swap-skill:last-child {
+  text-align: right;
+}
+
+.swap-skill span {
+  color: var(--purple);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.swap-skill h2 {
+  margin: 7px 0 0;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.swap-arrow {
+  color: var(--green);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.swap-card-info {
+  margin-top: 20px;
+  padding-top: 17px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.swap-card-info > div:last-child {
+  text-align: right;
+}
+
+.swap-card-info span {
+  color: #717382;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.swap-card-info p {
+  margin: 5px 0 0;
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.swap-card-button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+  background: var(--white);
+  border: 1px solid #dfe1e8;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.swap-card-button:hover {
+  color: var(--white);
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+
+/* =========================
+   SWAPS RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .swaps-page {
+    width: 92%;
+    margin-top: 45px;
+  }
+
+  .swaps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .swap-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 800px) {
+  .swaps-page {
+    margin-top: 40px;
+  }
+
+  .swaps-header {
+    margin-bottom: 32px;
+  }
+
+  .swap-card-skills {
+    padding: 17px;
+  }
+
+  .swap-skill h2 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .swaps-page {
+    width: 90%;
+    margin: 35px auto 60px;
+  }
+
+  .swaps-header {
+    margin-bottom: 28px;
+  }
+
+  .swaps-eyebrow {
+    font-size: 9px;
+  }
+
+  .swaps-header h1 {
+    font-size: 32px;
+  }
+
+  .swaps-header > p:last-child {
+    font-size: 12px;
+  }
+
+  .swaps-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .swap-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .swap-card-skills {
+    min-height: 110px;
+    padding: 15px;
+    gap: 8px;
+  }
+
+  .swap-skill span {
+    font-size: 7px;
+  }
+
+  .swap-skill h2 {
+    font-size: 14px;
+  }
+
+  .swap-arrow {
+    font-size: 19px;
+  }
+
+  .swap-card-info {
+    margin-top: 18px;
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .swaps-page {
+    width: 92%;
+    margin-top: 30px;
+  }
+
+  .swaps-header h1 {
+    font-size: 29px;
+  }
+
+  .swap-card {
+    padding: 15px;
+  }
+
+  .swap-card-skills {
+    padding: 13px;
+  }
+
+  .swap-card-info {
+    gap: 12px;
+  }
+
+  .swap-card-button {
+    min-height: 40px;
+  }
+}

@@ -1,23 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import SkillCard from './SkillCard';
 import { getSkills } from '../../services/skillService';
-
-const categories = [
-  'All',
-  'Programming',
-  'Design',
-  'Language',
-  'Outdoor',
-  'Business',
-  'Lifestyle',
-];
+import SkillCard from './SkillCard';
 
 const SkillsList = () => {
   const [skills, setSkills] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
-  const [message, setMessage] = useState('');
+  const [category, setCategory] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState('');
+
+  const skillsPerPage = 12;
+
+  const categories = [
+    'All',
+    'Programming & Technology',
+    'Design & Creative',
+    'Languages',
+    'Business & Career',
+    'Education & Tutoring',
+    'Music',
+    'Cooking & Food',
+    'Sports & Fitness',
+    'Arts & Crafts',
+    'Lifestyle',
+    'Outdoor & Adventure',
+    'Other',
+  ];
 
   useEffect(() => {
     const loadSkills = async () => {
@@ -25,7 +34,7 @@ const SkillsList = () => {
         const data = await getSkills();
         setSkills(data);
       } catch (err) {
-        setMessage(err.message);
+        setError('Failed to load skills.');
       }
     };
 
@@ -34,97 +43,140 @@ const SkillsList = () => {
 
   const filteredSkills = skills.filter((skill) => {
     const matchesCategory =
-      selectedCategory === 'All' ||
-      skill.category.toLowerCase() === selectedCategory.toLowerCase();
+      category === 'All' || skill.category === category;
 
     const matchesSearch =
-      skill.name.toLowerCase().includes(search.toLowerCase()) ||
-      skill.description.toLowerCase().includes(search.toLowerCase());
+      skill.name.toLowerCase().includes(search.toLowerCase());
 
     return matchesCategory && matchesSearch;
   });
 
+  const totalPages = Math.ceil(filteredSkills.length / skillsPerPage);
+
+  const startIndex = (currentPage - 1) * skillsPerPage;
+  const currentSkills = filteredSkills.slice(
+    startIndex,
+    startIndex + skillsPerPage
+  );
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleCategoryChange = (selectedCategory) => {
+    setCategory(selectedCategory);
+    setCurrentPage(1);
+  };
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <main className="skills-page">
+
       <section className="skills-header">
         <div>
           <h1>Explore Skills</h1>
-          <p>Discover skills you can learn from the Swaply community.</p>
+          <p>
+            Discover skills from the Swaply community and find
+            something new to learn.
+          </p>
         </div>
 
         <Link to="/skills/new" className="add-skill-button">
-          Add Skill
+          + Add a Skill
         </Link>
       </section>
 
+      {error && <p className="form-message">{error}</p>}
+
       <section className="skills-controls">
+
         <div className="search-box">
           <input
-            type="search"
+            type="text"
             placeholder="Search skills..."
             value={search}
-            onChange={(evt) => setSearch(evt.target.value)}
+            onChange={handleSearch}
           />
         </div>
 
         <div className="category-tabs">
-          {categories.map((category) => (
+          {categories.map((item) => (
             <button
-              type="button"
-              key={category}
-              className={
-                selectedCategory === category
-                  ? 'category-tab active'
-                  : 'category-tab'
-              }
-              onClick={() => setSelectedCategory(category)}
+              key={item}
+              className={`category-tab ${category === item ? 'active' : ''
+                }`}
+              onClick={() => handleCategoryChange(item)}
             >
-              {category}
+              {item}
             </button>
           ))}
         </div>
+
       </section>
 
-      {message && <p>{message}</p>}
-
-      {filteredSkills.length === 0 ? (
-        <p className="no-skills">
-          No skills found.
-        </p>
+      {currentSkills.length === 0 ? (
+        <div className="no-skills">
+          <h2>No skills found</h2>
+          <p>
+            Try a different search or category.
+          </p>
+        </div>
       ) : (
-        <section className="skills-grid">
-          {filteredSkills.map((skill) => (
-            <SkillCard
-              key={skill._id}
-              skill={skill}
-            />
-          ))}
-        </section>
+        <>
+          <section className="skills-grid">
+            {currentSkills.map((skill) => (
+              <SkillCard
+                key={skill._id}
+                skill={skill}
+              />
+            ))}
+          </section>
+
+          {totalPages > 1 && (
+            <div className="pagination-wrapper">
+              <div className="pagination">
+
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  ←
+                </button>
+
+                {Array.from(
+                  { length: totalPages },
+                  (_, index) => index + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    className={
+                      currentPage === page ? 'active' : ''
+                    }
+                    onClick={() => goToPage(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  →
+                </button>
+
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      <section className="pagination">
-        <button type="button">
-          ←
-        </button>
-
-        <button type="button" className="active">
-          1
-        </button>
-
-        <button type="button">
-          2
-        </button>
-
-        <button type="button">
-          3
-        </button>
-
-        <span>...</span>
-
-        <button type="button">
-          →
-        </button>
-      </section>
     </main>
   );
 };

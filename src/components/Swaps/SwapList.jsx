@@ -4,6 +4,8 @@ import { getSwaps } from '../../services/swapService';
 
 import SwapCard from './SwapCard';
 
+import './Swaps.css';
+
 const SwapList = () => {
   const [swaps, setSwaps] = useState([]);
   const [message, setMessage] = useState('');

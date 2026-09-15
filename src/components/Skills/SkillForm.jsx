@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router';
 
 import {
   createSkill,
@@ -10,8 +15,11 @@ import {
 const SkillForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isEditing = Boolean(id);
+
+  const returnTo = location.state?.from || '/skills';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -84,7 +92,7 @@ const SkillForm = () => {
         await createSkill(formData, image);
       }
 
-      navigate('/skills');
+      navigate(returnTo);
     } catch (err) {
       setMessage(err.message);
       setIsSaving(false);
@@ -93,10 +101,13 @@ const SkillForm = () => {
 
   return (
     <main className="skill-form-page">
+
       <section className="skill-form-header">
+
         <h1>
           {isEditing ? 'Edit Skill' : 'Add New Skill'}
         </h1>
+
       </section>
 
       {message && (
@@ -109,8 +120,11 @@ const SkillForm = () => {
         className="skill-form"
         onSubmit={handleSubmit}
       >
+
         <div className="skill-form-fields">
+
           <div className="form-field">
+
             <label htmlFor="name">
               Skill Name:
             </label>
@@ -124,25 +138,57 @@ const SkillForm = () => {
               placeholder="Enter skill name"
               required
             />
+
           </div>
 
           <div className="form-field">
+
             <label htmlFor="category">
               Category:
             </label>
 
-            <input
-              type="text"
+            <select
               id="category"
               name="category"
               value={formData.category}
               onChange={handleChange}
-              placeholder="Programming, Design, Language..."
               required
-            />
+            >
+              <option value="">Select a category</option>
+              <option value="Programming & Technology">
+                Programming & Technology
+              </option>
+              <option value="Design & Creative">
+                Design & Creative
+              </option>
+              <option value="Languages">Languages</option>
+              <option value="Business & Career">
+                Business & Career
+              </option>
+              <option value="Education & Tutoring">
+                Education & Tutoring
+              </option>
+              <option value="Music">Music</option>
+              <option value="Cooking & Food">
+                Cooking & Food
+              </option>
+              <option value="Sports & Fitness">
+                Sports & Fitness
+              </option>
+              <option value="Arts & Crafts">
+                Arts & Crafts
+              </option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Outdoor & Adventure">
+                Outdoor & Adventure
+              </option>
+              <option value="Other">Other</option>
+            </select>
+
           </div>
 
           <div className="form-field">
+
             <label htmlFor="description">
               Description:
             </label>
@@ -156,29 +202,32 @@ const SkillForm = () => {
               rows="7"
               required
             />
+
           </div>
+
         </div>
 
         <div className="skill-image-upload">
+
           <label htmlFor="skillImage">
             Skill Image
           </label>
 
-          <div className="image-preview-large">
-            {image ? (
+          {image ? (
+            <div className="image-preview-large">
               <img
                 src={URL.createObjectURL(image)}
                 alt="Skill preview"
               />
-            ) : currentImage ? (
+            </div>
+          ) : currentImage ? (
+            <div className="image-preview-large">
               <img
                 src={currentImage}
                 alt="Current skill"
               />
-            ) : (
-              <span>IMAGE</span>
-            )}
-          </div>
+            </div>
+          ) : null}
 
           <input
             type="file"
@@ -187,9 +236,11 @@ const SkillForm = () => {
             accept="image/png, image/jpeg"
             onChange={handleImageChange}
           />
+
         </div>
 
         <div className="skill-form-actions">
+
           <button
             type="submit"
             disabled={isSaving}
@@ -203,13 +254,16 @@ const SkillForm = () => {
 
           <button
             type="button"
-            onClick={() => navigate('/skills')}
+            onClick={() => navigate(returnTo)}
             disabled={isSaving}
           >
             Cancel
           </button>
+
         </div>
+
       </form>
+
     </main>
   );
 };

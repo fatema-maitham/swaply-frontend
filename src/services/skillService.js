@@ -14,8 +14,8 @@ const getSkills = async () => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok || data.err) {
+      throw new Error(data.err || 'Failed to load skills.');
     }
 
     return data.skills;
@@ -33,8 +33,8 @@ const getSkill = async (id) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok || data.err) {
+      throw new Error(data.err || 'Failed to load skill.');
     }
 
     return data.skill;
@@ -64,8 +64,8 @@ const createSkill = async (skillData, image) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok || data.err) {
+      throw new Error(data.err || 'Failed to create skill.');
     }
 
     return data.skill;
@@ -95,8 +95,8 @@ const updateSkill = async (id, skillData, image) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok || data.err) {
+      throw new Error(data.err || 'Failed to update skill.');
     }
 
     return data.skill;
@@ -115,8 +115,8 @@ const deleteSkill = async (id) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok || data.err) {
+      throw new Error(data.err || 'Failed to delete skill.');
     }
 
     return data;
