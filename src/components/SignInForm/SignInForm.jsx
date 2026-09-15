@@ -59,7 +59,10 @@ const SignInForm = () => {
     evt.preventDefault();
 
     try {
-      const signedInUser = await signIn(formData);
+      const signedInUser = await signIn(
+        formData,
+        rememberMe
+      );
 
       if (rememberMe) {
         localStorage.setItem('rememberMe', 'true');
@@ -121,7 +124,9 @@ const SignInForm = () => {
             >
 
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">
+                  Email
+                </label>
 
                 <input
                   type="email"
@@ -136,9 +141,12 @@ const SignInForm = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">
+                  Password
+                </label>
 
                 <div className="password-input-wrapper">
+
                   <input
                     type={
                       showPassword
@@ -172,6 +180,7 @@ const SignInForm = () => {
                       <Eye size={19} />
                     )}
                   </button>
+
                 </div>
               </div>
 
@@ -184,12 +193,17 @@ const SignInForm = () => {
                     onChange={handleRememberMe}
                   />
 
-                  <span>Remember me</span>
+                  <span>
+                    Remember me
+                  </span>
                 </label>
 
                 <button
                   type="button"
                   className="forgot-password"
+                  onClick={() =>
+                    navigate('/forgot-password')
+                  }
                 >
                   Forgot password?
                 </button>
@@ -209,13 +223,16 @@ const SignInForm = () => {
 
                 <button
                   type="button"
-                  onClick={() => navigate('/sign-up')}
+                  onClick={() =>
+                    navigate('/sign-up')
+                  }
                 >
                   Sign Up
                 </button>
               </p>
 
             </form>
+
           </div>
         </div>
 

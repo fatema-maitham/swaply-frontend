@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -35,17 +35,20 @@ import ReviewForm from './components/Reviews/ReviewForm';
 
 import { UserContext } from './contexts/UserContext';
 
-
 import './App.css';
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const location = useLocation();
 
   const isAdmin = user?.role === 'admin';
 
+  // Hide the normal Navbar and Footer on every admin page
+  const isAdminPage = location.pathname.startsWith('/admin');
+
   return (
     <>
-      <NavBar />
+      {!isAdminPage && <NavBar />}
 
       <Routes>
         <Route
@@ -164,7 +167,9 @@ const App = () => {
 
         <Route
           path="/dashboard"
-          element={user ? <Dashboard /> : <SignInForm />}
+          element={
+            user ? <Dashboard /> : <SignInForm />
+          }
         />
 
         <Route
@@ -234,7 +239,7 @@ const App = () => {
         />
       </Routes>
 
-      <Footer />
+      {!isAdminPage && <Footer />}
     </>
   );
 };

@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router';
-
+import { NavLink } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import { getDashboard } from '../../services/adminService';
+import AdminAside from './AdminAside';
+import './Admin.css';
 
 const AdminDashboard = () => {
   const { user } = useContext(UserContext);
 
-  const [statistics, setStatistics] = useState({
+  const [stats, setStats] = useState({
     users: 0,
     skills: 0,
     swaps: 0,
@@ -20,9 +21,16 @@ const AdminDashboard = () => {
     const loadDashboard = async () => {
       try {
         const data = await getDashboard();
-        setStatistics(data);
-      } catch (err) {
-        setMessage(err.message);
+
+        setStats({
+          users: data.users || 0,
+          skills: data.skills || 0,
+          swaps: data.swaps || 0,
+          reviews: data.reviews || 0,
+        });
+      } catch (error) {
+        console.log(error);
+        setMessage('Failed to load dashboard data.');
       }
     };
 
@@ -31,54 +39,66 @@ const AdminDashboard = () => {
 
   return (
     <main className="admin-page">
-      <section className="admin-header">
-        <h1>Admin Dashboard</h1>
+      <AdminAside />
 
-        <p>Welcome, {user?.name}!</p>
+      <section className="admin-content">
+        <header className="admin-header">
+          <div>
+            <p className="admin-header-label">ADMINISTRATION</p>
+            <h1>Dashboard</h1>
+            <p>Welcome back, {user?.name || 'Admin'}.</p>
+          </div>
+        </header>
 
-        <p>Manage the Swaply platform from here.</p>
-      </section>
+        {message && <div className="admin-message">{message}</div>}
 
-      {message && (
-        <p className="admin-message">
-          {message}
-        </p>
-      )}
+        <section className="admin-stats">
+          <div className="admin-stat-card">
+            <p>Users</p>
+            <h2>{stats.users}</h2>
+          </div>
 
-      <section className="admin-statistics">
-        <div className="admin-stat-card">
-          <h2>Users</h2>
-          <p>{statistics.users}</p>
-        </div>
+          <div className="admin-stat-card">
+            <p>Skills</p>
+            <h2>{stats.skills}</h2>
+          </div>
 
-        <div className="admin-stat-card">
-          <h2>Skills</h2>
-          <p>{statistics.skills}</p>
-        </div>
+          <div className="admin-stat-card">
+            <p>Swap Requests</p>
+            <h2>{stats.swaps}</h2>
+          </div>
 
-        <div className="admin-stat-card">
-          <h2>Swap Requests</h2>
-          <p>{statistics.swaps}</p>
-        </div>
+          <div className="admin-stat-card">
+            <p>Reviews</p>
+            <h2>{stats.reviews}</h2>
+          </div>
+        </section>
 
-        <div className="admin-stat-card">
-          <h2>Reviews</h2>
-          <p>{statistics.reviews}</p>
-        </div>
-      </section>
+        <section className="admin-management">
+          <h2>Management</h2>
 
-      <section className="admin-management">
-        <h2>Management</h2>
+          <div className="admin-management-grid">
+            <NavLink to="/admin/users" className="admin-management-card">
+              <h3>Users</h3>
+              <p>Manage registered users.</p>
+            </NavLink>
 
-        <div className="admin-management-grid">
-          <Link to="/admin/users">Users</Link>
+            <NavLink to="/admin/skills" className="admin-management-card">
+              <h3>Skills</h3>
+              <p>Manage skills available on Swaply.</p>
+            </NavLink>
 
-          <Link to="/admin/skills">Skills</Link>
+            <NavLink to="/admin/swaps" className="admin-management-card">
+              <h3>Swap Requests</h3>
+              <p>Manage user swap requests.</p>
+            </NavLink>
 
-          <Link to="/admin/swaps">Swap Requests</Link>
-
-          <Link to="/admin/reviews">Reviews</Link>
-        </div>
+            <NavLink to="/admin/reviews" className="admin-management-card">
+              <h3>Reviews</h3>
+              <p>Manage user reviews.</p>
+            </NavLink>
+          </div>
+        </section>
       </section>
     </main>
   );

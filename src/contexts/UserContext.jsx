@@ -3,7 +3,9 @@ import { createContext, useState } from 'react';
 const UserContext = createContext();
 
 const getUserFromToken = () => {
-  const token = localStorage.getItem('token');
+  const token =
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token');
 
   if (!token) {
     return null;
@@ -11,7 +13,6 @@ const getUserFromToken = () => {
 
   try {
     const payload = token.split('.')[1];
-
     const tokenJSON = atob(payload);
 
     return JSON.parse(tokenJSON);
@@ -19,6 +20,7 @@ const getUserFromToken = () => {
     console.log('Invalid token');
 
     localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
 
     return null;
   }

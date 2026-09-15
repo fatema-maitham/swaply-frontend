@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router';
+import AdminAside from './AdminAside';
 
 import {
   deleteReview,
   getReviews,
 } from '../../services/adminService';
+
+import './Admin.css';
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -52,76 +56,91 @@ const AdminReviews = () => {
 
   return (
     <main className="admin-page">
-      <h1>Reviews</h1>
+      <AdminAside />
 
-      {message && (
-        <p className="admin-message">
-          {message}
-        </p>
-      )}
+      <section className="admin-content">
+        <header className="admin-header">
+          <p className="admin-header-label">ADMINISTRATION</p>
 
-      {reviews.length === 0 ? (
-        <p>No reviews found.</p>
-      ) : (
-        <div className="admin-table-container">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Reviewer</th>
-                <th>Reviewed User</th>
-                <th>Swap</th>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+          <h1>Reviews</h1>
 
-            <tbody>
-              {reviews.map((review) => (
-                <tr key={review._id}>
-                  <td>
-                    {review.reviewer?.name || 'Unknown'}
-                  </td>
+          <p>
+            Manage reviews submitted by Swaply users.
+          </p>
+        </header>
 
-                  <td>
-                    {review.reviewedUser?.name || 'Unknown'}
-                  </td>
+        {message && (
+          <p className="admin-message">
+            {message}
+          </p>
+        )}
 
-                  <td>
-                    {review.swap?._id ||
-                      review.swap ||
-                      'Unknown'}
-                  </td>
-
-                  <td>
-                    {review.rating ?? 'N/A'}/5
-                  </td>
-
-                  <td>
-                    {review.comment || 'No comment'}
-                  </td>
-
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleDelete(review._id)
-                      }
-                      disabled={
-                        deletingId === review._id
-                      }
-                    >
-                      {deletingId === review._id
-                        ? 'Deleting...'
-                        : 'Delete'}
-                    </button>
-                  </td>
+        {reviews.length === 0 ? (
+          <p className="admin-empty">
+            No reviews found.
+          </p>
+        ) : (
+          <div className="admin-table-container">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Reviewer</th>
+                  <th>Reviewed User</th>
+                  <th>Swap</th>
+                  <th>Rating</th>
+                  <th>Comment</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+
+              <tbody>
+                {reviews.map((review) => (
+                  <tr key={review._id}>
+                    <td>
+                      {review.reviewer?.name || 'Unknown'}
+                    </td>
+
+                    <td>
+                      {review.reviewedUser?.name || 'Unknown'}
+                    </td>
+
+                    <td>
+                      {review.swap?._id ||
+                        review.swap ||
+                        'Unknown'}
+                    </td>
+
+                    <td>
+                      {review.rating ?? 'N/A'}/5
+                    </td>
+
+                    <td>
+                      {review.comment || 'No comment'}
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        className="admin-delete-button"
+                        onClick={() =>
+                          handleDelete(review._id)
+                        }
+                        disabled={
+                          deletingId === review._id
+                        }
+                      >
+                        {deletingId === review._id
+                          ? 'Deleting...'
+                          : 'Delete'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </main>
   );
 };

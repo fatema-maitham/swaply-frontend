@@ -5018,7 +5018,7 @@ body {
   display: block;
 }
 
-.footer-brand > p {
+.footer-brand>p {
   max-width: 390px;
   margin: 18px auto 24px;
   color: #717382;
@@ -5104,7 +5104,7 @@ body {
     width: 170px;
   }
 
-  .footer-brand > p {
+  .footer-brand>p {
     max-width: 320px;
   }
 }
@@ -5182,7 +5182,7 @@ body {
     width: 165px;
   }
 
-  .footer-brand > p {
+  .footer-brand>p {
     max-width: 330px;
     margin-top: 15px;
     font-size: 11px;
@@ -5216,7 +5216,7 @@ body {
     width: 150px;
   }
 
-  .footer-brand > p {
+  .footer-brand>p {
     max-width: 280px;
     font-size: 10px;
   }

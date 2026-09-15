@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router';
+import AdminAside from './AdminAside';
 
 import {
   deleteSkill,
   getSkills,
 } from '../../services/adminService';
+
+import './Admin.css';
 
 const AdminSkills = () => {
   const [skills, setSkills] = useState([]);
@@ -50,64 +54,93 @@ const AdminSkills = () => {
 
   return (
     <main className="admin-page">
-      <h1>Skills</h1>
 
-      {message && (
-        <p className="admin-message">
-          {message}
-        </p>
-      )}
+      <AdminAside />
 
-      {skills.length === 0 ? (
-        <p>No skills found.</p>
-      ) : (
-        <div className="admin-skill-grid">
-          {skills.map((skill) => (
-            <article
-              className="admin-skill-card"
-              key={skill._id}
-            >
-              <div className="admin-skill-image">
-                {skill.skillImage ? (
-                  <img
-                    src={skill.skillImage}
-                    alt={skill.name}
-                  />
-                ) : (
-                  <span>No Image</span>
-                )}
-              </div>
 
-              <div className="admin-skill-content">
-                <h2>{skill.name}</h2>
+      <section className="admin-content">
 
-                <p>
-                  Category: {skill.category}
-                </p>
+        <header className="admin-header">
+          <p className="admin-header-label">
+            ADMINISTRATION
+          </p>
 
-                <p>
-                  Owner:{' '}
-                  {skill.owner?.name || 'Unknown'}
-                </p>
+          <h1>Skills</h1>
 
-                <p>
-                  {skill.description}
-                </p>
+          <p>
+            Manage skills available on Swaply.
+          </p>
+        </header>
 
-                <button
-                  type="button"
-                  onClick={() => handleDelete(skill._id)}
-                  disabled={deletingId === skill._id}
-                >
-                  {deletingId === skill._id
-                    ? 'Deleting...'
-                    : 'Delete Skill'}
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
+        {message && (
+          <p className="admin-message">
+            {message}
+          </p>
+        )}
+
+        {skills.length === 0 ? (
+          <p className="admin-empty">
+            No skills found.
+          </p>
+        ) : (
+          <div className="admin-skill-grid">
+
+            {skills.map((skill) => (
+              <article
+                className="admin-skill-card"
+                key={skill._id}
+              >
+
+                <div className="admin-skill-image">
+                  {skill.skillImage ? (
+                    <img
+                      src={skill.skillImage}
+                      alt={skill.name}
+                    />
+                  ) : (
+                    <span>No Image</span>
+                  )}
+                </div>
+
+                <div className="admin-skill-content">
+
+                  <h2>{skill.name}</h2>
+
+                  <p>
+                    <strong>Category:</strong>{' '}
+                    {skill.category}
+                  </p>
+
+                  <p>
+                    <strong>Owner:</strong>{' '}
+                    {skill.owner?.name || 'Unknown'}
+                  </p>
+
+                  <p className="admin-skill-description">
+                    {skill.description}
+                  </p>
+
+                  <button
+                    type="button"
+                    className="admin-delete-button"
+                    onClick={() => handleDelete(skill._id)}
+                    disabled={deletingId === skill._id}
+                  >
+                    {deletingId === skill._id
+                      ? 'Deleting...'
+                      : 'Delete Skill'}
+                  </button>
+
+                </div>
+
+              </article>
+            ))}
+
+          </div>
+        )}
+
+      </section>
+
     </main>
   );
 };

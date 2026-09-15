@@ -1,164 +1,149 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/admin`;
 
-const getAuthHeaders = () => {
-  return {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-};
+const getAuthHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
+});
 
 const getDashboard = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/dashboard`, {
-      headers: getAuthHeaders(),
-    });
+  const response = await fetch(`${BASE_URL}/dashboard`, {
+    headers: getAuthHeaders(),
+  });
 
-    const data = await res.json();
+  const data = await response.json();
 
-    if (data.err) {
-      throw new Error(data.err);
-    }
-
-    return data.statistics;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to load dashboard');
   }
+
+  return data.statistics;
 };
 
 const getUsers = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/users`, {
-      headers: getAuthHeaders(),
-    });
+  const response = await fetch(`${BASE_URL}/users`, {
+    headers: getAuthHeaders(),
+  });
 
-    const data = await res.json();
+  const data = await response.json();
 
-    if (data.err) {
-      throw new Error(data.err);
-    }
-
-    return data.users;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to load users');
   }
+
+  return data.users;
 };
 
 const getSkills = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/skills`, {
-      headers: getAuthHeaders(),
-    });
+  const response = await fetch(`${BASE_URL}/skills`, {
+    headers: getAuthHeaders(),
+  });
 
-    const data = await res.json();
+  const data = await response.json();
 
-    if (data.err) {
-      throw new Error(data.err);
-    }
-
-    return data.skills;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to load skills');
   }
+
+  return data.skills;
 };
 
 const getSwaps = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/swaps`, {
-      headers: getAuthHeaders(),
-    });
+  const response = await fetch(`${BASE_URL}/swaps`, {
+    headers: getAuthHeaders(),
+  });
 
-    const data = await res.json();
+  const data = await response.json();
 
-    if (data.err) {
-      throw new Error(data.err);
-    }
-
-    return data.swaps;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to load swaps');
   }
+
+  return data.swaps;
 };
 
 const getReviews = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/reviews`, {
-      headers: getAuthHeaders(),
-    });
+  const response = await fetch(`${BASE_URL}/reviews`, {
+    headers: getAuthHeaders(),
+  });
 
-    const data = await res.json();
+  const data = await response.json();
 
-    if (data.err) {
-      throw new Error(data.err);
-    }
-
-    return data.reviews;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to load reviews');
   }
+
+  return data.reviews;
+};
+
+const toggleUserStatus = async (userId) => {
+  const response = await fetch(
+    `${BASE_URL}/users/${userId}/status`,
+    {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to update user status');
+  }
+
+  return data.user;
 };
 
 const deleteUser = async (userId) => {
-  try {
-    const res = await fetch(`${BASE_URL}/users/${userId}`, {
+  const response = await fetch(
+    `${BASE_URL}/users/${userId}`,
+    {
       method: 'DELETE',
       headers: getAuthHeaders(),
-    });
-
-    const data = await res.json();
-
-    if (data.err) {
-      throw new Error(data.err);
     }
+  );
 
-    return data;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to delete user');
   }
+
+  return data;
 };
 
 const deleteSkill = async (skillId) => {
-  try {
-    const res = await fetch(`${BASE_URL}/skills/${skillId}`, {
+  const response = await fetch(
+    `${BASE_URL}/skills/${skillId}`,
+    {
       method: 'DELETE',
       headers: getAuthHeaders(),
-    });
-
-    const data = await res.json();
-
-    if (data.err) {
-      throw new Error(data.err);
     }
+  );
 
-    return data;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to delete skill');
   }
+
+  return data;
 };
 
 const deleteReview = async (reviewId) => {
-  try {
-    const res = await fetch(`${BASE_URL}/reviews/${reviewId}`, {
+  const response = await fetch(
+    `${BASE_URL}/reviews/${reviewId}`,
+    {
       method: 'DELETE',
       headers: getAuthHeaders(),
-    });
-
-    const data = await res.json();
-
-    if (data.err) {
-      throw new Error(data.err);
     }
+  );
 
-    return data;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.err || 'Failed to delete review');
   }
+
+  return data;
 };
 
 export {
@@ -167,6 +152,7 @@ export {
   getSkills,
   getSwaps,
   getReviews,
+  toggleUserStatus,
   deleteUser,
   deleteSkill,
   deleteReview,
