@@ -10,7 +10,6 @@ const AdminAside = () => {
 
   return (
     <aside className="admin-sidebar">
-
       <div className="admin-sidebar-top">
 
         <img
@@ -20,7 +19,6 @@ const AdminAside = () => {
         />
 
         <nav className="admin-nav">
-
           <NavLink
             to="/admin/dashboard"
             className="admin-nav-link"
@@ -55,7 +53,6 @@ const AdminAside = () => {
           >
             Reviews
           </NavLink>
-
         </nav>
 
         <button
@@ -63,13 +60,23 @@ const AdminAside = () => {
           className="admin-logout-button"
           onClick={handleLogout}
         >
-          Log Out
+          <svg
+            className="admin-logout-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M10 17l5-5-5-5" />
+            <path d="M15 12H3" />
+            <path d="M12 3h7a2 2 0 012 2v14a2 2 0 01-2 2h-7" />
+          </svg>
+
+          <span>Log Out</span>
         </button>
 
       </div>
-
     </aside>
   );
 };
 
 export default AdminAside;
+
