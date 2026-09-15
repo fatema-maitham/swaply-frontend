@@ -29,6 +29,14 @@ const NavBar = () => {
           </div>
 
           <div className="navbar-right">
+            <Link to="/profile" className="navbar-profile">
+              <img
+                src={user.profileImage || '/default-profile.png'}
+                alt={`${user.name || 'User'} profile`}
+                className="navbar-profile-image"
+              />
+            </Link>
+
             <Link
               to="/"
               onClick={handleSignOut}
@@ -66,6 +74,7 @@ const NavBar = () => {
 
         <div className="navbar-right">
           {user ? (
+            <>
             <Link
               to="/"
               onClick={handleSignOut}
@@ -73,6 +82,15 @@ const NavBar = () => {
             >
               Sign Out
             </Link>
+
+            <Link to="/profile" className="navbar-profile">
+              <img
+                src={user.profileImage || '/default-profile.png'}
+                alt={`${user.name || 'User'} profile`}
+                className="navbar-profile-image"
+              />
+            </Link>
+            </>
           ) : (
             <>
               <Link to="/sign-in" className="navbar-signin">
