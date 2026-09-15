@@ -42,6 +42,13 @@ const AdminAside = () => {
           </NavLink>
 
           <NavLink
+            to="/admin/categories"
+            className="admin-nav-link"
+          >
+            Categories
+          </NavLink>
+
+          <NavLink
             to="/admin/swaps"
             className="admin-nav-link"
           >

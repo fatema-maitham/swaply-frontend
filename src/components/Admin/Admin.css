@@ -807,3 +807,160 @@
 .admin-table td {
   vertical-align: middle;
 }
+
+/* =========================================
+   CATEGORIES
+========================================= */
+
+.admin-category-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+
+  margin-bottom: 30px;
+  padding: 25px;
+
+  background: #ffffff;
+  border-radius: 14px;
+
+  box-shadow: 0 8px 25px rgba(20, 23, 84, 0.06);
+}
+
+.admin-category-form>div {
+  flex: 1;
+}
+
+.admin-category-form label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #141754;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-category-form input,
+.admin-category-edit input {
+  width: 100%;
+  padding: 11px 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e5e5eb;
+  border-radius: 8px;
+
+  outline: none;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #333;
+}
+
+.admin-category-form input:focus,
+.admin-category-edit input:focus {
+  border-color: #382bff;
+}
+
+.admin-category-form button {
+  padding: 11px 18px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #382bff;
+  color: #ffffff;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.admin-category-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-category-list {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.admin-category-card {
+  padding: 22px;
+
+  background: #ffffff;
+  border-radius: 14px;
+
+  box-shadow: 0 8px 25px rgba(20, 23, 84, 0.06);
+}
+
+.admin-category-card h2 {
+  margin: 0 0 20px;
+
+  color: #141754;
+
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.admin-category-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-edit-button {
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #f0efff;
+  color: #382bff;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.admin-edit-button:hover {
+  background: #382bff;
+  color: #ffffff;
+}
+
+.admin-category-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-category-edit input {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .admin-category-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-category-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-category-list {
+    grid-template-columns: 1fr;
+  }
+}

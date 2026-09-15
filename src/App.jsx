@@ -12,6 +12,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminUsers from './components/Admin/AdminUsers';
 import AdminSkills from './components/Admin/AdminSkills';
+import AdminCategories from './components/Admin/AdminCategories';
 import AdminSwaps from './components/Admin/AdminSwaps';
 import AdminReviews from './components/Admin/AdminReviews';
 import AdminAuditLogs from './components/Admin/AdminAuditLogs';
@@ -214,6 +215,13 @@ const App = () => {
             ) : (
               <SignInForm />
             )
+          }
+        />
+
+        <Route
+          path="/admin/categories"
+          element={
+            isAdmin ? <AdminCategories /> : <SignInForm />
           }
         />
 

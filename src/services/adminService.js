@@ -1,4 +1,5 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/admin`;
+const BASE_URL =
+  `${import.meta.env.VITE_BACK_END_SERVER_URL}/admin`;
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -118,6 +119,100 @@ const getAuditLogs = async () => {
   return data.auditLogs;
 };
 
+const getCategories = async () => {
+  const response = await fetch(
+    `${BASE_URL}/categories`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.err || 'Failed to load categories'
+    );
+  }
+
+  return data.categories;
+};
+
+const createCategory = async (name) => {
+  const response = await fetch(
+    `${BASE_URL}/categories`,
+    {
+      method: 'POST',
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.err || 'Failed to create category'
+    );
+  }
+
+  return data.category;
+};
+
+const updateCategory = async (
+  categoryId,
+  name
+) => {
+  const response = await fetch(
+    `${BASE_URL}/categories/${categoryId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.err || 'Failed to update category'
+    );
+  }
+
+  return data.category;
+};
+
+const deleteCategory = async (categoryId) => {
+  const response = await fetch(
+    `${BASE_URL}/categories/${categoryId}`,
+    {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.err || 'Failed to delete category'
+    );
+  }
+
+  return data;
+};
+
 const toggleUserStatus = async (userId) => {
   const response = await fetch(
     `${BASE_URL}/users/${userId}/status`,
@@ -205,9 +300,14 @@ export {
   getSwaps,
   getReviews,
   getAuditLogs,
+
+  getCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+
   toggleUserStatus,
   deleteUser,
   deleteSkill,
   deleteReview,
 };
-
