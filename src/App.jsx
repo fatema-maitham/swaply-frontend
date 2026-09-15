@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Route, Routes } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
+import Footer from './components/Footer/Footer';
 
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
@@ -33,7 +34,7 @@ import ReviewDetails from './components/Reviews/ReviewDetails';
 import ReviewForm from './components/Reviews/ReviewForm';
 
 import { UserContext } from './contexts/UserContext';
-import './App.css';
+
 
 import './App.css';
 
@@ -232,6 +233,8 @@ const App = () => {
           }
         />
       </Routes>
+
+      <Footer />
     </>
   );
 };
