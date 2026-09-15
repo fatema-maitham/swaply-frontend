@@ -1,7 +1,8 @@
 import { useContext } from 'react';
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
+import Footer from './components/Footer/Footer';
 
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
@@ -11,8 +12,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminUsers from './components/Admin/AdminUsers';
 import AdminSkills from './components/Admin/AdminSkills';
+import AdminCategories from './components/Admin/AdminCategories';
 import AdminSwaps from './components/Admin/AdminSwaps';
 import AdminReviews from './components/Admin/AdminReviews';
+import AdminAuditLogs from './components/Admin/AdminAuditLogs';
 
 import Landing from './components/Landing/Landing';
 
@@ -33,18 +36,21 @@ import ReviewDetails from './components/Reviews/ReviewDetails';
 import ReviewForm from './components/Reviews/ReviewForm';
 
 import { UserContext } from './contexts/UserContext';
-import './App.css';
 
 import './App.css';
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const location = useLocation();
 
   const isAdmin = user?.role === 'admin';
 
+  // Hide the normal Navbar and Footer on every admin page
+  const isAdminPage = location.pathname.startsWith('/admin');
+
   return (
     <>
-      <NavBar />
+      {!isAdminPage && <NavBar />}
 
       <Routes>
         <Route
@@ -163,7 +169,9 @@ const App = () => {
 
         <Route
           path="/dashboard"
-          element={user ? <Dashboard /> : <SignInForm />}
+          element={
+            user ? <Dashboard /> : <SignInForm />
+          }
         />
 
         <Route
@@ -211,6 +219,13 @@ const App = () => {
         />
 
         <Route
+          path="/admin/categories"
+          element={
+            isAdmin ? <AdminCategories /> : <SignInForm />
+          }
+        />
+
+        <Route
           path="/admin/swaps"
           element={
             isAdmin ? (
@@ -231,7 +246,16 @@ const App = () => {
             )
           }
         />
+
+        <Route
+          path="/admin/audit-logs"
+          element={
+            isAdmin ? <AdminAuditLogs /> : <SignInForm />
+          }
+        />
       </Routes>
+
+      {!isAdminPage && <Footer />}
     </>
   );
 };

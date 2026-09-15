@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import { getSwaps } from '../../services/swapService';
+
 import SwapCard from './SwapCard';
+
+import './Swaps.css';
 
 const SwapList = () => {
   const [swaps, setSwaps] = useState([]);
@@ -20,15 +24,26 @@ const SwapList = () => {
   }, []);
 
   return (
-    <main>
-      <h1>My Swaps</h1>
+    <main className="swaps-page">
+      <div className="swaps-header">
+        <p className="swaps-eyebrow">YOUR ACTIVITY</p>
+        <h1>My Swaps</h1>
+        <p>
+          Keep track of your skill exchanges and see the progress of your
+          current swaps.
+        </p>
+      </div>
 
-      {message && <p>{message}</p>}
+      {message && (
+        <p className="swaps-message">{message}</p>
+      )}
 
       {swaps.length === 0 ? (
-        <p>No swaps found.</p>
+        <div className="swaps-empty">
+          <p>No swaps found.</p>
+        </div>
       ) : (
-        <ul>
+        <ul className="swaps-grid">
           {swaps.map((swap) => (
             <SwapCard key={swap._id} swap={swap} />
           ))}

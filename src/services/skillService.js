@@ -15,7 +15,9 @@ const getSkills = async () => {
     const data = await res.json();
 
     if (!res.ok || data.err) {
-      throw new Error(data.err || 'Failed to load skills.');
+      throw new Error(
+        data.err || 'Failed to load skills.'
+      );
     }
 
     return data.skills;
@@ -34,7 +36,9 @@ const getSkill = async (id) => {
     const data = await res.json();
 
     if (!res.ok || data.err) {
-      throw new Error(data.err || 'Failed to load skill.');
+      throw new Error(
+        data.err || 'Failed to load skill.'
+      );
     }
 
     return data.skill;
@@ -49,8 +53,16 @@ const createSkill = async (skillData, image) => {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-    formData.append('category', skillData.category);
-    formData.append('description', skillData.description);
+
+    formData.append(
+      'category',
+      skillData.category
+    );
+
+    formData.append(
+      'description',
+      skillData.description
+    );
 
     if (image) {
       formData.append('skillImage', image);
@@ -65,7 +77,9 @@ const createSkill = async (skillData, image) => {
     const data = await res.json();
 
     if (!res.ok || data.err) {
-      throw new Error(data.err || 'Failed to create skill.');
+      throw new Error(
+        data.err || 'Failed to create skill.'
+      );
     }
 
     return data.skill;
@@ -80,8 +94,16 @@ const updateSkill = async (id, skillData, image) => {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-    formData.append('category', skillData.category);
-    formData.append('description', skillData.description);
+
+    formData.append(
+      'category',
+      skillData.category
+    );
+
+    formData.append(
+      'description',
+      skillData.description
+    );
 
     if (image) {
       formData.append('skillImage', image);
@@ -96,7 +118,9 @@ const updateSkill = async (id, skillData, image) => {
     const data = await res.json();
 
     if (!res.ok || data.err) {
-      throw new Error(data.err || 'Failed to update skill.');
+      throw new Error(
+        data.err || 'Failed to update skill.'
+      );
     }
 
     return data.skill;
@@ -116,7 +140,9 @@ const deleteSkill = async (id) => {
     const data = await res.json();
 
     if (!res.ok || data.err) {
-      throw new Error(data.err || 'Failed to delete skill.');
+      throw new Error(
+        data.err || 'Failed to delete skill.'
+      );
     }
 
     return data;
@@ -126,10 +152,39 @@ const deleteSkill = async (id) => {
   }
 };
 
+/* =========================================
+   CATEGORIES
+========================================= */
+
+const getCategories = async () => {
+  try {
+    const categoriesUrl =
+      `${import.meta.env.VITE_BACK_END_SERVER_URL}/categories`;
+
+    const response = await fetch(categoriesUrl);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.err || 'Failed to load categories.'
+      );
+    }
+
+    return data.categories;
+  } catch (err) {
+    console.log(err);
+
+    throw new Error(err.message);
+  }
+};
+
+
 export {
   getSkills,
   getSkill,
   createSkill,
   updateSkill,
   deleteSkill,
+  getCategories,
 };

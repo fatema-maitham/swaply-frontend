@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import {
   useLocation,
@@ -8,14 +8,21 @@ import {
 
 import {
   createSkill,
+  getCategories,
   getSkill,
   updateSkill,
 } from '../../services/skillService';
 
+import { UserContext } from '../../contexts/UserContext';
+
 const SkillForm = () => {
   const { id } = useParams();
+
   const navigate = useNavigate();
+
   const location = useLocation();
+
+  const { user } = useContext(UserContext);
 
   const isEditing = Boolean(id);
 
@@ -27,13 +34,37 @@ const SkillForm = () => {
     description: '',
   });
 
+  const [categories, setCategories] = useState([]);
+
   const [image, setImage] = useState(null);
+
   const [currentImage, setCurrentImage] = useState('');
+
   const [message, setMessage] = useState('');
+
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (!isEditing) {
+    if (!user) {
+      setMessage('Login Required');
+      return;
+    }
+
+    const loadCategories = async () => {
+      try {
+        const data = await getCategories();
+
+        setCategories(data);
+      } catch (err) {
+        setMessage(err.message);
+      }
+    };
+
+    loadCategories();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user || !isEditing) {
       return;
     }
 
@@ -54,7 +85,7 @@ const SkillForm = () => {
     };
 
     loadSkill();
-  }, [id, isEditing]);
+  }, [id, isEditing, user]);
 
   const handleChange = (evt) => {
     setMessage('');
@@ -76,38 +107,74 @@ const SkillForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
+    if (!user) {
+      setMessage('Login Required');
+      return;
+    }
+
     try {
       setIsSaving(true);
+
       setMessage('');
 
       if (isEditing) {
-        await updateSkill(id, formData, image);
+        await updateSkill(
+          id,
+          formData,
+          image
+        );
       } else {
         if (!image) {
-          setMessage('Please select a skill image.');
+          setMessage(
+            'Please select a skill image.'
+          );
+
           setIsSaving(false);
+
           return;
         }
 
-        await createSkill(formData, image);
+        await createSkill(
+          formData,
+          image
+        );
       }
 
       navigate(returnTo);
     } catch (err) {
       setMessage(err.message);
+
       setIsSaving(false);
     }
   };
+
+  if (!user) {
+    return (
+      <main className="skill-form-page">
+        <section className="skill-form-header">
+          <h1>
+            {isEditing
+              ? 'Edit Skill'
+              : 'Add New Skill'}
+          </h1>
+        </section>
+
+        <p className="form-message">
+          Login Required
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="skill-form-page">
 
       <section className="skill-form-header">
-
         <h1>
-          {isEditing ? 'Edit Skill' : 'Add New Skill'}
+          {isEditing
+            ? 'Edit Skill'
+            : 'Add New Skill'}
         </h1>
-
       </section>
 
       {message && (
@@ -154,35 +221,20 @@ const SkillForm = () => {
               onChange={handleChange}
               required
             >
-              <option value="">Select a category</option>
-              <option value="Programming & Technology">
-                Programming & Technology
+
+              <option value="">
+                Select a category
               </option>
-              <option value="Design & Creative">
-                Design & Creative
-              </option>
-              <option value="Languages">Languages</option>
-              <option value="Business & Career">
-                Business & Career
-              </option>
-              <option value="Education & Tutoring">
-                Education & Tutoring
-              </option>
-              <option value="Music">Music</option>
-              <option value="Cooking & Food">
-                Cooking & Food
-              </option>
-              <option value="Sports & Fitness">
-                Sports & Fitness
-              </option>
-              <option value="Arts & Crafts">
-                Arts & Crafts
-              </option>
-              <option value="Lifestyle">Lifestyle</option>
-              <option value="Outdoor & Adventure">
-                Outdoor & Adventure
-              </option>
-              <option value="Other">Other</option>
+
+              {categories.map((category) => (
+                <option
+                  key={category._id}
+                  value={category.name}
+                >
+                  {category.name}
+                </option>
+              ))}
+
             </select>
 
           </div>
@@ -215,17 +267,21 @@ const SkillForm = () => {
 
           {image ? (
             <div className="image-preview-large">
+
               <img
                 src={URL.createObjectURL(image)}
                 alt="Skill preview"
               />
+
             </div>
           ) : currentImage ? (
             <div className="image-preview-large">
+
               <img
                 src={currentImage}
                 alt="Current skill"
               />
+
             </div>
           ) : null}
 

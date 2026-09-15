@@ -1,18 +1,25 @@
 import { useState, useContext } from 'react';
+
 import { useNavigate } from 'react-router';
+
 import { Eye, EyeOff } from 'lucide-react';
+
 import { signIn } from '../../services/authService';
+
 import { UserContext } from '../../contexts/UserContext';
+
 import '../../Auth.css';
 
 const SignInForm = () => {
   const navigate = useNavigate();
+
   const { setUser } = useContext(UserContext);
 
   const [message, setMessage] = useState('');
 
   const [formData, setFormData] = useState({
-    email: localStorage.getItem('rememberedEmail') || '',
+    email:
+      localStorage.getItem('rememberedEmail') || '',
     password: '',
   });
 
@@ -59,10 +66,17 @@ const SignInForm = () => {
     evt.preventDefault();
 
     try {
-      const signedInUser = await signIn(formData);
+      const signedInUser = await signIn(
+        formData,
+        rememberMe
+      );
 
       if (rememberMe) {
-        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem(
+          'rememberMe',
+          'true'
+        );
+
         localStorage.setItem(
           'rememberedEmail',
           formData.email
@@ -73,7 +87,12 @@ const SignInForm = () => {
       }
 
       setUser(signedInUser);
-      navigate('/dashboard');
+
+      if (signedInUser.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setMessage(err.message);
     }
@@ -81,9 +100,11 @@ const SignInForm = () => {
 
   return (
     <main className="auth-page">
+
       <section className="auth-card">
 
         <div className="auth-left">
+
           <img
             src="/logoW.png"
             alt="Skill Swap"
@@ -91,11 +112,15 @@ const SignInForm = () => {
           />
 
           <div className="auth-left-content">
-            <h1>Welcome Back</h1>
+
+            <h1>
+              Welcome Back
+            </h1>
 
             <p>
               Sign in to continue your skill exchange journey.
             </p>
+
           </div>
 
           <img
@@ -103,9 +128,11 @@ const SignInForm = () => {
             alt=""
             className="auth-decoration"
           />
+
         </div>
 
         <div className="auth-right">
+
           <div className="auth-form-content">
 
             {message && (
@@ -121,7 +148,10 @@ const SignInForm = () => {
             >
 
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+
+                <label htmlFor="email">
+                  Email
+                </label>
 
                 <input
                   type="email"
@@ -133,12 +163,17 @@ const SignInForm = () => {
                   autoComplete="off"
                   required
                 />
+
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+
+                <label htmlFor="password">
+                  Password
+                </label>
 
                 <div className="password-input-wrapper">
+
                   <input
                     type={
                       showPassword
@@ -172,24 +207,33 @@ const SignInForm = () => {
                       <Eye size={19} />
                     )}
                   </button>
+
                 </div>
+
               </div>
 
               <div className="auth-options">
 
                 <label className="remember-me">
+
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={handleRememberMe}
                   />
 
-                  <span>Remember me</span>
+                  <span>
+                    Remember me
+                  </span>
+
                 </label>
 
                 <button
                   type="button"
                   className="forgot-password"
+                  onClick={() =>
+                    navigate('/forgot-password')
+                  }
                 >
                   Forgot password?
                 </button>
@@ -205,24 +249,30 @@ const SignInForm = () => {
               </button>
 
               <p className="auth-switch">
+
                 Don’t have an account?{' '}
 
                 <button
                   type="button"
-                  onClick={() => navigate('/sign-up')}
+                  onClick={() =>
+                    navigate('/sign-up')
+                  }
                 >
                   Sign Up
                 </button>
+
               </p>
 
             </form>
+
           </div>
+
         </div>
 
       </section>
+
     </main>
   );
 };
 
 export default SignInForm;
-

@@ -25,6 +25,7 @@ const signUp = async (formData) => {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
+
       return getUserFromToken(data.token);
     }
 
@@ -35,7 +36,7 @@ const signUp = async (formData) => {
   }
 };
 
-const signIn = async (formData) => {
+const signIn = async (formData, rememberMe) => {
   try {
     const res = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
@@ -52,7 +53,14 @@ const signIn = async (formData) => {
     }
 
     if (data.token) {
-      localStorage.setItem('token', data.token);
+      if (rememberMe) {
+        localStorage.setItem('token', data.token);
+        sessionStorage.removeItem('token');
+      } else {
+        sessionStorage.setItem('token', data.token);
+        localStorage.removeItem('token');
+      }
+
       return getUserFromToken(data.token);
     }
 
