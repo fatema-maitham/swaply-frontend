@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { useNavigate, useParams } from 'react-router';
+
 import { getSwap, deleteSwap } from '../../services/swapService';
 
 const SwapDetails = () => {
@@ -40,43 +42,114 @@ const SwapDetails = () => {
   };
 
   if (message && !swap) {
-    return <p>{message}</p>;
+    return <p className="swap-details-message">{message}</p>;
   }
 
   if (!swap) {
-    return <p>Loading...</p>;
+    return <p className="swap-details-loading">Loading...</p>;
   }
 
   return (
-    <main>
-      <h1>Swap Details</h1>
+    <main className="swap-details-page">
+      <div className="swap-details-header">
+        <p className="swap-details-eyebrow">SWAP REQUEST</p>
+        <h1>Swap Details</h1>
+        <p>
+          View the details of this skill exchange and manage your swap.
+        </p>
+      </div>
 
-      {message && <p>{message}</p>}
+      {message && (
+        <p className="swap-details-message">{message}</p>
+      )}
 
-      <p>Swap ID: {swap._id}</p>
-      <p>Status: {swap.status}</p>
-      <p>Requester: {swap.requester}</p>
-      <p>Receiver: {swap.receiver}</p>
-      <p>Skill Offered: {swap.skillOffered}</p>
-      <p>Skill Requested: {swap.skillRequested}</p>
+      <section className="swap-details-card">
 
-      <p>
-        Scheduled Date: {swap.scheduledDate || 'Not scheduled'}
-      </p>
+        <div className="swap-details-top">
+          <span className={`swap-status ${swap.status}`}>
+            {swap.status}
+          </span>
+        </div>
 
-      <button
-        type="button"
-        onClick={() => navigate(`/swaps/${swap._id}/edit`)}
-      >
-        Edit
-      </button>
+        <div className="swap-details-skills">
+          <div className="swap-details-skill">
+            <span>OFFERING</span>
+            <h2>{swap.skillOffered?.name}</h2>
+            <p>{swap.skillOffered?.category}</p>
+          </div>
 
-      <button
-        type="button"
-        onClick={handleDelete}
-      >
-        Delete
-      </button>
+          <div className="swap-details-arrow">
+            ↔
+          </div>
+
+          <div className="swap-details-skill swap-details-skill-right">
+            <span>REQUESTING</span>
+            <h2>{swap.skillRequested?.name}</h2>
+            <p>{swap.skillRequested?.category}</p>
+          </div>
+        </div>
+
+        <div className="swap-details-info">
+
+          <div className="swap-details-info-item">
+            <span>Requester</span>
+            <strong>{swap.requester?.name}</strong>
+            <p>{swap.requester?.email}</p>
+          </div>
+
+          <div className="swap-details-info-item">
+            <span>Receiver</span>
+            <strong>{swap.receiver?.name}</strong>
+            <p>{swap.receiver?.email}</p>
+          </div>
+
+          <div className="swap-details-info-item">
+            <span>Scheduled Date</span>
+            <strong>
+              {swap.scheduledDate
+                ? new Date(swap.scheduledDate).toLocaleDateString()
+                : 'Not scheduled'}
+            </strong>
+          </div>
+
+          <div className="swap-details-info-item">
+            <span>Created</span>
+            <strong>
+              {swap.createdAt
+                ? new Date(swap.createdAt).toLocaleDateString()
+                : 'Not available'}
+            </strong>
+          </div>
+
+        </div>
+
+        <div className="swap-details-actions">
+          <button
+            type="button"
+            className="swap-edit-button"
+            onClick={() => navigate(`/swaps/${swap._id}/edit`)}
+          >
+            Edit Swap
+          </button>
+
+          <button
+            type="button"
+            className="swap-delete-button"
+            onClick={handleDelete}
+          >
+            Delete Swap
+          </button>
+
+          <button
+            type="button"
+            className="swap-back-button"
+            onClick={() => navigate('/swaps')}
+          >
+            Back to Swaps
+          </button>
+        </div>
+
+      </section>
     </main>
   );
 };
