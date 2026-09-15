@@ -19,6 +19,7 @@ const AdminAside = () => {
         />
 
         <nav className="admin-nav">
+
           <NavLink
             to="/admin/dashboard"
             className="admin-nav-link"
@@ -53,6 +54,14 @@ const AdminAside = () => {
           >
             Reviews
           </NavLink>
+
+          <NavLink
+            to="/admin/audit-logs"
+            className="admin-nav-link"
+          >
+            Audit Logs
+          </NavLink>
+
         </nav>
 
         <button
@@ -79,4 +88,3 @@ const AdminAside = () => {
 };
 
 export default AdminAside;
-

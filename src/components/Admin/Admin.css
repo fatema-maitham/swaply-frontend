@@ -766,3 +766,44 @@
 .admin-logout-button span {
   line-height: 1;
 }
+
+/* =========================================
+   AUDIT LOGS
+========================================= */
+
+.admin-audit-admin,
+.admin-audit-target {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-audit-admin strong,
+.admin-audit-target strong {
+  color: #141754;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-audit-admin span,
+.admin-audit-target span {
+  color: #999;
+  font-size: 11px;
+}
+
+.admin-audit-action {
+  display: inline-block;
+  padding: 6px 10px;
+
+  border-radius: 6px;
+
+  background: #f0efff;
+  color: #382bff;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.admin-table td {
+  vertical-align: middle;
+}
