@@ -13,6 +13,7 @@ const signUp = async (formData) => {
     const res = await fetch(`${BASE_URL}/sign-up`, {
       method: 'POST',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
@@ -42,6 +43,7 @@ const signIn = async (formData) => {
     const res = await fetch(`${BASE_URL}/sign-in`, {
       method: 'POST',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
