@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router';
 
-import { getSkills } from '../../services/skillService';
+import {
+  getCategories,
+  getSkills,
+} from '../../services/skillService';
+
 import { getReviews } from '../../services/reviewService';
 
 import SkillCard from './SkillCard';
@@ -10,48 +14,57 @@ import SkillCard from './SkillCard';
 const SkillsList = () => {
   const [skills, setSkills] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
+
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState('');
 
   const skillsPerPage = 12;
 
-  const categories = [
-    'All',
-    'Programming & Technology',
-    'Design & Creative',
-    'Languages',
-    'Business & Career',
-    'Education & Tutoring',
-    'Music',
-    'Cooking & Food',
-    'Sports & Fitness',
-    'Arts & Crafts',
-    'Lifestyle',
-    'Outdoor & Adventure',
-    'Other',
-  ];
-
   useEffect(() => {
-    const loadSkillsAndReviews = async () => {
+    const loadSkillsPage = async () => {
       try {
-        const [skillsData, reviewsData] =
+        setError('');
+
+        const [skillsData, categoriesData] =
           await Promise.all([
             getSkills(),
-            getReviews(),
+            getCategories(),
           ]);
 
         setSkills(skillsData);
-        setReviews(reviewsData);
+
+        setCategories([
+          'All',
+          ...categoriesData.map(
+            (item) => item.name
+          ),
+        ]);
+
+        try {
+          const reviewsData = await getReviews();
+          setReviews(reviewsData);
+        } catch (reviewError) {
+          console.log(
+            'REVIEWS COULD NOT LOAD:',
+            reviewError
+          );
+
+          setReviews([]);
+        }
       } catch (err) {
+        console.log(err);
+
         setError(
-          'Failed to load skills and reviews.'
+          'Failed to load skills and categories.'
         );
       }
     };
 
-    loadSkillsAndReviews();
+    loadSkillsPage();
   }, []);
 
   const getAverageRating = (skill) => {
@@ -108,7 +121,9 @@ const SkillsList = () => {
     setCurrentPage(1);
   };
 
-  const handleCategoryChange = (selectedCategory) => {
+  const handleCategoryChange = (
+    selectedCategory
+  ) => {
     setCategory(selectedCategory);
     setCurrentPage(1);
   };
@@ -121,7 +136,6 @@ const SkillsList = () => {
 
   return (
     <main className="skills-page">
-
       <section className="skills-header">
         <div>
           <h1>Explore Skills</h1>
@@ -147,7 +161,6 @@ const SkillsList = () => {
       )}
 
       <section className="skills-controls">
-
         <div className="search-box">
           <input
             type="text"
@@ -161,9 +174,11 @@ const SkillsList = () => {
           {categories.map((item) => (
             <button
               key={item}
-              className={`category-tab ${
-                category === item ? 'active' : ''
-              }`}
+              type="button"
+              className={`category-tab ${category === item
+                  ? 'active'
+                  : ''
+                }`}
               onClick={() =>
                 handleCategoryChange(item)
               }
@@ -172,7 +187,6 @@ const SkillsList = () => {
             </button>
           ))}
         </div>
-
       </section>
 
       {currentSkills.length === 0 ? (
@@ -198,8 +212,8 @@ const SkillsList = () => {
           {totalPages > 1 && (
             <div className="pagination-wrapper">
               <div className="pagination">
-
                 <button
+                  type="button"
                   onClick={() =>
                     goToPage(currentPage - 1)
                   }
@@ -213,6 +227,7 @@ const SkillsList = () => {
                   (_, index) => index + 1
                 ).map((page) => (
                   <button
+                    type="button"
                     key={page}
                     className={
                       currentPage === page
@@ -228,6 +243,7 @@ const SkillsList = () => {
                 ))}
 
                 <button
+                  type="button"
                   onClick={() =>
                     goToPage(currentPage + 1)
                   }
@@ -237,13 +253,11 @@ const SkillsList = () => {
                 >
                   →
                 </button>
-
               </div>
             </div>
           )}
         </>
       )}
-
     </main>
   );
 };
