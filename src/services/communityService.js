@@ -4,12 +4,16 @@ const getCommunityUsers = async () => {
       localStorage.getItem('token') ||
       sessionStorage.getItem('token');
 
+    const headers = token
+      ? {
+        Authorization: `Bearer ${token}`,
+      }
+      : {};
+
     const response = await fetch(
       `${import.meta.env.VITE_BACK_END_SERVER_URL}/users`,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       }
     );
 
@@ -28,6 +32,4 @@ const getCommunityUsers = async () => {
   }
 };
 
-export {
-  getCommunityUsers,
-};
+export { getCommunityUsers };

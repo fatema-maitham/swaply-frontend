@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import { getCommunityUsers } from '../../services/communityService';
 import './Community.css';
 
 const Community = () => {
+  const navigate = useNavigate();
+
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
@@ -29,8 +31,7 @@ const Community = () => {
   const filteredUsers = users.filter((member) => {
     const name = member.name || '';
     const bio = member.bio || '';
-
-    const searchText = search.toLowerCase();
+    const searchText = search.toLowerCase().trim();
 
     return (
       name.toLowerCase().includes(searchText) ||
@@ -38,52 +39,46 @@ const Community = () => {
     );
   });
 
+  const handleProfileClick = (userId) => {
+    navigate(`/users/${userId}`);
+  };
+
   return (
     <main className="community-page">
 
-      {/* =========================================
+      {/* =========================
           HEADER
-      ========================================= */}
+      ========================= */}
 
       <section className="community-header">
+        <div>
+          <h1>Meet the Community</h1>
 
-        <span className="community-label">
-          SWAPLY COMMUNITY
-        </span>
-
-        <h1>
-          Meet the Community
-        </h1>
-
-        <p>
-          Discover people on Swaply and find someone
-          to learn from, teach, or connect with.
-        </p>
-
+          <p>
+            Discover people on Swaply and find someone
+            to learn from, teach, or connect with.
+          </p>
+        </div>
       </section>
 
-      {/* =========================================
+      {/* =========================
           SEARCH
-      ========================================= */}
+      ========================= */}
 
       <section className="community-controls">
-
         <div className="community-search">
-
           <input
             type="text"
             placeholder="Search members..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
-
         </div>
-
       </section>
 
-      {/* =========================================
+      {/* =========================
           ERROR
-      ========================================= */}
+      ========================= */}
 
       {error && (
         <div className="community-message">
@@ -91,111 +86,99 @@ const Community = () => {
         </div>
       )}
 
-      {/* =========================================
+      {/* =========================
           LOADING
-      ========================================= */}
+      ========================= */}
 
       {loading && (
         <div className="community-empty">
-
-          <h2>
-            Loading community...
-          </h2>
-
+          <h2>Loading community...</h2>
         </div>
       )}
 
-      {/* =========================================
-          NO USERS
-      ========================================= */}
+      {/* =========================
+          NO RESULTS
+      ========================= */}
 
-      {!loading && !error && filteredUsers.length === 0 && (
-        <div className="community-empty">
+      {!loading &&
+        !error &&
+        filteredUsers.length === 0 && (
+          <div className="community-empty">
+            <h2>No members found</h2>
 
-          <h2>
-            No members found
-          </h2>
+            <p>
+              {search
+                ? 'Try a different search.'
+                : 'There are no community members yet.'}
+            </p>
+          </div>
+        )}
 
-          <p>
-            Try a different search.
-          </p>
+      {/* =========================
+          COMMUNITY CARDS
+      ========================= */}
 
-        </div>
-      )}
+      {!loading &&
+        !error &&
+        filteredUsers.length > 0 && (
+          <section className="community-grid">
 
-      {/* =========================================
-          USERS
-      ========================================= */}
+            {filteredUsers.map((member) => (
+              <article
+                className="dashboard-skill-card community-card"
+                key={member._id}
+                onClick={() =>
+                  handleProfileClick(member._id)
+                }
+              >
 
-      {!loading && !error && filteredUsers.length > 0 && (
+                {/* PROFILE IMAGE */}
 
-        <section className="community-grid">
+                <div className="community-avatar-wrapper">
+                  {member.profileImage ? (
+                    <img
+                      src={member.profileImage}
+                      alt={member.name}
+                      className="community-avatar"
+                    />
+                  ) : (
+                    <div className="community-avatar-placeholder">
+                      {member.name
+                        ?.charAt(0)
+                        .toUpperCase()}
+                    </div>
+                  )}
+                </div>
 
-          {filteredUsers.map((member) => (
+                {/* NAME */}
 
-            <article
-              className="community-card"
-              key={member._id}
-            >
+                <h3>{member.name}</h3>
 
-              {/* PROFILE IMAGE */}
-
-              <div className="community-card-top">
-
-                {member.profileImage ? (
-
-                  <img
-                    src={member.profileImage}
-                    alt={`${member.name}'s profile`}
-                    className="community-avatar"
-                  />
-
-                ) : (
-
-                  <div className="community-avatar-placeholder">
-                    {member.name
-                      ?.charAt(0)
-                      .toUpperCase()}
-                  </div>
-
-                )}
-
-              </div>
-
-              {/* USER INFORMATION */}
-
-              <div className="community-card-content">
-
-                <h2>
-                  {member.name}
-                </h2>
+                {/* BIO */}
 
                 <p className="community-bio">
                   {member.bio ||
                     'This member has not added a bio yet.'}
                 </p>
 
-                <div className="community-card-actions">
+                {/* BUTTON */}
 
-                  <Link
-                    to={`/users/${member._id}`}
-                    className="community-view-button"
-                  >
-                    View Profile
-                  </Link>
+                <button
+                  type="button"
+                  className="community-profile-button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleProfileClick(member._id);
+                  }}
+                >
+                  View Profile
+                </button>
 
-                </div>
+              </article>
+            ))}
 
-              </div>
-
-            </article>
-
-          ))}
-
-        </section>
-
-      )}
-
+          </section>
+        )}
     </main>
   );
 };

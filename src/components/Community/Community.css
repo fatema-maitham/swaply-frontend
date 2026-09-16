@@ -1,137 +1,135 @@
-/* =========================================
+/* =========================
    COMMUNITY PAGE
-========================================= */
+========================= */
 
 .community-page {
-  width: 100%;
+  width: 90%;
   max-width: 1200px;
-
-  margin: 0 auto;
-
-  padding: 60px 30px 80px;
+  margin: 55px auto 80px;
 }
 
-/* =========================================
+/* =========================
    HEADER
-========================================= */
+========================= */
 
 .community-header {
-  max-width: 700px;
-
-  margin: 0 auto 40px;
-
-  text-align: center;
+  margin-bottom: 35px;
 }
 
 .community-label {
   display: block;
-
   margin-bottom: 10px;
 
-  color: var(--navy);
+  color: var(--purple);
 
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
 
   letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .community-header h1 {
-  margin: 0 0 12px;
+  margin: 0;
 
   color: var(--navy);
 
-  font-size: 42px;
+  font-size: clamp(34px, 4vw, 52px);
   font-weight: 700;
 
-  letter-spacing: -0.8px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
 }
 
 .community-header p {
-  margin: 0;
+  max-width: 620px;
 
-  color: #777;
+  margin: 14px 0 0;
 
-  font-size: 15px;
+  color: #717382;
+
+  font-size: 13px;
   line-height: 1.7;
 }
 
-/* =========================================
+/* =========================
    SEARCH
-========================================= */
+========================= */
 
 .community-controls {
-  display: flex;
-  justify-content: center;
-
-  margin-bottom: 45px;
+  margin-bottom: 35px;
 }
 
 .community-search {
   width: 100%;
-  max-width: 500px;
 }
 
 .community-search input {
   width: 100%;
+  height: 48px;
 
-  padding: 14px 18px;
+  padding: 0 16px;
 
-  border: 1px solid #e2e2e6;
-  border-radius: 12px;
+  color: var(--navy);
+  background: var(--white);
 
-  background: white;
-
-  color: #333;
-
-  font-family: inherit;
-  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
 
   outline: none;
+
+  font-family: inherit;
+  font-size: 12px;
 
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
+.community-search input::placeholder {
+  color: #9a9daa;
+}
+
 .community-search input:focus {
-  border-color: var(--navy);
+  border-color: var(--purple);
 
   box-shadow:
-    0 0 0 3px rgba(20, 35, 60, 0.08);
+    0 0 0 3px rgba(102, 89, 255, 0.08);
 }
 
-.community-search input::placeholder {
-  color: #aaa;
-}
-
-/* =========================================
-   USER GRID
-========================================= */
+/* =========================
+   COMMUNITY GRID
+========================= */
 
 .community-grid {
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+    repeat(4, minmax(0, 1fr));
 
-  gap: 24px;
+  gap: 22px;
 }
 
-/* =========================================
-   USER CARD
-========================================= */
+/* =========================
+   COMMUNITY CARD
+========================= */
 
 .community-card {
-  overflow: hidden;
+  min-width: 0;
 
-  border: 1px solid #e8e8ec;
+  padding: 18px;
+
+  border: 1px solid var(--border);
   border-radius: 18px;
 
-  background: white;
+  background: var(--white);
 
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.05);
+    0 8px 24px rgba(20, 23, 84, 0.06);
+
+  cursor: pointer;
+
+  text-align: center;
 
   transition:
     transform 0.2s ease,
@@ -142,167 +140,169 @@
   transform: translateY(-4px);
 
   box-shadow:
-    0 14px 32px rgba(0, 0, 0, 0.09);
+    0 14px 30px rgba(20, 23, 84, 0.1);
 }
 
-/* =========================================
-   IMAGE
-========================================= */
+/* =========================
+   CIRCLE PROFILE IMAGE
+========================= */
 
-.community-card-top {
+.community-avatar-wrapper {
+  width: 145px;
+  height: 145px;
+
+  margin: 5px auto 22px;
+
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  padding: 30px 20px 10px;
-}
-
-.community-avatar,
-.community-avatar-placeholder {
-  width: 110px;
-  height: 110px;
+  overflow: hidden;
 
   border-radius: 50%;
 
-  object-fit: cover;
+  background: var(--navy);
 }
-
-/* Real image */
 
 .community-avatar {
+  width: 100%;
+  height: 100%;
+
   display: block;
 
-  border: 4px solid white;
+  object-fit: cover;
 
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
 }
 
-/* Placeholder */
-
 .community-avatar-placeholder {
-  display: flex;
+  width: 100%;
+  height: 100%;
 
+  display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #f0eef8;
+  color: var(--green);
+  background: var(--navy);
+
+  border-radius: 50%;
+
+  font-size: 42px;
+  font-weight: 700;
+}
+
+/* =========================
+   NAME
+========================= */
+
+.community-card h3 {
+  margin: 0 0 6px;
 
   color: var(--navy);
 
-  font-size: 38px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
 
-  border: 4px solid white;
-
-  box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.08);
-}
-
-/* =========================================
-   CONTENT
-========================================= */
-
-.community-card-content {
-  padding: 18px 24px 25px;
+  line-height: 1.3;
 
   text-align: center;
 }
 
-.community-card-content h2 {
-  margin: 0 0 10px;
-
-  color: var(--navy);
-
-  font-size: 21px;
-  font-weight: 700;
-}
+/* =========================
+   BIO
+========================= */
 
 .community-bio {
-  min-height: 52px;
+  min-height: 34px;
 
-  margin: 0 0 22px;
+  margin: 0;
 
-  color: #666;
+  color: #717382;
 
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.55;
+
+  text-align: center;
+
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-/* =========================================
-   BUTTON
-========================================= */
+/* =========================
+   VIEW PROFILE BUTTON
+   SAME STYLE AS SKILLS
+========================= */
 
-.community-card-actions {
+.community-profile-button {
+  width: 100%;
+  min-height: 38px;
+
+  margin-top: 15px;
+  padding: 11px 15px;
+
   display: flex;
-
-  justify-content: center;
-}
-
-.community-view-button {
-  display: inline-flex;
-
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  border: none;
+  border-radius: 9px;
 
-  padding: 11px 18px;
+  background: var(--green);
+  color: var(--navy);
 
-  border-radius: 10px;
-
-  background: var(--navy);
-
-  color: white;
-
-  text-decoration: none;
+  font-family: inherit;
 
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+
+  text-align: center;
+
+  cursor: pointer;
 
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    opacity 0.2s ease;
 }
 
-.community-view-button:hover {
+.community-profile-button:hover {
+  color: var(--navy);
+  background: var(--green);
+
   transform: translateY(-1px);
 
-  box-shadow:
-    0 7px 18px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
 }
 
-/* =========================================
-   MESSAGE
-========================================= */
+/* =========================
+   MESSAGES
+========================= */
 
 .community-message {
-  max-width: 600px;
+  padding: 20px;
 
-  margin: 0 auto 30px;
+  color: var(--navy);
+  background: var(--white);
 
-  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
 
-  border-radius: 10px;
-
-  background: #fff3f3;
-
-  color: #b42318;
-
-  text-align: center;
-
-  font-size: 14px;
+  font-size: 13px;
 }
-
-/* =========================================
-   EMPTY
-========================================= */
 
 .community-empty {
   padding: 70px 20px;
 
   text-align: center;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: var(--white);
 }
 
 .community-empty h2 {
@@ -310,38 +310,47 @@
 
   color: var(--navy);
 
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .community-empty p {
   margin: 0;
 
-  color: #888;
+  color: #717382;
 
-  font-size: 14px;
+  font-size: 12px;
 }
 
-/* =========================================
-   TABLET
-========================================= */
+/* =========================
+   RESPONSIVE
+========================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+  .community-page {
+    width: 92%;
+    margin-top: 45px;
+  }
 
   .community-grid {
     grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+      repeat(3, minmax(0, 1fr));
   }
-
 }
 
-/* =========================================
-   MOBILE
-========================================= */
+@media (max-width: 800px) {
+  .community-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
-@media (max-width: 600px) {
+    gap: 18px;
+  }
+}
 
+@media (max-width: 550px) {
   .community-page {
-    padding: 40px 18px 60px;
+    width: 90%;
+    margin: 35px auto 50px;
   }
 
   .community-header h1 {
@@ -349,17 +358,37 @@
   }
 
   .community-header p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .community-grid {
     grid-template-columns: 1fr;
 
-    gap: 18px;
+    gap: 15px;
   }
 
-  .community-card-content {
-    padding: 18px 20px 22px;
+  .community-avatar-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 400px) {
+  .community-page {
+    width: 92%;
+    margin-top: 30px;
   }
 
+  .community-header h1 {
+    font-size: 29px;
+  }
+
+  .community-card {
+    padding: 15px;
+  }
+
+  .community-avatar-wrapper {
+    width: 125px;
+    height: 125px;
+  }
 }
