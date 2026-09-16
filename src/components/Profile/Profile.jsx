@@ -137,11 +137,11 @@ const Profile = () => {
                 alt={`${user.name}'s profile`}
               />
             ) : (
-              <div className="profile-image-placeholder">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
+              <img
+                src="/default-profile.png"
+                alt="Default profile"
+              />
             )}
-
             <input
               ref={fileInputRef}
               type="file"
