@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 import {
   getProfile,
@@ -8,77 +8,75 @@ import {
 } from '../../services/userService';
 
 import { getSkills } from '../../services/skillService';
-
 import { UserContext } from '../../contexts/UserContext';
 
 import './Profile.css';
 
 const Profile = () => {
-  const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
-
   const fileInputRef = useRef(null);
 
-  const [user, setProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [skills, setSkills] = useState([]);
+
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
 
-  const [showDeleteConfirmation, setShowDeleteConfirmation] =
-    useState(false);
-
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const profile = await getProfile();
-        setProfile(profile);
+        const profileData = await getProfile();
+        setProfile(profileData);
 
         const allSkills = await getSkills();
 
         const mySkills = allSkills.filter((skill) => {
-          const ownerId =
-            skill.owner?._id || skill.owner;
+          const ownerId = skill.owner?._id || skill.owner;
 
-          return ownerId === profile._id;
+          return String(ownerId) === String(profileData._id);
         });
 
         setSkills(mySkills);
       } catch (err) {
+        console.error(err);
         setMessage(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     loadProfile();
   }, []);
 
-  const handleProfileImageChange = async (evt) => {
-    const file = evt.target.files[0];
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
 
-    if (!file) {
-      return;
-    }
+    if (!file) return;
 
     try {
       setIsUploading(true);
       setMessage('');
 
-      const data = new FormData();
+      const formData = new FormData();
 
-      data.append('name', user.name || '');
-      data.append('bio', user.bio || '');
-      data.append('profileImage', file);
+      formData.append('name', profile.name || '');
+      formData.append('bio', profile.bio || '');
+      formData.append('profileImage', file);
 
-      const updatedUser = await updateProfile(data);
+      const updatedUser = await updateProfile(formData);
 
       setProfile(updatedUser);
       setUser(updatedUser);
     } catch (err) {
+      console.error(err);
       setMessage(err.message);
     } finally {
       setIsUploading(false);
-      evt.target.value = '';
+      event.target.value = '';
     }
   };
 
@@ -90,21 +88,33 @@ const Profile = () => {
       await deleteProfile();
 
       localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
 
       setUser(null);
 
-      navigate('/');
+      window.location.href = '/';
     } catch (err) {
+      console.error(err);
       setMessage(err.message);
       setIsDeleting(false);
     }
   };
 
-  if (!user) {
+  if (loading) {
     return (
       <main className="profile-page">
-        <div className="profile-loading">
-          {message || 'Loading profile...'}
+        <div className="profile-message-card">
+          Loading profile...
+        </div>
+      </main>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <main className="profile-page">
+        <div className="profile-message-card">
+          {message || 'Unable to load profile.'}
         </div>
       </main>
     );
@@ -113,95 +123,69 @@ const Profile = () => {
   return (
     <main className="profile-page">
 
-      <h1 className="profile-page-title">
-        My Profile
-      </h1>
-
-      {message && (
-        <p className="profile-message">
-          {message}
-        </p>
-      )}
-
       {/* PROFILE HEADER */}
 
-      <section className="profile-header">
+      <section className="profile-header-card">
 
-        <div className="profile-image-section">
+        <div className="profile-avatar-column">
 
-          <div className="profile-image-wrapper">
+          <div className="profile-avatar-wrapper">
 
-            {user.profileImage ? (
-              <img
-                src={user.profileImage}
-                alt={`${user.name}'s profile`}
-              />
-            ) : (
-              <img
-                src="/default-profile.png"
-                alt="Default profile"
-              />
-            )}
+            <img
+              src={profile.profileImage || '/default-profile.png'}
+              alt={profile.name}
+              className="profile-avatar"
+            />
+
             <input
               ref={fileInputRef}
               type="file"
               accept="image/png, image/jpeg"
-              className="profile-image-input"
-              onChange={handleProfileImageChange}
+              className="profile-file-input"
+              onChange={handleImageChange}
             />
 
             <button
               type="button"
               className="profile-camera-button"
-              aria-label="Change profile photo"
-              title="Change profile photo"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
+              title="Change profile photo"
+              aria-label="Change profile photo"
             >
               <svg
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path
-                  d="M9 5l1.5-2h3L15 5h3a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h3z"
-                />
-
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3.5"
-                />
+                <path d="M4 7h3l2-2h6l2 2h3v11H4V7z" />
+                <circle cx="12" cy="12.5" r="3.2" />
               </svg>
             </button>
 
           </div>
 
-          <span className="profile-photo-label">
-            PROFILE PHOTO
-          </span>
-
         </div>
 
-        <div className="profile-info">
+        <div className="profile-header-content">
 
-          <span className="profile-section-label">
-            SWAPLY MEMBER
-          </span>
+          <p className="profile-eyebrow">
+            MY PROFILE
+          </p>
 
-          <h2>
-            {user.name}
-          </h2>
+          <h1>
+            {profile.name}
+          </h1>
 
           <p className="profile-email">
-            {user.email}
+            {profile.email}
           </p>
 
-          <p className="profile-bio">
-            {user.bio ||
-              'No bio yet. Tell the Swaply community a little about yourself.'}
+          <p className="profile-header-bio">
+            {profile.bio ||
+              'Add a short bio to tell the Swaply community about yourself.'}
           </p>
 
-          <div className="profile-actions">
+          <div className="profile-header-actions">
 
             <Link
               to="/profile/edit"
@@ -216,161 +200,177 @@ const Profile = () => {
 
       </section>
 
-      {/* PROFILE CONTENT */}
+      {message && (
+        <div className="profile-alert">
+          {message}
+        </div>
+      )}
 
-      <section className="profile-content">
+      {/* SKILLS */}
 
-        {/* ABOUT */}
+      <section className="profile-section">
 
-        <div className="profile-card profile-about-card">
+        <div className="profile-section-heading">
 
-          <span className="profile-section-label">
-            ABOUT ME
-          </span>
+          <div>
+            <p className="profile-eyebrow">
+              MY SKILLS
+            </p>
 
-          <h2>
-            About
-          </h2>
+            <h2>
+              Skills I Teach
+            </h2>
 
-          <p>
-            {user.bio ||
-              'No bio yet. Add a short introduction so the Swaply community can learn more about you.'}
-          </p>
+            <p className="profile-section-description">
+              Skills you can share with the Swaply community.
+            </p>
+          </div>
+
+          <Link
+            to="/skills/new"
+            className="profile-add-button"
+          >
+            + Add Skill
+          </Link>
 
         </div>
 
-        {/* SKILLS */}
+        {skills.length > 0 ? (
 
-        <div className="profile-card profile-skills-card">
+          <div className="skills-grid">
 
-          <div className="profile-skills-heading">
+            {skills.map((skill) => (
 
-            <div>
-              <span className="profile-section-label">
-                MY SKILLS
-              </span>
+              <article
+                key={skill._id}
+                className="dashboard-skill-card"
+              >
 
-              <h2>
-                Skills I Teach
-              </h2>
+                <div className="dashboard-skill-image">
 
-              <p>
-                Share your skills with the Swaply community.
-              </p>
+                  {skill.skillImage ? (
+                    <img
+                      src={skill.skillImage}
+                      alt={skill.name}
+                    />
+                  ) : (
+                    <div className="dashboard-skill-placeholder">
+                      {skill.name?.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+
+                </div>
+
+                <span>
+                  {skill.category?.toUpperCase()}
+                </span>
+
+                <h3>
+                  {skill.name}
+                </h3>
+
+                <p>
+                  By {profile.name}
+                </p>
+
+                <div className="dashboard-skill-bottom">
+
+                  <strong>
+                    Your Skill
+                  </strong>
+
+                  <button
+                    type="button"
+                    className="profile-heart"
+                    aria-label="Favorite skill"
+                  >
+                    ♡
+                  </button>
+
+                </div>
+
+                <Link
+                  to={`/skills/${skill._id}`}
+                  className="dashboard-card-link"
+                >
+                  View Skill
+                </Link>
+
+              </article>
+
+            ))}
+
+          </div>
+
+        ) : (
+
+          <div className="profile-empty-card">
+
+            <div className="profile-empty-icon">
+              +
             </div>
+
+            <h3>
+              No skills yet
+            </h3>
+
+            <p>
+              Add your first skill and start sharing what you know.
+            </p>
 
             <Link
               to="/skills/new"
-              state={{ from: '/profile' }}
-              className="profile-add-skill-button"
+              className="profile-add-button"
             >
-              + Add a Skill
+              Add Your First Skill
             </Link>
 
           </div>
 
-          {skills.length === 0 ? (
+        )}
 
-            <div className="profile-no-skills">
+      </section>
 
-              <div className="profile-no-skills-icon">
-                +
-              </div>
+      {/* REVIEWS */}
 
-              <h3>
-                No skills added yet
-              </h3>
+      <section className="profile-section">
 
-              <p>
-                Add a skill you can teach to start connecting
-                with people who want to learn from you.
-              </p>
+        <div className="profile-section-heading">
 
-              <Link
-                to="/skills/new"
-                state={{ from: '/profile' }}
-                className="profile-add-skill-button"
-              >
-                Add Your First Skill
-              </Link>
+          <div>
+            <p className="profile-eyebrow">
+              COMMUNITY FEEDBACK
+            </p>
 
-            </div>
+            <h2>
+              Reviews
+            </h2>
 
-          ) : (
-
-            <div className="profile-skills-grid">
-
-              {skills.map((skill) => (
-
-                <article
-                  key={skill._id}
-                  className="profile-skill-card"
-                >
-
-                  <div className="profile-skill-image">
-
-                    {skill.skillImage ? (
-                      <img
-                        src={skill.skillImage}
-                        alt={skill.name}
-                      />
-                    ) : (
-                      <span>
-                        {skill.name?.charAt(0).toUpperCase()}
-                      </span>
-                    )}
-
-                  </div>
-
-                  <div className="profile-skill-card-content">
-
-                    <h3>
-                      {skill.name}
-                    </h3>
-
-                    <span className="profile-skill-category">
-                      {skill.category}
-                    </span>
-
-                    <p>
-                      {skill.description}
-                    </p>
-
-                    <Link
-                      to={`/skills/${skill._id}`}
-                      className="profile-view-skill-button"
-                    >
-                      View Skill
-                    </Link>
-
-                  </div>
-
-                </article>
-
-              ))}
-
-            </div>
-
-          )}
+            <p className="profile-section-description">
+              Feedback from people you have completed swaps with.
+            </p>
+          </div>
 
         </div>
 
-        {/* REVIEWS */}
+        <div className="profile-reviews-card">
 
-        <div className="profile-card profile-reviews-card">
+          <div className="profile-review-icon">
+            ★
+          </div>
 
-          <span className="profile-section-label">
-            COMMUNITY FEEDBACK
-          </span>
+          <div>
 
-          <h2>
-            Reviews
-          </h2>
+            <h3>
+              No reviews yet
+            </h3>
 
-          <p>
-            Reviews from other Swaply members will appear
-            here after you complete swaps.
-          </p>
+            <p>
+              Complete a skill swap to start receiving reviews
+              from other community members.
+            </p>
+
+          </div>
 
         </div>
 
@@ -378,60 +378,62 @@ const Profile = () => {
 
       {/* DANGER ZONE */}
 
-      <section className="profile-danger-zone">
+      <section className="profile-danger-card">
 
-        <div>
+        <div className="profile-danger-text">
+
+          <p className="profile-eyebrow profile-danger-eyebrow">
+            ACCOUNT
+          </p>
 
           <h2>
             Danger Zone
           </h2>
 
           <p>
-            Permanently delete your Swaply account and all
-            associated data.
+            Permanently delete your Swaply account and
+            remove your account information.
           </p>
 
         </div>
 
-        {!showDeleteConfirmation ? (
+        {!showDelete ? (
 
           <button
             type="button"
-            className="delete-account-button"
-            onClick={() => setShowDeleteConfirmation(true)}
+            className="profile-delete-button"
+            onClick={() => setShowDelete(true)}
           >
             Delete Account
           </button>
 
         ) : (
 
-          <div className="delete-confirmation">
+          <div className="profile-delete-confirm">
 
             <h3>
-              Are you sure you want to delete your account?
+              Delete your account?
             </h3>
 
             <p>
               This action cannot be undone.
             </p>
 
-            <div className="delete-confirmation-actions">
+            <div className="profile-delete-actions">
 
               <button
                 type="button"
-                className="confirm-delete-button"
+                className="profile-confirm-delete"
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}
               >
-                {isDeleting
-                  ? 'Deleting...'
-                  : 'Delete My Account'}
+                {isDeleting ? 'Deleting...' : 'Delete Account'}
               </button>
 
               <button
                 type="button"
-                className="cancel-delete-button"
-                onClick={() => setShowDeleteConfirmation(false)}
+                className="profile-cancel-delete"
+                onClick={() => setShowDelete(false)}
                 disabled={isDeleting}
               >
                 Cancel
