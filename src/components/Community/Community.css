@@ -1,0 +1,467 @@
+/* =========================
+   COMMUNITY PAGE
+========================= */
+
+.community-page {
+  width: 90%;
+  max-width: 1200px;
+  margin: 55px auto 80px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.community-header {
+  margin-bottom: 35px;
+}
+
+.community-label {
+  display: block;
+  margin-bottom: 10px;
+
+  color: var(--purple);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.community-header h1 {
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.community-header p {
+  max-width: 620px;
+
+  margin: 14px 0 0;
+
+  color: #717382;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.community-controls {
+  margin-bottom: 35px;
+}
+
+.community-search {
+  width: 100%;
+}
+
+.community-search input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 16px;
+
+  color: var(--navy);
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.community-search input::placeholder {
+  color: #9a9daa;
+}
+
+.community-search input:focus {
+  border-color: var(--purple);
+
+  box-shadow:
+    0 0 0 3px rgba(102, 89, 255, 0.08);
+}
+
+/* =========================
+   COMMUNITY GRID
+========================= */
+
+.community-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+/* =========================
+   COMMUNITY CARD
+   SAME STYLE AS SKILLS
+========================= */
+
+.community-card {
+  min-width: 0;
+
+  padding: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: var(--white);
+
+  box-shadow:
+    0 5px 20px rgba(26, 23, 84, 0.04);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.community-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 28px rgba(26, 23, 84, 0.07);
+}
+
+/* =========================
+   CIRCLE PROFILE IMAGE
+========================= */
+
+.community-avatar-wrapper {
+  width: 145px;
+  height: 145px;
+
+  margin: 5px auto 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background: var(--green);
+}
+
+.community-avatar {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+.community-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--green);
+  background: var(--navy);
+
+  border-radius: 50%;
+
+  font-size: 42px;
+  font-weight: 700;
+}
+
+/* =========================
+   NAME
+========================= */
+
+.community-card h3 {
+  margin: 0 0 6px;
+
+  color: var(--navy);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  line-height: 1.35;
+
+  text-align: left;
+}
+
+/* =========================
+   BIO
+========================= */
+
+.community-bio {
+  min-height: 34px;
+
+  margin: 0;
+
+  color: #717382;
+
+  font-size: 11px;
+  line-height: 1.55;
+
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* =========================
+   VIEW PROFILE
+========================= */
+
+.community-profile-button {
+  width: 100%;
+  min-height: 38px;
+
+  margin-top: 16px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--navy);
+
+  background: transparent;
+
+  border: 1px solid #dfe1e8;
+  border-radius: 10px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.community-profile-button:hover {
+  color: var(--purple);
+
+  border-color: var(--purple);
+
+  background: rgba(102, 89, 255, 0.03);
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.community-message {
+  padding: 20px;
+
+  color: var(--navy);
+
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  font-size: 13px;
+}
+
+.community-empty {
+  padding: 70px 20px;
+
+  text-align: center;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: var(--white);
+}
+
+.community-empty h2 {
+  margin: 0 0 8px;
+
+  color: var(--navy);
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.community-empty p {
+  margin: 0;
+
+  color: #717382;
+
+  font-size: 12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .community-page {
+    width: 92%;
+    margin-top: 45px;
+  }
+
+  .community-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .community-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+  }
+}
+
+@media (max-width: 550px) {
+  .community-page {
+    width: 90%;
+    margin: 35px auto 50px;
+  }
+
+  .community-header h1 {
+    font-size: 32px;
+  }
+
+  .community-header p {
+    font-size: 12px;
+  }
+
+  .community-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .community-avatar-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 400px) {
+  .community-page {
+    width: 92%;
+    margin-top: 30px;
+  }
+
+  .community-header h1 {
+    font-size: 29px;
+  }
+
+  .community-card {
+    padding: 15px;
+  }
+
+  .community-avatar-wrapper {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+/* =========================
+   NAME
+========================= */
+
+.community-card h3 {
+  margin: 0 0 6px;
+
+  color: var(--navy);
+
+  font-size: 16px;
+  font-weight: 600;
+
+  line-height: 1.35;
+
+  text-align: center;
+}
+
+/* =========================
+   BIO
+========================= */
+
+.community-bio {
+  min-height: 34px;
+
+  margin: 0;
+
+  color: #717382;
+
+  font-size: 11px;
+  line-height: 1.55;
+
+  text-align: center;
+
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* =========================
+   VIEW PROFILE
+========================= */
+
+.community-profile-button {
+  width: 100%;
+  min-height: 38px;
+
+  margin-top: 16px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--navy);
+
+  background: transparent;
+
+  border: 1px solid #dfe1e8;
+  border-radius: 10px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}

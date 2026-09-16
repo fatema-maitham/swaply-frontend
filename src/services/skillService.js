@@ -6,11 +6,13 @@ const getAuthHeaders = () => {
   };
 };
 
+// =========================================
+// GET ALL SKILLS - PUBLIC
+// =========================================
+
 const getSkills = async () => {
   try {
-    const res = await fetch(BASE_URL, {
-      headers: getAuthHeaders(),
-    });
+    const res = await fetch(BASE_URL);
 
     const data = await res.json();
 
@@ -27,11 +29,13 @@ const getSkills = async () => {
   }
 };
 
+// =========================================
+// GET ONE SKILL - PUBLIC
+// =========================================
+
 const getSkill = async (id) => {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      headers: getAuthHeaders(),
-    });
+    const res = await fetch(`${BASE_URL}/${id}`);
 
     const data = await res.json();
 
@@ -48,21 +52,17 @@ const getSkill = async (id) => {
   }
 };
 
+// =========================================
+// CREATE SKILL - PROTECTED
+// =========================================
+
 const createSkill = async (skillData, image) => {
   try {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-
-    formData.append(
-      'category',
-      skillData.category
-    );
-
-    formData.append(
-      'description',
-      skillData.description
-    );
+    formData.append('category', skillData.category);
+    formData.append('description', skillData.description);
 
     if (image) {
       formData.append('skillImage', image);
@@ -89,21 +89,17 @@ const createSkill = async (skillData, image) => {
   }
 };
 
+// =========================================
+// UPDATE SKILL - PROTECTED
+// =========================================
+
 const updateSkill = async (id, skillData, image) => {
   try {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-
-    formData.append(
-      'category',
-      skillData.category
-    );
-
-    formData.append(
-      'description',
-      skillData.description
-    );
+    formData.append('category', skillData.category);
+    formData.append('description', skillData.description);
 
     if (image) {
       formData.append('skillImage', image);
@@ -130,6 +126,10 @@ const updateSkill = async (id, skillData, image) => {
   }
 };
 
+// =========================================
+// DELETE SKILL - PROTECTED
+// =========================================
+
 const deleteSkill = async (id) => {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
@@ -152,9 +152,9 @@ const deleteSkill = async (id) => {
   }
 };
 
-/* =========================================
-   CATEGORIES
-========================================= */
+// =========================================
+// CATEGORIES
+// =========================================
 
 const getCategories = async () => {
   try {
@@ -174,11 +174,9 @@ const getCategories = async () => {
     return data.categories;
   } catch (err) {
     console.log(err);
-
     throw new Error(err.message);
   }
 };
-
 
 export {
   getSkills,

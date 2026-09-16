@@ -83,16 +83,15 @@
    BOTTOM-LEFT DECORATION
 ========================= */
 
+
 .auth-decoration {
   position: absolute;
   z-index: 1;
-  left: 0;
-  bottom: 0;
-  width: 330px;
+  left: -35px;
+  bottom: -40px;
+  width: 430px;
   height: auto;
-  display: block;
 }
-
 
 /* =========================
    RIGHT SIDE
@@ -375,11 +374,10 @@
   /* MOBILE DECORATION */
 
   .auth-decoration {
-    width: 220px;
-    left: 0;
-    bottom: 0;
+    width: 250px;
+    left: -15px;
+    bottom: -35px;
   }
-
 
   /* MOBILE FORM */
 
@@ -440,11 +438,10 @@
   /* SMALL MOBILE DECORATION */
 
   .auth-decoration {
-    width: 180px;
-    left: 0;
-    bottom: 0;
+    width: 200px;
+    left: -10px;
+    bottom: -25px;
   }
-
 
   /* SMALL MOBILE FORM */
 
@@ -489,4 +486,18 @@ body,
 
 .auth-page {
   background: #ffffff !important;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }

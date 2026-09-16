@@ -1,39 +1,60 @@
 import { useContext } from 'react';
+
 import { Route, Routes, useLocation } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
+
 import Footer from './components/Footer/Footer';
 
 import SignUpForm from './components/SignUpForm/SignUpForm';
+
 import SignInForm from './components/SignInForm/SignInForm';
-
-import Dashboard from './components/Dashboard/Dashboard';
-
-import AdminDashboard from './components/Admin/AdminDashboard';
-import AdminUsers from './components/Admin/AdminUsers';
-import AdminSkills from './components/Admin/AdminSkills';
-import AdminCategories from './components/Admin/AdminCategories';
-import AdminSwaps from './components/Admin/AdminSwaps';
-import AdminReviews from './components/Admin/AdminReviews';
-import AdminAuditLogs from './components/Admin/AdminAuditLogs';
 
 import Landing from './components/Landing/Landing';
 
+import Dashboard from './components/Dashboard/Dashboard';
+
+import Community from './components/Community/Community';
+
 import Profile from './components/Profile/Profile';
+
 import ProfileForm from './components/Profile/ProfileForm';
 
+import UserDetails from './components/Profile/UserDetails';
+
 import SkillsList from './components/Skills/SkillsList';
+
 import SkillForm from './components/Skills/SkillForm';
+
 import SkillDetails from './components/Skills/SkillDetails';
 
 import SwapList from './components/Swaps/SwapList';
+
 import SwapDetails from './components/Swaps/SwapDetails';
+
 import SwapForm from './components/Swaps/SwapForm';
+
 import SwapEdit from './components/Swaps/SwapEdit';
 
 import ReviewList from './components/Reviews/ReviewList';
+
 import ReviewDetails from './components/Reviews/ReviewDetails';
+
 import ReviewForm from './components/Reviews/ReviewForm';
+
+import AdminDashboard from './components/Admin/AdminDashboard';
+
+import AdminUsers from './components/Admin/AdminUsers';
+
+import AdminSkills from './components/Admin/AdminSkills';
+
+import AdminCategories from './components/Admin/AdminCategories';
+
+import AdminSwaps from './components/Admin/AdminSwaps';
+
+import AdminReviews from './components/Admin/AdminReviews';
+
+import AdminAuditLogs from './components/Admin/AdminAuditLogs';
 
 import { UserContext } from './contexts/UserContext';
 
@@ -41,6 +62,7 @@ import './App.css';
 
 const App = () => {
   const { user } = useContext(UserContext);
+
   const location = useLocation();
 
   const isAdmin = user?.role === 'admin';
@@ -53,6 +75,11 @@ const App = () => {
       {!isAdminPage && <NavBar />}
 
       <Routes>
+
+        {/* =========================================
+            HOME
+        ========================================= */}
+
         <Route
           path="/"
           element={
@@ -66,6 +93,10 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            AUTH
+        ========================================= */}
+
         <Route
           path="/sign-up"
           element={<SignUpForm />}
@@ -75,6 +106,10 @@ const App = () => {
           path="/sign-in"
           element={<SignInForm />}
         />
+
+        {/* =========================================
+            PROFILE
+        ========================================= */}
 
         <Route
           path="/profile"
@@ -90,12 +125,52 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            DASHBOARD
+        ========================================= */}
+
         <Route
-          path="/skills"
+          path="/dashboard"
           element={
-            user ? <SkillsList /> : <SignInForm />
+            user ? <Dashboard /> : <SignInForm />
           }
         />
+
+        {/* =========================================
+            COMMUNITY
+            PUBLIC
+        ========================================= */}
+
+        <Route
+          path="/community"
+          element={<Community />}
+        />
+
+        {/* Public profile of another user */}
+        <Route
+          path="/users/:id"
+          element={<UserDetails />}
+        />
+
+        {/* =========================================
+            SKILLS
+            PUBLIC VIEWING
+        ========================================= */}
+
+        <Route
+          path="/skills"
+          element={<SkillsList />}
+        />
+
+        <Route
+          path="/skills/:id"
+          element={<SkillDetails />}
+        />
+
+        {/* =========================================
+            SKILLS
+            PROTECTED ACTIONS
+        ========================================= */}
 
         <Route
           path="/skills/new"
@@ -105,18 +180,16 @@ const App = () => {
         />
 
         <Route
-          path="/skills/:id"
-          element={
-            user ? <SkillDetails /> : <SignInForm />
-          }
-        />
-
-        <Route
           path="/skills/:id/edit"
           element={
             user ? <SkillForm /> : <SignInForm />
           }
         />
+
+        {/* =========================================
+            SWAPS
+            PROTECTED
+        ========================================= */}
 
         <Route
           path="/swaps"
@@ -146,6 +219,11 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            REVIEWS
+            PROTECTED
+        ========================================= */}
+
         <Route
           path="/reviews"
           element={
@@ -167,12 +245,9 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/dashboard"
-          element={
-            user ? <Dashboard /> : <SignInForm />
-          }
-        />
+        {/* =========================================
+            ADMIN
+        ========================================= */}
 
         <Route
           path="/admin"
@@ -221,7 +296,11 @@ const App = () => {
         <Route
           path="/admin/categories"
           element={
-            isAdmin ? <AdminCategories /> : <SignInForm />
+            isAdmin ? (
+              <AdminCategories />
+            ) : (
+              <SignInForm />
+            )
           }
         />
 
@@ -250,9 +329,14 @@ const App = () => {
         <Route
           path="/admin/audit-logs"
           element={
-            isAdmin ? <AdminAuditLogs /> : <SignInForm />
+            isAdmin ? (
+              <AdminAuditLogs />
+            ) : (
+              <SignInForm />
+            )
           }
         />
+
       </Routes>
 
       {!isAdminPage && <Footer />}
