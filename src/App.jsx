@@ -3,57 +3,39 @@ import { useContext } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
-
 import Footer from './components/Footer/Footer';
 
 import SignUpForm from './components/SignUpForm/SignUpForm';
-
 import SignInForm from './components/SignInForm/SignInForm';
 
 import Landing from './components/Landing/Landing';
-
 import Dashboard from './components/Dashboard/Dashboard';
 
 import Community from './components/Community/Community';
 
 import Profile from './components/Profile/Profile';
-
 import ProfileForm from './components/Profile/ProfileForm';
-
 import UserDetails from './components/Profile/UserDetails';
 
 import SkillsList from './components/Skills/SkillsList';
-
 import SkillForm from './components/Skills/SkillForm';
-
 import SkillDetails from './components/Skills/SkillDetails';
 
 import SwapList from './components/Swaps/SwapList';
-
 import SwapDetails from './components/Swaps/SwapDetails';
-
 import SwapForm from './components/Swaps/SwapForm';
-
 import SwapEdit from './components/Swaps/SwapEdit';
 
 import ReviewList from './components/Reviews/ReviewList';
-
 import ReviewDetails from './components/Reviews/ReviewDetails';
-
 import ReviewForm from './components/Reviews/ReviewForm';
 
 import AdminDashboard from './components/Admin/AdminDashboard';
-
 import AdminUsers from './components/Admin/AdminUsers';
-
 import AdminSkills from './components/Admin/AdminSkills';
-
 import AdminCategories from './components/Admin/AdminCategories';
-
 import AdminSwaps from './components/Admin/AdminSwaps';
-
 import AdminReviews from './components/Admin/AdminReviews';
-
 import AdminAuditLogs from './components/Admin/AdminAuditLogs';
 
 import { UserContext } from './contexts/UserContext';
@@ -146,7 +128,7 @@ const App = () => {
           element={<Community />}
         />
 
-        {/* Public profile of another user */}
+        {/* Public profile of another community member */}
         <Route
           path="/users/:id"
           element={<UserDetails />}

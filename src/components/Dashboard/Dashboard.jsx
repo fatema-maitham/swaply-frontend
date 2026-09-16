@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+
 import { Link } from 'react-router';
 
 import { UserContext } from '../../contexts/UserContext';
@@ -35,7 +36,8 @@ const Dashboard = () => {
 
     return (
       skills.find(
-        (skill) => String(skill._id) === String(skillData)
+        (skill) =>
+          String(skill._id) === String(skillData)
       ) || null
     );
   };
@@ -43,10 +45,11 @@ const Dashboard = () => {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        const [skillsData, reviewsData] = await Promise.all([
-          getSkills(),
-          getReviews(),
-        ]);
+        const [skillsData, reviewsData] =
+          await Promise.all([
+            getSkills(),
+            getReviews(),
+          ]);
 
         setSkills(skillsData.slice(0, 4));
         setReviews(reviewsData);
@@ -136,7 +139,9 @@ const Dashboard = () => {
       {/* Welcome */}
 
       <section className="dashboard-welcome">
+
         <div>
+
           <p className="dashboard-eyebrow">
             WELCOME BACK
           </p>
@@ -148,9 +153,11 @@ const Dashboard = () => {
           <p>
             Ready to learn something new or share your skills?
           </p>
+
         </div>
 
         <div className="dashboard-actions">
+
           <Link
             to="/skills"
             className="dashboard-primary-button"
@@ -164,15 +171,20 @@ const Dashboard = () => {
           >
             Offer a Skill
           </Link>
+
         </div>
+
       </section>
 
 
       {/* Your Activity */}
 
       <section className="dashboard-section">
+
         <div className="dashboard-section-heading">
+
           <div>
+
             <p className="dashboard-eyebrow">
               YOUR ACTIVITY
             </p>
@@ -180,52 +192,35 @@ const Dashboard = () => {
             <h2>
               Overview
             </h2>
+
           </div>
+
         </div>
 
         <div className="dashboard-activity-grid">
 
           <article className="dashboard-activity-card">
-            <span>
-              Active Swaps
-            </span>
-
-            <strong>
-              3
-            </strong>
+            <span>Active Swaps</span>
+            <strong>3</strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>
-              Pending Requests
-            </span>
-
-            <strong>
-              2
-            </strong>
+            <span>Pending Requests</span>
+            <strong>2</strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>
-              Skills Offered
-            </span>
-
-            <strong>
-              5
-            </strong>
+            <span>Skills Offered</span>
+            <strong>5</strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>
-              Skills Learned
-            </span>
-
-            <strong>
-              4
-            </strong>
+            <span>Skills Learned</span>
+            <strong>4</strong>
           </article>
 
         </div>
+
       </section>
 
 
@@ -236,6 +231,7 @@ const Dashboard = () => {
         <div className="dashboard-section-heading dashboard-heading-row">
 
           <div>
+
             <p className="dashboard-eyebrow">
               EXPLORE
             </p>
@@ -243,6 +239,7 @@ const Dashboard = () => {
             <h2>
               Skills You Might Like
             </h2>
+
           </div>
 
           <Link
@@ -257,6 +254,7 @@ const Dashboard = () => {
         <div className="dashboard-skill-grid">
 
           {skills.map((skill) => {
+
             const averageRating =
               getAverageRating(skill);
 
@@ -342,6 +340,7 @@ const Dashboard = () => {
         <div className="dashboard-section-heading dashboard-heading-row">
 
           <div>
+
             <p className="dashboard-eyebrow">
               YOUR ACTIVITY
             </p>
@@ -349,6 +348,7 @@ const Dashboard = () => {
             <h2>
               Your Recent Swaps
             </h2>
+
           </div>
 
           <Link
@@ -380,11 +380,11 @@ const Dashboard = () => {
 
             swaps.map((swap) => {
 
-              const currentUserId = getUserId(user);
+              const currentUserId =
+                getUserId(user);
 
-              const requesterId = getUserId(
-                swap.requester
-              );
+              const requesterId =
+                getUserId(swap.requester);
 
               const isRequester =
                 String(requesterId) ===
@@ -398,10 +398,10 @@ const Dashboard = () => {
                 ? swap.skillRequested
                 : swap.skillOffered;
 
-              const skill = getSkillData(skillData);
+              const skill =
+                getSkillData(skillData);
 
               return (
-
                 <article
                   key={swap._id}
                   className="dashboard-swap-row"
@@ -431,11 +431,13 @@ const Dashboard = () => {
                       {skill?._id ? (
 
                         <h3>
+
                           <Link
                             to={`/skills/${skill._id}`}
                           >
                             {skill.name}
                           </Link>
+
                         </h3>
 
                       ) : (
@@ -461,9 +463,7 @@ const Dashboard = () => {
                   </span>
 
                 </article>
-
               );
-
             })
 
           )}
@@ -480,6 +480,7 @@ const Dashboard = () => {
         <div className="dashboard-section-heading dashboard-heading-row">
 
           <div>
+
             <p className="dashboard-eyebrow">
               COMMUNITY
             </p>
@@ -487,6 +488,7 @@ const Dashboard = () => {
             <h2>
               People You Might Learn From
             </h2>
+
           </div>
 
           <Link
@@ -519,33 +521,44 @@ const Dashboard = () => {
                 className="dashboard-person-card"
               >
 
+                {/* PROFILE IMAGE */}
+
                 <div className="dashboard-avatar">
 
-                  {communityUser.profileImage ? (
-                    <img
-                      src={communityUser.profileImage}
-                      alt={`${communityUser.name} profile`}
-                    />
-                  ) : (
-                    <span>
-                      {communityUser.name
-                        ?.slice(0, 2)
-                        .toUpperCase()}
-                    </span>
-                  )}
+                  <img
+                    src={
+                      communityUser.profileImage ||
+                      '/default-profile.png'
+                    }
+                    alt={`${communityUser.name} profile`}
+                    onError={(event) => {
+                      event.currentTarget.src =
+                        '/default-profile.png';
+                    }}
+                  />
 
                 </div>
+
+
+                {/* NAME */}
 
                 <h3>
                   {communityUser.name}
                 </h3>
 
+
+                {/* BIO */}
+
                 <p>
-                  {communityUser.bio || 'Skill Swap Member'}
+                  {communityUser.bio ||
+                    'Skill Swap Member'}
                 </p>
 
+
+                {/* PROFILE LINK */}
+
                 <Link
-                  to={`/community/${communityUser._id}`}
+                  to={`/users/${communityUser._id}`}
                 >
                   View Profile
                 </Link>
