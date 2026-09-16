@@ -1,6 +1,13 @@
 import { Link } from 'react-router';
 
-const SkillCard = ({ skill }) => {
+const SkillCard = ({ skill, averageRating }) => {
+  const displayRating =
+    averageRating !== null
+      ? Number.isInteger(averageRating)
+        ? averageRating
+        : averageRating.toFixed(1)
+      : null;
+
   return (
     <article className="dashboard-skill-card">
 
@@ -28,7 +35,11 @@ const SkillCard = ({ skill }) => {
       </p>
 
       <div className="dashboard-skill-bottom">
-        <strong>★ 8/10</strong>
+        {displayRating !== null && (
+          <strong>
+            ★ {displayRating}/5
+          </strong>
+        )}
 
         <button
           type="button"
@@ -50,4 +61,3 @@ const SkillCard = ({ skill }) => {
 };
 
 export default SkillCard;
-

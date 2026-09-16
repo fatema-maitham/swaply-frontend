@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import { getReviews } from '../../services/reviewService';
+
+import ReviewCard from './ReviewCard';
+
+import './Reviews.css';
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
@@ -9,6 +14,7 @@ const ReviewList = () => {
     const loadReviews = async () => {
       try {
         const data = await getReviews();
+
         setReviews(data);
       } catch (error) {
         setMessage(error.message);
@@ -19,22 +25,40 @@ const ReviewList = () => {
   }, []);
 
   return (
-    <main>
-      <h1>Reviews</h1>
+    <main className="reviews-page">
+      <div className="reviews-header">
+        <div>
+          <h1>Reviews</h1>
 
-      {message && <p>{message}</p>}
+          <p className="reviews-subtitle">
+            See what people are saying about their
+            skill swap experiences.
+          </p>
+        </div>
+      </div>
+
+      {message && (
+        <p className="review-message">
+          {message}
+        </p>
+      )}
 
       {reviews.length === 0 ? (
-        <p>No reviews found.</p>
+        <div className="empty-reviews">
+          <h2>No reviews yet</h2>
+
+          <p>
+            Complete a skill swap to leave the first
+            review.
+          </p>
+        </div>
       ) : (
-        <ul>
+        <ul className="reviews-list">
           {reviews.map((review) => (
-            <li key={review._id}>
-              <p>Rating: {review.rating}</p>
-              <p>Comment: {review.comment}</p>
-              <p>Reviewer: {review.reviewer}</p>
-              <p>Reviewed User: {review.reviewedUser}</p>
-            </li>
+            <ReviewCard
+              key={review._id}
+              review={review}
+            />
           ))}
         </ul>
       )}

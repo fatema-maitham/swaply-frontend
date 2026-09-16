@@ -1,8 +1,15 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/skills`;
 
+const getToken = () => {
+  return (
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token')
+  );
+};
+
 const getAuthHeaders = () => {
   return {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    Authorization: `Bearer ${getToken()}`,
   };
 };
 
@@ -53,12 +60,7 @@ const createSkill = async (skillData, image) => {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-
-    formData.append(
-      'category',
-      skillData.category
-    );
-
+    formData.append('category', skillData.category);
     formData.append(
       'description',
       skillData.description
@@ -94,12 +96,7 @@ const updateSkill = async (id, skillData, image) => {
     const formData = new FormData();
 
     formData.append('name', skillData.name);
-
-    formData.append(
-      'category',
-      skillData.category
-    );
-
+    formData.append('category', skillData.category);
     formData.append(
       'description',
       skillData.description
@@ -178,7 +175,6 @@ const getCategories = async () => {
     throw new Error(err.message);
   }
 };
-
 
 export {
   getSkills,

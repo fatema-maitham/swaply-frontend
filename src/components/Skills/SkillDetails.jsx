@@ -11,30 +11,42 @@ import {
   deleteSkill,
 } from '../../services/skillService';
 
+import { getReviews } from '../../services/reviewService';
+
 import { UserContext } from '../../contexts/UserContext';
 
 const SkillDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const { user } = useContext(UserContext);
 
   const [skill, setSkill] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [message, setMessage] = useState('');
+
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     useState(false);
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const loadSkill = async () => {
+    const loadSkillAndReviews = async () => {
       try {
-        const data = await getSkill(id);
-        setSkill(data);
+        const [skillData, reviewsData] =
+          await Promise.all([
+            getSkill(id),
+            getReviews(),
+          ]);
+
+        setSkill(skillData);
+        setReviews(reviewsData);
       } catch (err) {
         setMessage(err.message);
       }
     };
 
-    loadSkill();
+    loadSkillAndReviews();
   }, [id]);
 
   const handleDelete = async () => {
@@ -43,15 +55,12 @@ const SkillDetails = () => {
       setMessage('');
 
       await deleteSkill(id);
+
       navigate('/skills');
     } catch (err) {
       setMessage(err.message);
       setIsDeleting(false);
     }
-  };
-
-  const handleRequestSwap = () => {
-    navigate(`/swaps/new?skill=${skill._id}`);
   };
 
   if (!skill) {
@@ -62,14 +71,43 @@ const SkillDetails = () => {
     );
   }
 
-  const ownerId = skill.owner?._id || skill.owner;
+  const skillReviews = reviews.filter((review) => {
+    const reviewSkillId = String(
+      review.skill?._id || review.skill
+    );
+
+    return reviewSkillId === String(skill._id);
+  });
+
+  const averageRating =
+    skillReviews.length > 0
+      ? skillReviews.reduce(
+          (total, review) =>
+            total + Number(review.rating),
+          0
+        ) / skillReviews.length
+      : null;
+
+  const displayRating =
+    averageRating !== null
+      ? Number.isInteger(averageRating)
+        ? averageRating
+        : averageRating.toFixed(1)
+      : null;
+
+  const ownerId = String(
+    skill.owner?._id || skill.owner
+  );
+
   const isOwner = user?._id === ownerId;
 
   return (
     <main className="skill-details-page">
+
       {message && <p>{message}</p>}
 
       <section className="skill-details-hero">
+
         <div className="skill-details-image">
           {skill.skillImage ? (
             <img
@@ -82,6 +120,7 @@ const SkillDetails = () => {
         </div>
 
         <div className="skill-details-info">
+
           <div className="skill-details-title">
             <h1>{skill.name}</h1>
           </div>
@@ -93,6 +132,7 @@ const SkillDetails = () => {
           </div>
 
           <div className="skill-owner-info">
+
             <div className="owner-image">
               {skill.owner?.profileImage ? (
                 <img
@@ -111,23 +151,34 @@ const SkillDetails = () => {
                 {skill.owner?.name || 'Unknown'}
               </strong>
 
-              <p>Review: 8/10</p>
+              {displayRating !== null ? (
+                <div className="skill-review-rating">
+
+                  <span className="skill-review-stars">
+                    ★
+                  </span>
+
+                  <span className="skill-review-score">
+                    {displayRating}/5
+                  </span>
+
+                </div>
+              ) : (
+                <p>No reviews yet</p>
+              )}
             </div>
+
           </div>
 
           <div className="skill-actions">
-            {!isOwner && (
-              <button
-                type="button"
-                onClick={handleRequestSwap}
-              >
-                Request Skill Swap
-              </button>
-            )}
+            <button type="button">
+              Request Skill Swap
+            </button>
           </div>
 
           {isOwner && (
             <div className="skill-owner-actions">
+
               <Link to={`/skills/${skill._id}/edit`}>
                 Edit Skill
               </Link>
@@ -143,6 +194,7 @@ const SkillDetails = () => {
                 </button>
               ) : (
                 <div className="delete-confirmation">
+
                   <p>
                     Are you sure you want to delete this skill?
                   </p>
@@ -166,17 +218,23 @@ const SkillDetails = () => {
                   >
                     Cancel
                   </button>
+
                 </div>
               )}
+
             </div>
           )}
+
         </div>
+
       </section>
 
       <section className="about-skill">
         <h2>About Skill</h2>
+
         <p>{skill.description}</p>
       </section>
+
     </main>
   );
 };

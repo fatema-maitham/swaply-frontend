@@ -41,26 +41,45 @@ const SwapDetails = () => {
     }
   };
 
+  const handleLeaveReview = () => {
+    navigate(`/reviews/new?swap=${swap._id}`);
+  };
+
   if (message && !swap) {
-    return <p className="swap-details-message">{message}</p>;
+    return (
+      <p className="swap-details-message">
+        {message}
+      </p>
+    );
   }
 
   if (!swap) {
-    return <p className="swap-details-loading">Loading...</p>;
+    return (
+      <p className="swap-details-loading">
+        Loading...
+      </p>
+    );
   }
 
   return (
     <main className="swap-details-page">
       <div className="swap-details-header">
-        <p className="swap-details-eyebrow">SWAP REQUEST</p>
+        <p className="swap-details-eyebrow">
+          SWAP REQUEST
+        </p>
+
         <h1>Swap Details</h1>
+
         <p>
-          View the details of this skill exchange and manage your swap.
+          View the details of this skill exchange and
+          manage your swap.
         </p>
       </div>
 
       {message && (
-        <p className="swap-details-message">{message}</p>
+        <p className="swap-details-message">
+          {message}
+        </p>
       )}
 
       <section className="swap-details-card">
@@ -72,10 +91,17 @@ const SwapDetails = () => {
         </div>
 
         <div className="swap-details-skills">
+
           <div className="swap-details-skill">
             <span>OFFERING</span>
-            <h2>{swap.skillOffered?.name}</h2>
-            <p>{swap.skillOffered?.category}</p>
+
+            <h2>
+              {swap.skillOffered?.name}
+            </h2>
+
+            <p>
+              {swap.skillOffered?.category}
+            </p>
           </div>
 
           <div className="swap-details-arrow">
@@ -84,39 +110,64 @@ const SwapDetails = () => {
 
           <div className="swap-details-skill swap-details-skill-right">
             <span>REQUESTING</span>
-            <h2>{swap.skillRequested?.name}</h2>
-            <p>{swap.skillRequested?.category}</p>
+
+            <h2>
+              {swap.skillRequested?.name}
+            </h2>
+
+            <p>
+              {swap.skillRequested?.category}
+            </p>
           </div>
+
         </div>
 
         <div className="swap-details-info">
 
           <div className="swap-details-info-item">
             <span>Requester</span>
-            <strong>{swap.requester?.name}</strong>
-            <p>{swap.requester?.email}</p>
+
+            <strong>
+              {swap.requester?.name}
+            </strong>
+
+            <p>
+              {swap.requester?.email}
+            </p>
           </div>
 
           <div className="swap-details-info-item">
             <span>Receiver</span>
-            <strong>{swap.receiver?.name}</strong>
-            <p>{swap.receiver?.email}</p>
+
+            <strong>
+              {swap.receiver?.name}
+            </strong>
+
+            <p>
+              {swap.receiver?.email}
+            </p>
           </div>
 
           <div className="swap-details-info-item">
             <span>Scheduled Date</span>
+
             <strong>
               {swap.scheduledDate
-                ? new Date(swap.scheduledDate).toLocaleDateString()
+                ? new Date(
+                    swap.scheduledDate
+                  ).toLocaleDateString()
                 : 'Not scheduled'}
             </strong>
           </div>
 
           <div className="swap-details-info-item">
             <span>Created</span>
+
             <strong>
               {swap.createdAt
-                ? new Date(swap.createdAt).toLocaleDateString()
+                ? new Date(
+                    swap.createdAt
+                  ).toLocaleDateString()
                 : 'Not available'}
             </strong>
           </div>
@@ -124,10 +175,23 @@ const SwapDetails = () => {
         </div>
 
         <div className="swap-details-actions">
+
+          {swap.status === 'completed' && (
+            <button
+              type="button"
+              className="swap-review-button"
+              onClick={handleLeaveReview}
+            >
+              Leave a Review ⭐
+            </button>
+          )}
+
           <button
             type="button"
             className="swap-edit-button"
-            onClick={() => navigate(`/swaps/${swap._id}/edit`)}
+            onClick={() =>
+              navigate(`/swaps/${swap._id}/edit`)
+            }
           >
             Edit Swap
           </button>
@@ -147,6 +211,7 @@ const SwapDetails = () => {
           >
             Back to Swaps
           </button>
+
         </div>
 
       </section>

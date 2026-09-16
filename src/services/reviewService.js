@@ -1,9 +1,16 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/reviews`;
 
+const getToken = () => {
+  return (
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token')
+  );
+};
+
 const getReviews = async () => {
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   };
 
@@ -20,11 +27,15 @@ const getReviews = async () => {
 const getReview = async (reviewId) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   };
 
-  const res = await fetch(`${BASE_URL}/${reviewId}`, config);
+  const res = await fetch(
+    `${BASE_URL}/${reviewId}`,
+    config
+  );
+
   const data = await res.json();
 
   if (data.err) {
@@ -39,9 +50,13 @@ const createReview = async (formData) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${getToken()}`,
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify({
+      swap: formData.swap,
+      rating: Number(formData.rating),
+      comment: formData.comment,
+    }),
   };
 
   const res = await fetch(BASE_URL, config);
@@ -59,12 +74,19 @@ const updateReview = async (reviewId, formData) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${getToken()}`,
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify({
+      rating: Number(formData.rating),
+      comment: formData.comment,
+    }),
   };
 
-  const res = await fetch(`${BASE_URL}/${reviewId}`, config);
+  const res = await fetch(
+    `${BASE_URL}/${reviewId}`,
+    config
+  );
+
   const data = await res.json();
 
   if (data.err) {
@@ -78,11 +100,15 @@ const deleteReview = async (reviewId) => {
   const config = {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   };
 
-  const res = await fetch(`${BASE_URL}/${reviewId}`, config);
+  const res = await fetch(
+    `${BASE_URL}/${reviewId}`,
+    config
+  );
+
   const data = await res.json();
 
   if (data.err) {

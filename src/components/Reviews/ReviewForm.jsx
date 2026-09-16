@@ -1,23 +1,33 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
+
 import { createReview } from '../../services/reviewService';
+
+import './Reviews.css';
 
 const ReviewForm = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const reviewedUser = searchParams.get('reviewedUser');
-  const swap = searchParams.get('swap');
+  const swapId = searchParams.get('swap');
 
   const [formData, setFormData] = useState({
-    reviewedUser: '',
-    swap: '',
+    swap: swapId || '',
     rating: '',
     comment: '',
   });
 
-  
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleRating = (rating) => {
+    setMessage('');
+
+    setFormData({
+      ...formData,
+      rating,
+    });
+  };
 
   const handleChange = (evt) => {
     setMessage('');
@@ -31,80 +41,126 @@ const ReviewForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
+    if (!swapId) {
+      setMessage(
+        'A valid completed swap is required to leave a review.'
+      );
+      return;
+    }
+
+    if (!formData.rating) {
+      setMessage(
+        'Please select a rating from 1 to 5 stars.'
+      );
+      return;
+    }
+
+    if (
+      Number(formData.rating) < 1 ||
+      Number(formData.rating) > 5
+    ) {
+      setMessage(
+        'Rating must be between 1 and 5 stars.'
+      );
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
+      setMessage('');
+
       await createReview(formData);
+
       navigate('/reviews');
     } catch (error) {
       setMessage(error.message);
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <main>
-      <h1>Create Review</h1>
+    <main className="review-form-page">
+      <h1>Leave a Review</h1>
 
-      {message && <p>{message}</p>}
+      <p className="reviews-subtitle">
+        Share your feedback about your completed skill swap.
+      </p>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="reviewedUser">Reviewed User:</label>
-          <input
-            type="text"
-            id="reviewedUser"
-            name="reviewedUser"
-            value={formData.reviewedUser}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      {message && (
+        <p className="review-message">
+          {message}
+        </p>
+      )}
 
-        <div>
-          <label htmlFor="swap">Swap:</label>
-          <input
-            type="text"
-            id="swap"
-            name="swap"
-            value={formData.swap}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <form
+        className="review-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="review-form-field">
+          <p>Rating</p>
 
-        <div>
-          <label htmlFor="rating">Rating:</label>
-          <select
-            id="rating"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            required
+          <div
+            className="review-rating"
+            aria-label="Choose a rating from 1 to 5"
           >
-            <option value="">Select Rating</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                className="review-star"
+                onClick={() => handleRating(star)}
+                aria-label={`Give ${star} star${
+                  star > 1 ? 's' : ''
+                }`}
+                title={`${star} star${
+                  star > 1 ? 's' : ''
+                }`}
+              >
+                {star <= Number(formData.rating)
+                  ? '★'
+                  : '☆'}
+              </button>
+            ))}
+          </div>
+
+          {formData.rating && (
+            <p className="review-selected-rating">
+              {formData.rating}/5
+            </p>
+          )}
         </div>
 
-        <div>
-          <label htmlFor="comment">Comment:</label>
+        <div className="review-form-field">
+          <label htmlFor="comment">
+            Comment
+          </label>
+
           <textarea
             id="comment"
             name="comment"
             value={formData.comment}
             onChange={handleChange}
+            placeholder="Tell us about your experience..."
             required
           />
         </div>
 
-        <div>
-          <button type="submit">Create Review</button>
+        <div className="review-form-actions">
+          <button
+            type="submit"
+            className="review-submit-button"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? 'Submitting...'
+              : 'Submit Review'}
+          </button>
 
           <button
             type="button"
-            onClick={() => navigate('/reviews')}
+            className="review-cancel-button"
+            onClick={() => navigate('/swaps')}
+            disabled={isSubmitting}
           >
             Cancel
           </button>

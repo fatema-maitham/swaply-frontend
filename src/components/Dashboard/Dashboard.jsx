@@ -5,24 +5,58 @@ import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
 import { getSkills } from '../../services/skillService';
+import { getReviews } from '../../services/reviewService';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
 
   const [skills, setSkills] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const loadSkills = async () => {
+    const loadDashboardData = async () => {
       try {
-        const data = await getSkills();
-        setSkills(data.slice(0, 4));
+        const [skillsData, reviewsData] = await Promise.all([
+          getSkills(),
+          getReviews(),
+        ]);
+
+        setSkills(skillsData.slice(0, 4));
+        setReviews(reviewsData);
       } catch (err) {
-        console.error('Failed to load skills:', err);
+        console.error(
+          'Failed to load skills and reviews:',
+          err
+        );
       }
     };
 
-    loadSkills();
+    loadDashboardData();
   }, []);
+
+  const getAverageRating = (skill) => {
+    const skillId = String(skill._id);
+
+    const skillReviews = reviews.filter((review) => {
+      const reviewSkillId = String(
+        review.skill?._id || review.skill
+      );
+
+      return reviewSkillId === skillId;
+    });
+
+    if (skillReviews.length === 0) {
+      return null;
+    }
+
+    const totalRating = skillReviews.reduce(
+      (total, review) =>
+        total + Number(review.rating),
+      0
+    );
+
+    return totalRating / skillReviews.length;
+  };
 
   return (
     <main className="dashboard-page">
@@ -30,9 +64,13 @@ const Dashboard = () => {
       {/* Welcome */}
       <section className="dashboard-welcome">
         <div>
-          <p className="dashboard-eyebrow">WELCOME BACK</p>
+          <p className="dashboard-eyebrow">
+            WELCOME BACK
+          </p>
 
-          <h1>Welcome back, {user?.name}!</h1>
+          <h1>
+            Welcome back, {user?.name}!
+          </h1>
 
           <p>
             Ready to learn something new or share your skills?
@@ -60,7 +98,9 @@ const Dashboard = () => {
       <section className="dashboard-section">
         <div className="dashboard-section-heading">
           <div>
-            <p className="dashboard-eyebrow">YOUR ACTIVITY</p>
+            <p className="dashboard-eyebrow">
+              YOUR ACTIVITY
+            </p>
 
             <h2>Overview</h2>
           </div>
@@ -93,7 +133,9 @@ const Dashboard = () => {
       <section className="dashboard-section">
         <div className="dashboard-section-heading dashboard-heading-row">
           <div>
-            <p className="dashboard-eyebrow">EXPLORE</p>
+            <p className="dashboard-eyebrow">
+              EXPLORE
+            </p>
 
             <h2>Skills You Might Like</h2>
           </div>
@@ -107,53 +149,71 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-skill-grid">
-          {skills.map((skill) => (
-            <article
-              key={skill._id}
-              className="dashboard-skill-card"
-            >
-              <div className="dashboard-skill-image">
-                {skill.skillImage ? (
-                  <img
-                    src={skill.skillImage}
-                    alt={skill.name}
-                  />
-                ) : (
-                  <div className="dashboard-skill-placeholder">
-                    {skill.name?.slice(0, 2).toUpperCase()}
-                  </div>
-                )}
-              </div>
+          {skills.map((skill) => {
+            const averageRating =
+              getAverageRating(skill);
 
-              <span>
-                {skill.category?.toUpperCase()}
-              </span>
+            const displayRating =
+              averageRating !== null
+                ? Number.isInteger(averageRating)
+                  ? averageRating
+                  : averageRating.toFixed(1)
+                : null;
 
-              <h3>{skill.name}</h3>
-
-              <p>
-                By {skill.owner?.name || 'Unknown'}
-              </p>
-
-              <div className="dashboard-skill-bottom">
-                <strong>★ 8/10</strong>
-
-                <button
-                  type="button"
-                  aria-label={`Save ${skill.name}`}
-                >
-                  ♡
-                </button>
-              </div>
-
-              <Link
-                to={`/skills/${skill._id}`}
-                className="dashboard-card-link"
+            return (
+              <article
+                key={skill._id}
+                className="dashboard-skill-card"
               >
-                View Skill
-              </Link>
-            </article>
-          ))}
+                <div className="dashboard-skill-image">
+                  {skill.skillImage ? (
+                    <img
+                      src={skill.skillImage}
+                      alt={skill.name}
+                    />
+                  ) : (
+                    <div className="dashboard-skill-placeholder">
+                      {skill.name
+                        ?.slice(0, 2)
+                        .toUpperCase()}
+                    </div>
+                  )}
+                </div>
+
+                <span>
+                  {skill.category?.toUpperCase()}
+                </span>
+
+                <h3>{skill.name}</h3>
+
+                <p>
+                  By {skill.owner?.name || 'Unknown'}
+                </p>
+
+                <div className="dashboard-skill-bottom">
+                  {displayRating !== null && (
+                    <strong>
+                      ★ {displayRating}/5
+                    </strong>
+                  )}
+
+                  <button
+                    type="button"
+                    aria-label={`Save ${skill.name}`}
+                  >
+                    ♡
+                  </button>
+                </div>
+
+                <Link
+                  to={`/skills/${skill._id}`}
+                  className="dashboard-card-link"
+                >
+                  View Skill
+                </Link>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -161,7 +221,9 @@ const Dashboard = () => {
       <section className="dashboard-section">
         <div className="dashboard-section-heading dashboard-heading-row">
           <div>
-            <p className="dashboard-eyebrow">YOUR ACTIVITY</p>
+            <p className="dashboard-eyebrow">
+              YOUR ACTIVITY
+            </p>
 
             <h2>Your Recent Swaps</h2>
           </div>
@@ -214,7 +276,9 @@ const Dashboard = () => {
       <section className="dashboard-section">
         <div className="dashboard-section-heading dashboard-heading-row">
           <div>
-            <p className="dashboard-eyebrow">COMMUNITY</p>
+            <p className="dashboard-eyebrow">
+              COMMUNITY
+            </p>
 
             <h2>People You Might Learn From</h2>
           </div>

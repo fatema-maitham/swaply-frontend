@@ -1,34 +1,48 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/swaps`;
 
-const getSwaps = async () => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  };
+const getToken = () => {
+  return (
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token')
+  );
+};
 
-  const res = await fetch(BASE_URL, config);
+const getAuthHeaders = () => {
+  return {
+    Authorization: `Bearer ${getToken()}`,
+  };
+};
+
+const getSwaps = async () => {
+  const res = await fetch(BASE_URL, {
+    headers: getAuthHeaders(),
+  });
+
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok || data.err) {
+    throw new Error(
+      data.err || 'Failed to load swaps.'
+    );
   }
 
   return data.swaps;
 };
 
 const getSwap = async (swapId) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  };
+  const res = await fetch(
+    `${BASE_URL}/${swapId}`,
+    {
+      headers: getAuthHeaders(),
+    }
+  );
 
-  const res = await fetch(`${BASE_URL}/${swapId}`, config);
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok || data.err) {
+    throw new Error(
+      data.err || 'Failed to load swap.'
+    );
   }
 
   return data.swap;
@@ -39,7 +53,7 @@ const createSwap = async (formData) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      ...getAuthHeaders(),
     },
     body: JSON.stringify(formData),
   };
@@ -47,8 +61,10 @@ const createSwap = async (formData) => {
   const res = await fetch(BASE_URL, config);
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok || data.err) {
+    throw new Error(
+      data.err || 'Failed to create swap.'
+    );
   }
 
   return data.swap;
@@ -59,34 +75,42 @@ const updateSwap = async (swapId, formData) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      ...getAuthHeaders(),
     },
     body: JSON.stringify(formData),
   };
 
-  const res = await fetch(`${BASE_URL}/${swapId}`, config);
+  const res = await fetch(
+    `${BASE_URL}/${swapId}`,
+    config
+  );
+
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok || data.err) {
+    throw new Error(
+      data.err || 'Failed to update swap.'
+    );
   }
 
   return data.swap;
 };
 
 const deleteSwap = async (swapId) => {
-  const config = {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  };
+  const res = await fetch(
+    `${BASE_URL}/${swapId}`,
+    {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    }
+  );
 
-  const res = await fetch(`${BASE_URL}/${swapId}`, config);
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok || data.err) {
+    throw new Error(
+      data.err || 'Failed to delete swap.'
+    );
   }
 
   return data;
