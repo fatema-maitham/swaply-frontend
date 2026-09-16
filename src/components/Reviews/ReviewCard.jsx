@@ -4,7 +4,9 @@ const ReviewCard = ({ review }) => {
   const rating = Number(review.rating);
 
   const skillName =
-    review.skill?.name || 'Skill';
+    review.swap?.skillRequested?.name ||
+    review.swap?.skillOffered?.name ||
+    'Unknown skill';
 
   const reviewerName =
     review.reviewer?.name || 'Unknown';

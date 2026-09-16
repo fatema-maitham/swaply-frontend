@@ -1,10 +1,23 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/users`;
 
+const getToken = () => {
+  return (
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token')
+  );
+};
+
 const getAuthHeaders = () => {
+  const token = getToken();
+
   return {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    Authorization: `Bearer ${token}`,
   };
 };
+
+// ========================================
+// GET MY PROFILE
+// ========================================
 
 const getProfile = async () => {
   try {
@@ -14,16 +27,22 @@ const getProfile = async () => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok) {
+      throw new Error(
+        data.err || 'Failed to load profile.'
+      );
     }
 
     return data.user;
   } catch (err) {
-    console.log(err);
+    console.log('GET PROFILE ERROR:', err);
     throw new Error(err.message);
   }
 };
+
+// ========================================
+// GET COMMUNITY USERS
+// ========================================
 
 const getUsers = async () => {
   try {
@@ -33,16 +52,22 @@ const getUsers = async () => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok) {
+      throw new Error(
+        data.err || 'Failed to load users.'
+      );
     }
 
     return data.users;
   } catch (err) {
-    console.log(err);
+    console.log('GET USERS ERROR:', err);
     throw new Error(err.message);
   }
 };
+
+// ========================================
+// UPDATE MY PROFILE
+// ========================================
 
 const updateProfile = async (formData) => {
   try {
@@ -54,16 +79,22 @@ const updateProfile = async (formData) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok) {
+      throw new Error(
+        data.err || 'Failed to update profile.'
+      );
     }
 
     return data.user;
   } catch (err) {
-    console.log(err);
+    console.log('UPDATE PROFILE ERROR:', err);
     throw new Error(err.message);
   }
 };
+
+// ========================================
+// DELETE MY PROFILE
+// ========================================
 
 const deleteProfile = async () => {
   try {
@@ -74,13 +105,15 @@ const deleteProfile = async () => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok) {
+      throw new Error(
+        data.err || 'Failed to delete profile.'
+      );
     }
 
     return data;
   } catch (err) {
-    console.log(err);
+    console.log('DELETE PROFILE ERROR:', err);
     throw new Error(err.message);
   }
 };

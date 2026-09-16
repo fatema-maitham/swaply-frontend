@@ -1059,3 +1059,163 @@
     min-width: 0;
   }
 }
+
+/* =========================
+   PROFILE REVIEWS
+========================= */
+
+.profile-reviews-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+}
+
+.profile-review-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+  padding: 27px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.profile-review-card:hover {
+  transform: translateY(-5px);
+  border-color: #fbcfe8;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Top row */
+
+.profile-review-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.profile-review-stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.profile-review-stars span {
+  color: #f7255f;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.profile-review-score {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #fff1f2;
+  color: #be123c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Skill */
+
+.profile-review-skill {
+  margin: 17px 0 14px;
+  color: #f7255f;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Comment */
+
+.profile-review-comment {
+  flex: 1;
+  margin: 5px 0 20px;
+  color: #374151;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+/* Reviewer */
+
+.profile-review-author {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid #f1f1f1;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-review-author strong {
+  color: #111827;
+}
+
+/* Empty Reviews */
+
+.profile-reviews-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.profile-review-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fff1f2;
+  color: #f7255f;
+  font-size: 25px;
+}
+
+.profile-reviews-card h3 {
+  margin: 0 0 7px;
+  color: #111827;
+  font-size: 18px;
+}
+
+.profile-reviews-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================
+   PROFILE REVIEWS RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .profile-reviews-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .profile-reviews-list {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-review-card {
+    padding: 23px;
+  }
+
+  .profile-reviews-card {
+    align-items: flex-start;
+    padding: 23px;
+  }
+}

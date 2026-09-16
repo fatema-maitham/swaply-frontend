@@ -8,6 +8,7 @@ import {
 } from '../../services/userService';
 
 import { getSkills } from '../../services/skillService';
+import { getReviews } from '../../services/reviewService';
 import { UserContext } from '../../contexts/UserContext';
 
 import './Profile.css';
@@ -18,6 +19,7 @@ const Profile = () => {
 
   const [profile, setProfile] = useState(null);
   const [skills, setSkills] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -30,6 +32,7 @@ const Profile = () => {
     const loadProfile = async () => {
       try {
         const profileData = await getProfile();
+
         setProfile(profileData);
 
         const allSkills = await getSkills();
@@ -41,6 +44,19 @@ const Profile = () => {
         });
 
         setSkills(mySkills);
+
+        const allReviews = await getReviews();
+
+        const myReviews = allReviews.filter((review) => {
+          const reviewedUserId =
+            review.reviewedUser?._id || review.reviewedUser;
+
+          return (
+            String(reviewedUserId) === String(profileData._id)
+          );
+        });
+
+        setReviews(myReviews);
       } catch (err) {
         console.error(err);
         setMessage(err.message);
@@ -122,15 +138,11 @@ const Profile = () => {
 
   return (
     <main className="profile-page">
-
       {/* PROFILE HEADER */}
 
       <section className="profile-header-card">
-
         <div className="profile-avatar-column">
-
           <div className="profile-avatar-wrapper">
-
             <img
               src={profile.profileImage || '/default-profile.png'}
               alt={profile.name}
@@ -153,28 +165,20 @@ const Profile = () => {
               title="Change profile photo"
               aria-label="Change profile photo"
             >
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4 7h3l2-2h6l2 2h3v11H4V7z" />
                 <circle cx="12" cy="12.5" r="3.2" />
               </svg>
             </button>
-
           </div>
-
         </div>
 
         <div className="profile-header-content">
-
           <p className="profile-eyebrow">
             MY PROFILE
           </p>
 
-          <h1>
-            {profile.name}
-          </h1>
+          <h1>{profile.name}</h1>
 
           <p className="profile-email">
             {profile.email}
@@ -186,18 +190,14 @@ const Profile = () => {
           </p>
 
           <div className="profile-header-actions">
-
             <Link
               to="/profile/edit"
               className="profile-edit-button"
             >
               Edit Profile
             </Link>
-
           </div>
-
         </div>
-
       </section>
 
       {message && (
@@ -209,9 +209,7 @@ const Profile = () => {
       {/* SKILLS */}
 
       <section className="profile-section">
-
         <div className="profile-section-heading">
-
           <div>
             <p className="profile-eyebrow">
               MY SKILLS
@@ -232,22 +230,16 @@ const Profile = () => {
           >
             + Add Skill
           </Link>
-
         </div>
 
         {skills.length > 0 ? (
-
           <div className="skills-grid">
-
             {skills.map((skill) => (
-
               <article
                 key={skill._id}
                 className="dashboard-skill-card"
               >
-
                 <div className="dashboard-skill-image">
-
                   {skill.skillImage ? (
                     <img
                       src={skill.skillImage}
@@ -258,7 +250,6 @@ const Profile = () => {
                       {skill.name?.slice(0, 2).toUpperCase()}
                     </div>
                   )}
-
                 </div>
 
                 <span>
@@ -274,7 +265,6 @@ const Profile = () => {
                 </p>
 
                 <div className="dashboard-skill-bottom">
-
                   <strong>
                     Your Skill
                   </strong>
@@ -286,7 +276,6 @@ const Profile = () => {
                   >
                     ♡
                   </button>
-
                 </div>
 
                 <Link
@@ -295,17 +284,11 @@ const Profile = () => {
                 >
                   View Skill
                 </Link>
-
               </article>
-
             ))}
-
           </div>
-
         ) : (
-
           <div className="profile-empty-card">
-
             <div className="profile-empty-icon">
               +
             </div>
@@ -324,19 +307,14 @@ const Profile = () => {
             >
               Add Your First Skill
             </Link>
-
           </div>
-
         )}
-
       </section>
 
       {/* REVIEWS */}
 
       <section className="profile-section">
-
         <div className="profile-section-heading">
-
           <div>
             <p className="profile-eyebrow">
               COMMUNITY FEEDBACK
@@ -350,38 +328,80 @@ const Profile = () => {
               Feedback from people you have completed swaps with.
             </p>
           </div>
-
         </div>
 
-        <div className="profile-reviews-card">
+        {reviews.length > 0 ? (
+          <div className="profile-reviews-list">
+            {reviews.map((review) => {
+              const rating = Number(review.rating);
 
-          <div className="profile-review-icon">
-            ★
+              const reviewerName =
+                review.reviewer?.name || 'Unknown';
+
+              const skillName =
+                review.swap?.skillRequested?.name ||
+                review.swap?.skillOffered?.name ||
+                'Unknown skill';
+
+              return (
+                <article
+                  key={review._id}
+                  className="profile-review-card"
+                >
+                  <div className="profile-review-top">
+                    <div className="profile-review-stars">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <span key={star}>
+                          {star <= rating ? '★' : '☆'}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="profile-review-score">
+                      {rating}/5
+                    </span>
+                  </div>
+
+                  <p className="profile-review-skill">
+                    {skillName}
+                  </p>
+
+                  <p className="profile-review-comment">
+                    “{review.comment}”
+                  </p>
+
+                  <p className="profile-review-author">
+                    Reviewed by{' '}
+                    <strong>{reviewerName}</strong>
+                  </p>
+                </article>
+              );
+            })}
           </div>
+        ) : (
+          <div className="profile-reviews-card">
+            <div className="profile-review-icon">
+              ★
+            </div>
 
-          <div>
+            <div>
+              <h3>
+                No reviews yet
+              </h3>
 
-            <h3>
-              No reviews yet
-            </h3>
-
-            <p>
-              Complete a skill swap to start receiving reviews
-              from other community members.
-            </p>
-
+              <p>
+                Complete a skill swap to start receiving reviews
+                from other community members.
+              </p>
+            </div>
           </div>
-
-        </div>
-
+        )}
       </section>
 
       {/* DANGER ZONE */}
 
       <section className="profile-danger-card">
-
         <div className="profile-danger-text">
-
           <p className="profile-eyebrow profile-danger-eyebrow">
             ACCOUNT
           </p>
@@ -394,11 +414,9 @@ const Profile = () => {
             Permanently delete your Swaply account and
             remove your account information.
           </p>
-
         </div>
 
         {!showDelete ? (
-
           <button
             type="button"
             className="profile-delete-button"
@@ -406,11 +424,8 @@ const Profile = () => {
           >
             Delete Account
           </button>
-
         ) : (
-
           <div className="profile-delete-confirm">
-
             <h3>
               Delete your account?
             </h3>
@@ -420,14 +435,15 @@ const Profile = () => {
             </p>
 
             <div className="profile-delete-actions">
-
               <button
                 type="button"
                 className="profile-confirm-delete"
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}
               >
-                {isDeleting ? 'Deleting...' : 'Delete Account'}
+                {isDeleting
+                  ? 'Deleting...'
+                  : 'Delete Account'}
               </button>
 
               <button
@@ -438,15 +454,10 @@ const Profile = () => {
               >
                 Cancel
               </button>
-
             </div>
-
           </div>
-
         )}
-
       </section>
-
     </main>
   );
 };

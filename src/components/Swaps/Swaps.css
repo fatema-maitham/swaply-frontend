@@ -29,7 +29,7 @@
   letter-spacing: -1.5px;
 }
 
-.swaps-header > p:last-child {
+.swaps-header>p:last-child {
   max-width: 600px;
   margin: 14px 0 0;
   color: #717382;
@@ -97,7 +97,7 @@
     font-size: 32px;
   }
 
-  .swaps-header > p:last-child {
+  .swaps-header>p:last-child {
     font-size: 12px;
   }
 
@@ -274,11 +274,11 @@
   border-top: 1px solid var(--border);
 }
 
-.swap-card-info > div {
+.swap-card-info>div {
   min-width: 0;
 }
 
-.swap-card-info > div:last-child {
+.swap-card-info>div:last-child {
   text-align: right;
 }
 
@@ -427,7 +427,7 @@
   letter-spacing: -1.5px;
 }
 
-.swap-details-header > p:last-child {
+.swap-details-header>p:last-child {
   max-width: 600px;
   margin: 14px 0 0;
   color: #717382;
@@ -482,7 +482,7 @@
   text-align: right;
 }
 
-.swap-details-skill > span {
+.swap-details-skill>span {
   color: var(--purple);
   font-size: 9px;
   font-weight: 700;
@@ -663,7 +663,7 @@
     font-size: 32px;
   }
 
-  .swap-details-header > p:last-child {
+  .swap-details-header>p:last-child {
     font-size: 12px;
   }
 
@@ -779,7 +779,7 @@
   letter-spacing: -1.5px;
 }
 
-.swap-form-header > p:last-child {
+.swap-form-header>p:last-child {
   max-width: 600px;
   margin: 14px 0 0;
   color: #717382;
@@ -1012,7 +1012,7 @@
     font-size: 32px;
   }
 
-  .swap-form-header > p:last-child {
+  .swap-form-header>p:last-child {
     font-size: 12px;
   }
 
@@ -1173,7 +1173,7 @@
   letter-spacing: -1.5px;
 }
 
-.swap-edit-header > p:last-child {
+.swap-edit-header>p:last-child {
   max-width: 600px;
   margin: 14px 0 0;
   color: #717382;
@@ -1422,7 +1422,7 @@
     font-size: 32px;
   }
 
-  .swap-edit-header > p:last-child {
+  .swap-edit-header>p:last-child {
     font-size: 12px;
   }
 
@@ -1497,5 +1497,171 @@
   .swap-edit-actions button {
     min-height: 40px;
     font-size: 10px;
+  }
+}
+
+/* =========================
+   SWAP REVIEW
+========================= */
+
+.swap-review-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #eeeeee;
+}
+
+.swap-review-existing {
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 18px;
+}
+
+.swap-review-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.swap-review-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #f7255f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.swap-review-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 23px;
+}
+
+.swap-review-rating {
+  display: flex;
+  gap: 3px;
+}
+
+.swap-review-rating span {
+  color: #f7255f;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.swap-review-content {
+  display: grid;
+  gap: 20px;
+}
+
+.swap-review-rating-number,
+.swap-review-comment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.swap-review-rating-number span,
+.swap-review-comment-box span {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.swap-review-rating-number strong {
+  color: #111827;
+  font-size: 18px;
+}
+
+.swap-review-comment-box {
+  padding-top: 18px;
+  border-top: 1px solid #f1f1f1;
+}
+
+.swap-review-comment-box p {
+  margin: 0;
+  color: #374151;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.swap-review-view-button {
+  margin-top: 22px;
+  padding: 10px 17px;
+  border: none;
+  border-radius: 10px;
+  background: #f7255f;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.swap-review-view-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   LEAVE REVIEW
+========================= */
+
+.swap-review-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 25px;
+  background: #fffafa;
+  border: 1px solid #fbcfe8;
+  border-radius: 18px;
+}
+
+.swap-review-new h2 {
+  margin: 0 0 7px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.swap-review-new p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.swap-review-button {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 11px;
+  background: #f7255f;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.swap-review-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+
+@media (max-width: 650px) {
+  .swap-review-header {
+    flex-direction: column;
+  }
+
+  .swap-review-new {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .swap-review-button,
+  .swap-review-view-button {
+    width: 100%;
   }
 }
