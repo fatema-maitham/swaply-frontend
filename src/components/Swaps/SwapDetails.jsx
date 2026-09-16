@@ -14,7 +14,6 @@ import './Swaps.css';
 const SwapDetails = () => {
   const { swapId } = useParams();
   const navigate = useNavigate();
-
   const { user } = useContext(UserContext);
 
   const [swap, setSwap] = useState(null);
@@ -26,15 +25,13 @@ const SwapDetails = () => {
     const loadSwap = async () => {
       try {
         setLoading(true);
+        setMessage('');
 
         const data = await getSwap(swapId);
-
         setSwap(data);
 
-        // Check for an existing review only when the swap is completed
         if (data.status === 'completed') {
           const allReviews = await getReviews();
-
           const currentUserId = user?._id;
 
           const existingReview = allReviews.find((item) => {
@@ -70,13 +67,10 @@ const SwapDetails = () => {
       'Are you sure you want to delete this swap?'
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
       await deleteSwap(swapId);
-
       navigate('/swaps');
     } catch (error) {
       setMessage(error.message);
@@ -84,7 +78,7 @@ const SwapDetails = () => {
   };
 
   const handleLeaveReview = () => {
-    navigate(`/ reviews / new? swap = ${swap._id} `);
+    navigate(`/reviews/new?swap=${swap._id}`);
   };
 
   if (loading) {
@@ -120,16 +114,12 @@ const SwapDetails = () => {
   return (
     <main className="swap-details-page">
 
-      {/* HEADER */}
-
       <div className="swap-details-header">
         <p className="swap-details-eyebrow">
           SWAP REQUEST
         </p>
 
-        <h1>
-          Swap Details
-        </h1>
+        <h1>Swap Details</h1>
 
         <p>
           View the details of this skill exchange and
@@ -143,28 +133,18 @@ const SwapDetails = () => {
         </p>
       )}
 
-      {/* MAIN CARD */}
-
       <section className="swap-details-card">
 
-        {/* STATUS */}
-
         <div className="swap-details-top">
-          <span
-            className={`swap - status ${swap.status} `}
-          >
+          <span className={`swap-status ${swap.status}`}>
             {swap.status}
           </span>
         </div>
 
-        {/* SKILLS */}
-
         <div className="swap-details-skills">
 
           <div className="swap-details-skill">
-            <span>
-              OFFERING
-            </span>
+            <span>OFFERING</span>
 
             <h2>
               {swap.skillOffered?.name}
@@ -180,9 +160,7 @@ const SwapDetails = () => {
           </div>
 
           <div className="swap-details-skill swap-details-skill-right">
-            <span>
-              REQUESTING
-            </span>
+            <span>REQUESTING</span>
 
             <h2>
               {swap.skillRequested?.name}
@@ -195,14 +173,10 @@ const SwapDetails = () => {
 
         </div>
 
-        {/* INFORMATION */}
-
         <div className="swap-details-info">
 
           <div className="swap-details-info-item">
-            <span>
-              Requester
-            </span>
+            <span>Requester</span>
 
             <strong>
               {swap.requester?.name}
@@ -214,9 +188,7 @@ const SwapDetails = () => {
           </div>
 
           <div className="swap-details-info-item">
-            <span>
-              Receiver
-            </span>
+            <span>Receiver</span>
 
             <strong>
               {swap.receiver?.name}
@@ -228,9 +200,7 @@ const SwapDetails = () => {
           </div>
 
           <div className="swap-details-info-item">
-            <span>
-              Scheduled Date
-            </span>
+            <span>Scheduled Date</span>
 
             <strong>
               {swap.scheduledDate
@@ -242,9 +212,7 @@ const SwapDetails = () => {
           </div>
 
           <div className="swap-details-info-item">
-            <span>
-              Created
-            </span>
+            <span>Created</span>
 
             <strong>
               {swap.createdAt
@@ -257,15 +225,10 @@ const SwapDetails = () => {
 
         </div>
 
-        {/* REVIEW */}
-
         {swap.status === 'completed' && (
           <div className="swap-review-section">
 
             {review ? (
-
-              /* EXISTING REVIEW */
-
               <div className="swap-review-existing">
 
                 <div className="swap-review-header">
@@ -281,7 +244,6 @@ const SwapDetails = () => {
                   </div>
 
                   <div className="swap-review-rating">
-
                     {[1, 2, 3, 4, 5].map((star) => (
                       <span key={star}>
                         {star <= Number(review.rating)
@@ -289,7 +251,6 @@ const SwapDetails = () => {
                           : '☆'}
                       </span>
                     ))}
-
                   </div>
 
                 </div>
@@ -297,41 +258,28 @@ const SwapDetails = () => {
                 <div className="swap-review-content">
 
                   <div className="swap-review-rating-number">
-
-                    <span>
-                      Rating
-                    </span>
+                    <span>Rating</span>
 
                     <strong>
                       {review.rating}/5
                     </strong>
-
                   </div>
 
                   <div className="swap-review-comment-box">
-
-                    <span>
-                      Comment
-                    </span>
+                    <span>Comment</span>
 
                     <p>
                       “{review.comment}”
                     </p>
-
                   </div>
 
                 </div>
 
               </div>
-
             ) : (
-
-              /* NO REVIEW YET */
-
               <div className="swap-review-new">
 
                 <div>
-
                   <span className="swap-review-label">
                     COMPLETED SWAP
                   </span>
@@ -343,7 +291,6 @@ const SwapDetails = () => {
                   <p>
                     Share your experience with this skill swap.
                   </p>
-
                 </div>
 
                 <button
@@ -355,13 +302,10 @@ const SwapDetails = () => {
                 </button>
 
               </div>
-
             )}
 
           </div>
         )}
-
-        {/* ACTIONS */}
 
         <div className="swap-details-actions">
 
@@ -369,11 +313,11 @@ const SwapDetails = () => {
             type="button"
             className="swap-edit-button"
             onClick={() =>
-              navigate(`/ swaps / ${swap._id}/edit`)
+              navigate(`/swaps/${swap._id}/edit`)
             }
           >
             Edit Swap
-          </button >
+          </button>
 
           <button
             type="button"
@@ -391,13 +335,11 @@ const SwapDetails = () => {
             Back to Swaps
           </button>
 
-        </div >
+        </div>
 
-      </section >
-
-    </main >
+      </section>
+    </main>
   );
 };
 
 export default SwapDetails;
-

@@ -12,11 +12,11 @@ import {
 } from '../../services/skillService';
 
 import { getReviews } from '../../services/reviewService';
-
 import { UserContext } from '../../contexts/UserContext';
 
 const SkillDetails = () => {
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const { user } = useContext(UserContext);
@@ -24,10 +24,8 @@ const SkillDetails = () => {
   const [skill, setSkill] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [message, setMessage] = useState('');
-
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     useState(false);
-
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
@@ -71,48 +69,37 @@ const SkillDetails = () => {
   }
 
   /*
-   * Get the reviews that belong to this skill.
+   * Only show reviews where the skill owner
+   * is the person being reviewed.
    *
-   * Supports:
-   * 1. review.skill
-   * 2. review.swap.skillRequested
-   * 3. review.swap.skillOffered
+   * Ahmed reviews Fatema:
+   * reviewedUser = Fatema
+   * → appears on Fatema's skills.
+   *
+   * Fatema reviews Ahmed:
+   * reviewedUser = Ahmed
+   * → appears on Ahmed's skills.
    */
+
+  const skillOwnerId = String(
+    skill.owner?._id || skill.owner || ''
+  );
+
   const skillReviews = reviews.filter((review) => {
-    const currentSkillId = String(skill._id);
-
-    // Direct skill reference
-    const directSkillId = String(
-      review.skill?._id || review.skill || ''
-    );
-
-    if (directSkillId === currentSkillId) {
-      return true;
-    }
-
-    // Review connected through swap
-    const requestedSkillId = String(
-      review.swap?.skillRequested?._id ||
-      review.swap?.skillRequested ||
+    const reviewedUserId = String(
+      review.reviewedUser?._id ||
+      review.reviewedUser ||
       ''
     );
 
-    const offeredSkillId = String(
-      review.swap?.skillOffered?._id ||
-      review.swap?.skillOffered ||
-      ''
-    );
-
-    return (
-      requestedSkillId === currentSkillId ||
-      offeredSkillId === currentSkillId
-    );
+    return reviewedUserId === skillOwnerId;
   });
 
   const averageRating =
     skillReviews.length > 0
       ? skillReviews.reduce(
-        (total, review) => total + Number(review.rating || 0),
+        (total, review) =>
+          total + Number(review.rating || 0),
         0
       ) / skillReviews.length
       : null;
@@ -124,13 +111,10 @@ const SkillDetails = () => {
         : averageRating.toFixed(1)
       : null;
 
-  const ownerId = String(
-    skill.owner?._id || skill.owner || ''
-  );
-
   const currentUserId = String(user?._id || '');
 
-  const isOwner = currentUserId === ownerId;
+  const isOwner =
+    currentUserId === skillOwnerId;
 
   const getReviewer = (review) => {
     return (
@@ -170,21 +154,26 @@ const SkillDetails = () => {
   };
 
   const getReviewDate = (review) => {
-    const date = review.createdAt || review.updatedAt;
+    const date =
+      review.createdAt || review.updatedAt;
 
     if (!date) {
       return '';
     }
 
-    return new Date(date).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
+    return new Date(date).toLocaleDateString(
+      'en-US',
+      {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }
+    );
   };
 
   return (
     <main className="skill-details-page">
+
       {message && (
         <p className="skill-details-message">
           {message}
@@ -196,6 +185,7 @@ const SkillDetails = () => {
       ========================= */}
 
       <section className="skill-details-hero">
+
         <div className="skill-details-image">
           {skill.skillImage ? (
             <img
@@ -208,6 +198,7 @@ const SkillDetails = () => {
         </div>
 
         <div className="skill-details-info">
+
           <div className="skill-details-title">
             <h1>{skill.name}</h1>
           </div>
@@ -221,6 +212,7 @@ const SkillDetails = () => {
           {/* OWNER */}
 
           <div className="skill-owner-info">
+
             <div className="owner-image">
               {skill.owner?.profileImage ? (
                 <img
@@ -245,6 +237,7 @@ const SkillDetails = () => {
 
               {displayRating !== null ? (
                 <div className="skill-review-rating">
+
                   <span className="skill-review-stars">
                     ★
                   </span>
@@ -259,6 +252,7 @@ const SkillDetails = () => {
                       ? 'review'
                       : 'reviews'})
                   </span>
+
                 </div>
               ) : (
                 <p className="no-owner-reviews">
@@ -266,21 +260,34 @@ const SkillDetails = () => {
                 </p>
               )}
             </div>
+
           </div>
 
           {/* REQUEST */}
 
-          <div className="skill-actions">
-            <button type="button">
-              Request Skill Swap
-            </button>
-          </div>
+          {!isOwner && (
+            <div className="skill-actions">
+              <button
+                type="button"
+                onClick={() =>
+                  navigate(
+                    `/swaps/new?skillId=${skill._id}`
+                  )
+                }
+              >
+                Request Skill Swap
+              </button>
+            </div>
+          )}
 
           {/* OWNER ACTIONS */}
 
           {isOwner && (
             <div className="skill-owner-actions">
-              <Link to={`/skills/${skill._id}/edit`}>
+
+              <Link
+                to={`/skills/${skill._id}/edit`}
+              >
                 Edit Skill
               </Link>
 
@@ -295,6 +302,7 @@ const SkillDetails = () => {
                 </button>
               ) : (
                 <div className="delete-confirmation">
+
                   <p>
                     Are you sure you want to delete this
                     skill?
@@ -319,10 +327,13 @@ const SkillDetails = () => {
                   >
                     Cancel
                   </button>
+
                 </div>
               )}
+
             </div>
           )}
+
         </div>
       </section>
 
@@ -331,6 +342,7 @@ const SkillDetails = () => {
       ========================= */}
 
       <section className="about-skill">
+
         <p className="skill-details-eyebrow">
           ABOUT THIS SKILL
         </p>
@@ -340,6 +352,7 @@ const SkillDetails = () => {
         <p className="skill-description">
           {skill.description}
         </p>
+
       </section>
 
       {/* =========================
@@ -347,24 +360,31 @@ const SkillDetails = () => {
       ========================= */}
 
       <section className="skill-reviews-section">
+
         <div className="skill-reviews-heading">
+
           <div>
+
             <p className="skill-details-eyebrow">
               COMMUNITY FEEDBACK
             </p>
 
             <h2>Reviews</h2>
+
           </div>
 
           {displayRating !== null && (
             <div className="reviews-summary">
+
               <strong>{displayRating}</strong>
 
               <div>
+
                 <div className="reviews-summary-stars">
                   {'★'.repeat(
                     Math.round(averageRating)
                   )}
+
                   {'☆'.repeat(
                     5 - Math.round(averageRating)
                   )}
@@ -376,13 +396,17 @@ const SkillDetails = () => {
                     ? 'review'
                     : 'reviews'}
                 </span>
+
               </div>
+
             </div>
           )}
+
         </div>
 
         {skillReviews.length === 0 ? (
           <div className="reviews-empty">
+
             <div className="reviews-empty-icon">
               ★
             </div>
@@ -393,10 +417,13 @@ const SkillDetails = () => {
               Be the first to share your experience
               with this skill.
             </p>
+
           </div>
         ) : (
           <div className="reviews-list">
+
             {skillReviews.map((review) => {
+
               const reviewerName =
                 getReviewerName(review);
 
@@ -415,9 +442,13 @@ const SkillDetails = () => {
                   key={review._id}
                   className="skill-review-card"
                 >
+
                   <div className="skill-review-header">
+
                     <div className="reviewer-info">
+
                       <div className="reviewer-avatar">
+
                         {reviewerImage ? (
                           <img
                             src={reviewerImage}
@@ -428,20 +459,26 @@ const SkillDetails = () => {
                             {reviewerInitials}
                           </span>
                         )}
+
                       </div>
 
                       <div>
+
                         <h3>{reviewerName}</h3>
 
                         <p className="review-date">
                           {getReviewDate(review)}
                         </p>
+
                       </div>
+
                     </div>
 
                     <div className="review-rating">
+
                       <span className="review-stars">
                         {'★'.repeat(reviewRating)}
+
                         {'☆'.repeat(
                           5 - reviewRating
                         )}
@@ -450,7 +487,9 @@ const SkillDetails = () => {
                       <strong>
                         {reviewRating}/5
                       </strong>
+
                     </div>
+
                   </div>
 
                   {review.comment && (
@@ -458,12 +497,16 @@ const SkillDetails = () => {
                       {review.comment}
                     </p>
                   )}
+
                 </article>
               );
             })}
+
           </div>
         )}
+
       </section>
+
     </main>
   );
 };

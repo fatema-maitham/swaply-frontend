@@ -19,7 +19,7 @@ const SwapForm = () => {
   const [searchParams] = useSearchParams();
   const { user } = useContext(UserContext);
 
-  const skillId = searchParams.get('skill');
+  const skillId = searchParams.get('skillId');
 
   const [requestedSkill, setRequestedSkill] = useState(null);
   const [mySkills, setMySkills] = useState([]);
