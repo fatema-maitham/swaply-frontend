@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+
 import { getCommunityUsers } from '../../services/communityService';
+
 import './Community.css';
 
 const Community = () => {
@@ -18,7 +20,7 @@ const Community = () => {
 
         setUsers(data || []);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -52,6 +54,10 @@ const Community = () => {
 
       <section className="community-header">
         <div>
+          <p className="community-label">
+            COMMUNITY
+          </p>
+
           <h1>Meet the Community</h1>
 
           <p>
@@ -61,20 +67,26 @@ const Community = () => {
         </div>
       </section>
 
+
       {/* =========================
           SEARCH
       ========================= */}
 
       <section className="community-controls">
         <div className="community-search">
+
           <input
             type="text"
             placeholder="Search members..."
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
           />
+
         </div>
       </section>
+
 
       {/* =========================
           ERROR
@@ -86,6 +98,7 @@ const Community = () => {
         </div>
       )}
 
+
       {/* =========================
           LOADING
       ========================= */}
@@ -96,6 +109,7 @@ const Community = () => {
         </div>
       )}
 
+
       {/* =========================
           NO RESULTS
       ========================= */}
@@ -104,6 +118,7 @@ const Community = () => {
         !error &&
         filteredUsers.length === 0 && (
           <div className="community-empty">
+
             <h2>No members found</h2>
 
             <p>
@@ -111,8 +126,10 @@ const Community = () => {
                 ? 'Try a different search.'
                 : 'There are no community members yet.'}
             </p>
+
           </div>
         )}
+
 
       {/* =========================
           COMMUNITY CARDS
@@ -121,9 +138,11 @@ const Community = () => {
       {!loading &&
         !error &&
         filteredUsers.length > 0 && (
+
           <section className="community-grid">
 
             {filteredUsers.map((member) => (
+
               <article
                 className="dashboard-skill-card community-card"
                 key={member._id}
@@ -135,16 +154,27 @@ const Community = () => {
                 {/* PROFILE IMAGE */}
 
                 <div className="community-avatar-wrapper">
+
                   <img
-                    src={member.profileImage || '/default-profile.png'}
+                    src={
+                      member.profileImage ||
+                      '/default-profile.png'
+                    }
                     alt={member.name}
                     className="community-avatar"
+                    onError={(event) => {
+                      event.currentTarget.src =
+                        '/default-profile.png';
+                    }}
                   />
+
                 </div>
+
 
                 {/* NAME */}
 
                 <h3>{member.name}</h3>
+
 
                 {/* BIO */}
 
@@ -152,6 +182,7 @@ const Community = () => {
                   {member.bio ||
                     'This member has not added a bio yet.'}
                 </p>
+
 
                 {/* BUTTON */}
 
@@ -167,10 +198,12 @@ const Community = () => {
                 </button>
 
               </article>
+
             ))}
 
           </section>
         )}
+
     </main>
   );
 };

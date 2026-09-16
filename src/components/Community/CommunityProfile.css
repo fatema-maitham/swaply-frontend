@@ -1,0 +1,352 @@
+/* =========================
+   COMMUNITY PROFILE PAGE
+========================= */
+
+.community-profile-page {
+  width: 90%;
+  max-width: 1100px;
+  margin: 45px auto 80px;
+}
+
+/* =========================
+   BACK
+========================= */
+
+.community-profile-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 30px;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.community-profile-back:hover {
+  color: var(--purple);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.community-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  padding: 35px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow:
+    0 5px 20px rgba(26, 23, 84, 0.04);
+}
+
+/* =========================
+   PROFILE IMAGE
+========================= */
+
+.community-profile-avatar-wrapper {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.community-profile-avatar {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.community-profile-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--green);
+  border-radius: 50%;
+  font-size: 38px;
+  font-weight: 700;
+}
+
+/* =========================
+   PROFILE INFO
+========================= */
+
+.community-profile-info {
+  min-width: 0;
+}
+
+.community-profile-eyebrow {
+  margin: 0 0 8px;
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.community-profile-info h1 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.community-profile-email {
+  margin: 0 0 16px;
+  color: #999;
+  font-size: 12px;
+}
+
+.community-profile-bio {
+  max-width: 650px;
+  margin: 0;
+  color: #717382;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.community-profile-section {
+  margin-top: 60px;
+}
+
+.community-profile-section-heading {
+  margin-bottom: 28px;
+}
+
+.community-profile-section-heading h2 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.community-profile-section-heading>div>p:last-child {
+  margin: 0;
+  color: #717382;
+  font-size: 12px;
+}
+
+/* =========================
+   SKILLS GRID
+========================= */
+
+.community-profile-skills {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.community-profile-skill-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--white);
+  box-shadow:
+    0 5px 20px rgba(26, 23, 84, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.community-profile-skill-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 28px rgba(26, 23, 84, 0.07);
+}
+
+/* =========================
+   SKILL IMAGE
+========================= */
+
+.community-profile-skill-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f1;
+}
+
+.community-profile-skill-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.community-profile-skill-image span {
+  color: var(--green);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* =========================
+   SKILL CONTENT
+========================= */
+
+.community-profile-skill-content {
+  padding: 18px;
+}
+
+.community-profile-skill-category {
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.community-profile-skill-content h3 {
+  margin: 7px 0 7px;
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.community-profile-skill-content p {
+  height: 38px;
+  margin: 0 0 18px;
+  overflow: hidden;
+  color: #717382;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.community-profile-skill-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid #dfe1e8;
+  border-radius: 10px;
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.community-profile-skill-link:hover {
+  color: var(--purple);
+  border-color: var(--purple);
+  background: rgba(102, 89, 255, 0.03);
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.community-profile-empty {
+  padding: 55px 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--white);
+}
+
+.community-profile-empty h3 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-size: 18px;
+}
+
+.community-profile-empty p {
+  margin: 0;
+  color: #717382;
+  font-size: 12px;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.community-profile-message {
+  padding: 70px 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+}
+
+.community-profile-message h2 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 22px;
+}
+
+.community-profile-message p {
+  margin: 0 0 20px;
+  color: #717382;
+  font-size: 13px;
+}
+
+.community-profile-message a {
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .community-profile-skills {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .community-profile-page {
+    width: 92%;
+    margin-top: 30px;
+  }
+
+  .community-profile-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 22px;
+    text-align: center;
+  }
+
+  .community-profile-avatar-wrapper {
+    width: 130px;
+    height: 130px;
+  }
+
+  .community-profile-info {
+    width: 100%;
+  }
+
+  .community-profile-skills {
+    grid-template-columns: 1fr;
+  }
+
+  .community-profile-section {
+    margin-top: 45px;
+  }
+}
