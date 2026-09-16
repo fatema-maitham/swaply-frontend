@@ -5272,3 +5272,412 @@ body {
     font-size: 9px;
   }
 }
+
+
+/* =========================
+EDIT PROFILE PAGE
+========================= */
+
+.profile-form-page {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 55px 30px 80px;
+}
+
+.profile-form-card {
+  padding: 42px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 22px;
+  box-shadow: 0 12px 35px rgba(20, 23, 84, 0.08);
+}
+
+/* =========================
+FORM HEADING
+========================= */
+
+.profile-form-heading {
+  margin-bottom: 32px;
+}
+
+.profile-section-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #382bff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.profile-form-card h1 {
+  margin: 0;
+  color: #141754;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.profile-form-subtitle {
+  margin: 9px 0 0;
+  color: #777777;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================
+ERROR MESSAGE
+========================= */
+
+.profile-form-error {
+  margin: 0 0 24px;
+  padding: 12px 15px;
+  border: 1px solid #ffd6df;
+  border-radius: 10px;
+  background: #fff4f6;
+  color: #d81b4e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* =========================
+PROFILE PHOTO
+========================= */
+
+.profile-form-photo-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 34px;
+  padding: 8px 0 4px;
+}
+
+.profile-form-image-wrapper {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  overflow: visible;
+}
+
+.profile-form-image-wrapper img,
+.profile-form-image-placeholder {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+}
+
+.profile-form-image-wrapper img {
+  display: block;
+  object-fit: cover;
+  border: 5px solid #ffffff;
+  box-shadow: 0 7px 22px rgba(20, 23, 84, 0.14);
+}
+
+.profile-form-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3bbff;
+  border: 5px solid #ffffff;
+  color: #141754;
+  font-size: 38px;
+  font-weight: 700;
+  box-shadow: 0 7px 22px rgba(20, 23, 84, 0.14);
+}
+
+/* =========================
+CAMERA BUTTON
+========================= */
+
+.profile-form-camera-button {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  padding: 0;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: #382bff;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(20, 23, 84, 0.18);
+  transition: all 0.2s ease;
+}
+
+.profile-form-camera-button:hover {
+  background: #2d22dc;
+  transform: scale(1.06);
+}
+
+.profile-form-camera-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.profile-form-camera-button svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Hide actual file input */
+
+.profile-image-input {
+  display: none;
+}
+
+/* =========================
+FORM FIELDS
+========================= */
+
+.profile-form-fields {
+  margin-top: 5px;
+}
+
+.profile-form-group {
+  margin-bottom: 22px;
+}
+
+.profile-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #141754;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-form-group input,
+.profile-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid #dddddd;
+  border-radius: 11px;
+  outline: none;
+  background: #ffffff;
+  color: #111111;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-form-group input {
+  height: 50px;
+  padding: 0 16px;
+}
+
+.profile-form-group textarea {
+  min-height: 135px;
+  padding: 14px 16px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.profile-form-group input::placeholder,
+.profile-form-group textarea::placeholder {
+  color: #aaaaaa;
+}
+
+.profile-form-group input:focus,
+.profile-form-group textarea:focus {
+  border-color: #382bff;
+  box-shadow: 0 0 0 3px rgba(56, 43, 255, 0.1);
+}
+
+/* =========================
+ACTION BUTTONS
+========================= */
+
+.profile-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #eeeeee;
+}
+
+.profile-save-button,
+.profile-cancel-button {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 9px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile-save-button {
+  border: 1px solid #382bff;
+  background: #382bff;
+  color: #ffffff;
+}
+
+.profile-save-button:hover {
+  background: #2d22dc;
+  border-color: #2d22dc;
+  transform: translateY(-1px);
+}
+
+.profile-save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.profile-cancel-button {
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #555555;
+}
+
+.profile-cancel-button:hover {
+  border-color: #382bff;
+  color: #382bff;
+}
+
+.profile-cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .profile-form-page {
+    padding: 30px 18px 60px;
+  }
+
+  .profile-form-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .profile-form-card h1 {
+    font-size: 27px;
+  }
+
+  .profile-form-actions {
+    flex-direction: column;
+  }
+
+  .profile-save-button,
+  .profile-cancel-button {
+    width: 100%;
+  }
+}
+
+/* =========================
+PROFILE PHOTO
+========================= */
+
+.profile-form-photo-section {
+  display: flex;
+  justify-content: center;
+  margin: 5px -38px 32px;
+  padding: 30px 0;
+  background: #eef1ff;
+  border-bottom: 1px solid #e3e5f5;
+}
+
+.profile-form-image-wrapper {
+  position: relative;
+  width: 135px;
+  height: 135px;
+}
+
+/* Profile image */
+
+.profile-form-image-wrapper img,
+.profile-form-image-placeholder {
+  width: 135px;
+  height: 135px;
+  display: block;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+  box-shadow: 0 6px 20px rgba(20, 23, 84, 0.18);
+}
+
+.profile-form-image-wrapper img {
+  object-fit: cover;
+}
+
+/* Blue placeholder */
+
+.profile-form-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #382bff;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+/* Camera */
+
+.profile-form-camera-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+
+  background: #141754;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(20, 23, 84, 0.2);
+
+  transition: all 0.2s ease;
+}
+
+.profile-form-camera-button:hover {
+  background: #382bff;
+  transform: scale(1.05);
+}
+
+.profile-form-camera-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.profile-form-camera-button svg {
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Hide actual file input */
+
+.profile-image-input {
+  display: none;
+}

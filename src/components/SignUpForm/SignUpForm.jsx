@@ -1,27 +1,42 @@
-import { useContext, useState } from 'react';
+import { useState, useContext } from 'react';
+
 import { useNavigate } from 'react-router';
+
 import { Eye, EyeOff } from 'lucide-react';
+
 import { signUp } from '../../services/authService';
+
 import { UserContext } from '../../contexts/UserContext';
+
 import '../../Auth.css';
 
 const SignUpForm = () => {
   const { setUser } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const [message, setMessage] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     passwordConf: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { name, email, password, passwordConf } = formData;
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
+
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConf,
+  } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -41,9 +56,18 @@ const SignUpForm = () => {
     }
 
     try {
-      const newUser = await signUp(formData);
+      const name = `${firstName.trim()} ${lastName.trim()}`;
+
+      const signupData = {
+        name,
+        email,
+        password,
+      };
+
+      const newUser = await signUp(signupData);
 
       setUser(newUser);
+
       navigate('/');
     } catch (error) {
       setMessage(error.message);
@@ -52,7 +76,8 @@ const SignUpForm = () => {
 
   const isFormInvalid = () => {
     return !(
-      name &&
+      firstName &&
+      lastName &&
       email &&
       password &&
       passwordConf &&
@@ -63,7 +88,6 @@ const SignUpForm = () => {
   return (
     <main className="auth-page">
       <section className="auth-card">
-
         <div className="auth-left">
           <img
             src="/logoW.png"
@@ -81,7 +105,7 @@ const SignUpForm = () => {
           </div>
 
           <img
-            src="/bgcolor.png"
+            src="/bgC.png"
             alt=""
             className="auth-decoration"
           />
@@ -89,7 +113,6 @@ const SignUpForm = () => {
 
         <div className="auth-right">
           <div className="auth-form-content">
-
             {message && (
               <p className="auth-message">
                 {message}
@@ -101,23 +124,44 @@ const SignUpForm = () => {
               autoComplete="off"
               onSubmit={handleSubmit}
             >
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="firstName">
+                    First Name
+                  </label>
 
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={firstName}
+                    onChange={handleChange}
+                    placeholder="Enter your first name"
+                    required
+                  />
+                </div>
 
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={name}
-                  onChange={handleChange}
-                  placeholder="Your full name"
-                  required
-                />
+                <div className="form-group">
+                  <label htmlFor="lastName">
+                    Last Name
+                  </label>
+
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={lastName}
+                    onChange={handleChange}
+                    placeholder="Enter your last name"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">
+                  Email
+                </label>
 
                 <input
                   type="email"
@@ -131,11 +175,17 @@ const SignUpForm = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">
+                  Password
+                </label>
 
                 <div className="password-input-wrapper">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={
+                      showPassword
+                        ? 'text'
+                        : 'password'
+                    }
                     id="password"
                     name="password"
                     value={password}
@@ -221,16 +271,16 @@ const SignUpForm = () => {
 
                 <button
                   type="button"
-                  onClick={() => navigate('/sign-in')}
+                  onClick={() =>
+                    navigate('/sign-in')
+                  }
                 >
                   Sign In
                 </button>
               </p>
-
             </form>
           </div>
         </div>
-
       </section>
     </main>
   );

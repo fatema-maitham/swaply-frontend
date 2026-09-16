@@ -7,17 +7,10 @@ import Footer from './components/Footer/Footer';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
 
+import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 
-import AdminDashboard from './components/Admin/AdminDashboard';
-import AdminUsers from './components/Admin/AdminUsers';
-import AdminSkills from './components/Admin/AdminSkills';
-import AdminCategories from './components/Admin/AdminCategories';
-import AdminSwaps from './components/Admin/AdminSwaps';
-import AdminReviews from './components/Admin/AdminReviews';
-import AdminAuditLogs from './components/Admin/AdminAuditLogs';
-
-import Landing from './components/Landing/Landing';
+import Community from './components/Community/Community';
 
 import Profile from './components/Profile/Profile';
 import ProfileForm from './components/Profile/ProfileForm';
@@ -35,12 +28,21 @@ import ReviewList from './components/Reviews/ReviewList';
 import ReviewDetails from './components/Reviews/ReviewDetails';
 import ReviewForm from './components/Reviews/ReviewForm';
 
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminUsers from './components/Admin/AdminUsers';
+import AdminSkills from './components/Admin/AdminSkills';
+import AdminCategories from './components/Admin/AdminCategories';
+import AdminSwaps from './components/Admin/AdminSwaps';
+import AdminReviews from './components/Admin/AdminReviews';
+import AdminAuditLogs from './components/Admin/AdminAuditLogs';
+
 import { UserContext } from './contexts/UserContext';
 
 import './App.css';
 
 const App = () => {
   const { user } = useContext(UserContext);
+
   const location = useLocation();
 
   const isAdmin = user?.role === 'admin';
@@ -53,6 +55,11 @@ const App = () => {
       {!isAdminPage && <NavBar />}
 
       <Routes>
+
+        {/* =========================================
+            HOME
+        ========================================= */}
+
         <Route
           path="/"
           element={
@@ -66,6 +73,10 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            AUTH
+        ========================================= */}
+
         <Route
           path="/sign-up"
           element={<SignUpForm />}
@@ -75,6 +86,10 @@ const App = () => {
           path="/sign-in"
           element={<SignInForm />}
         />
+
+        {/* =========================================
+            PROFILE
+        ========================================= */}
 
         <Route
           path="/profile"
@@ -89,6 +104,32 @@ const App = () => {
             user ? <ProfileForm /> : <SignInForm />
           }
         />
+
+        {/* =========================================
+            DASHBOARD
+        ========================================= */}
+
+        <Route
+          path="/dashboard"
+          element={
+            user ? <Dashboard /> : <SignInForm />
+          }
+        />
+
+        {/* =========================================
+            COMMUNITY
+        ========================================= */}
+
+        <Route
+          path="/community"
+          element={
+            user ? <Community /> : <SignInForm />
+          }
+        />
+
+        {/* =========================================
+            SKILLS
+        ========================================= */}
 
         <Route
           path="/skills"
@@ -118,6 +159,10 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            SWAPS
+        ========================================= */}
+
         <Route
           path="/swaps"
           element={
@@ -146,6 +191,10 @@ const App = () => {
           }
         />
 
+        {/* =========================================
+            REVIEWS
+        ========================================= */}
+
         <Route
           path="/reviews"
           element={
@@ -167,12 +216,9 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/dashboard"
-          element={
-            user ? <Dashboard /> : <SignInForm />
-          }
-        />
+        {/* =========================================
+            ADMIN
+        ========================================= */}
 
         <Route
           path="/admin"
@@ -221,7 +267,11 @@ const App = () => {
         <Route
           path="/admin/categories"
           element={
-            isAdmin ? <AdminCategories /> : <SignInForm />
+            isAdmin ? (
+              <AdminCategories />
+            ) : (
+              <SignInForm />
+            )
           }
         />
 
@@ -250,9 +300,14 @@ const App = () => {
         <Route
           path="/admin/audit-logs"
           element={
-            isAdmin ? <AdminAuditLogs /> : <SignInForm />
+            isAdmin ? (
+              <AdminAuditLogs />
+            ) : (
+              <SignInForm />
+            )
           }
         />
+
       </Routes>
 
       {!isAdminPage && <Footer />}

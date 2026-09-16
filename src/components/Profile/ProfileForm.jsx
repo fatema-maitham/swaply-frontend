@@ -6,7 +6,7 @@ import {
   getProfile,
   updateProfile,
 } from '../../services/userService';
-
+import "./Profile.css";
 const ProfileForm = () => {
   const navigate = useNavigate();
 
