@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router';
-import AdminAside from './AdminAside';
 
 import {
   deleteReview,
   getReviews,
 } from '../../services/adminService';
+
+import AdminAside from './AdminAside';
 
 import './Admin.css';
 
@@ -18,6 +18,7 @@ const AdminReviews = () => {
     const loadReviews = async () => {
       try {
         const data = await getReviews();
+
         setReviews(data);
       } catch (err) {
         setMessage(err.message);
@@ -60,7 +61,9 @@ const AdminReviews = () => {
 
       <section className="admin-content">
         <header className="admin-header">
-          <p className="admin-header-label">ADMINISTRATION</p>
+          <p className="admin-header-label">
+            ADMINISTRATION
+          </p>
 
           <h1>Reviews</h1>
 
@@ -97,16 +100,18 @@ const AdminReviews = () => {
                 {reviews.map((review) => (
                   <tr key={review._id}>
                     <td>
-                      {review.reviewer?.name || 'Unknown'}
+                      {review.reviewer?.name ||
+                        'Unknown'}
                     </td>
 
                     <td>
-                      {review.reviewedUser?.name || 'Unknown'}
+                      {review.reviewedUser?.name ||
+                        'Unknown'}
                     </td>
 
                     <td>
-                      {review.swap?._id ||
-                        review.swap ||
+                      {review.swap?.skillRequested?.name ||
+                        review.swap?.skillOffered?.name ||
                         'Unknown'}
                     </td>
 
@@ -115,7 +120,8 @@ const AdminReviews = () => {
                     </td>
 
                     <td>
-                      {review.comment || 'No comment'}
+                      {review.comment ||
+                        'No comment'}
                     </td>
 
                     <td>
@@ -146,3 +152,4 @@ const AdminReviews = () => {
 };
 
 export default AdminReviews;
+

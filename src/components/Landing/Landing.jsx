@@ -1,6 +1,24 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-
+import { getSkills } from '../../services/skillService';
 const Landing = () => {
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    const loadSkills = async () => {
+      try {
+        const data = await getSkills();
+        setSkills(data || []);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadSkills();
+  }, []);
+
+  const popularSkills = skills.slice(0, 4);
+
   return (
     <main className="home-page">
       {/* Hero Section */}
@@ -36,14 +54,14 @@ const Landing = () => {
         <div className="home-hero-visual">
           <div className="hero-image-area">
             <img
-              src="/public/hero.png"
+              src="/hero.png"
               alt="Swaply community members"
             />
+          </div>
         </div>
-</div>
       </section>
 
-          {/* How It Works */}
+      {/* How It Works */}
       <section className="home-how-it-works">
         <div className="home-section-heading">
           <p className="home-eyebrow">HOW IT WORKS</p>
@@ -57,7 +75,6 @@ const Landing = () => {
         </div>
 
         <div className="home-steps">
-
           <article className="home-step">
             <div className="home-step-top">
               <span className="home-step-number">01</span>
@@ -104,7 +121,6 @@ const Landing = () => {
               </p>
             </div>
           </article>
-
         </div>
       </section>
 
@@ -113,7 +129,6 @@ const Landing = () => {
         <div className="home-section-heading home-popular-heading">
           <div>
             <p className="home-eyebrow">EXPLORE</p>
-
             <h2>Popular Skills</h2>
           </div>
 
@@ -123,38 +138,29 @@ const Landing = () => {
         </div>
 
         <div className="home-skill-preview-grid">
-          <article className="home-skill-preview">
-            <span className="home-skill-category">TECHNOLOGY</span>
+          {popularSkills.map((skill) => (
+            <article
+              className="home-skill-preview"
+              key={skill._id}
+            >
+              <span className="home-skill-category">
+                {skill.category?.toUpperCase()}
+              </span>
 
-            <h3>Web Development</h3>
+              <h3>{skill.name}</h3>
 
-            <p>Build websites and modern web applications.</p>
-          </article>
-
-          <article className="home-skill-preview">
-            <span className="home-skill-category">CREATIVE</span>
-
-            <h3>Photography</h3>
-
-            <p>Learn how to capture better photos and tell stories.</p>
-          </article>
-
-          <article className="home-skill-preview">
-            <span className="home-skill-category">BUSINESS</span>
-
-            <h3>Digital Marketing</h3>
-
-            <p>Learn strategies to grow brands and online businesses.</p>
-          </article>
-
-          <article className="home-skill-preview">
-            <span className="home-skill-category">LANGUAGES</span>
-
-            <h3>English</h3>
-
-            <p>Practice your communication skills with other learners.</p>
-          </article>
+              <p>
+                {skill.description}
+              </p>
+            </article>
+          ))}
         </div>
+
+        {!skills.length && (
+          <p className="home-skill-empty">
+            No skills available yet.
+          </p>
+        )}
       </section>
 
       {/* Community CTA */}
@@ -163,7 +169,7 @@ const Landing = () => {
           <p className="home-eyebrow">JOIN THE COMMUNITY</p>
 
           <h2>
-            Your next skill could be
+            Your next skill could
             <span> one swap away.</span>
           </h2>
 

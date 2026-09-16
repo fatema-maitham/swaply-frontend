@@ -124,7 +124,7 @@ const SignInForm = () => {
           </div>
 
           <img
-            src="/bgcolor.png"
+            src="/bgC.png"
             alt=""
             className="auth-decoration"
           />

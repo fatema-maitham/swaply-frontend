@@ -11,6 +11,8 @@ import { getSkills } from '../../services/skillService';
 
 import { UserContext } from '../../contexts/UserContext';
 
+import './Profile.css';
+
 const Profile = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -26,7 +28,6 @@ const Profile = () => {
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState('about');
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -136,11 +137,11 @@ const Profile = () => {
                 alt={`${user.name}'s profile`}
               />
             ) : (
-              <div className="profile-image-placeholder">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
+              <img
+                src="/default-profile.png"
+                alt="Default profile"
+              />
             )}
-
             <input
               ref={fileInputRef}
               type="file"
@@ -175,9 +176,17 @@ const Profile = () => {
 
           </div>
 
+          <span className="profile-photo-label">
+            PROFILE PHOTO
+          </span>
+
         </div>
 
         <div className="profile-info">
+
+          <span className="profile-section-label">
+            SWAPLY MEMBER
+          </span>
 
           <h2>
             {user.name}
@@ -211,206 +220,157 @@ const Profile = () => {
 
       <section className="profile-content">
 
-        <div className="profile-card">
+        {/* ABOUT */}
 
-          <div className="profile-tabs">
+        <div className="profile-card profile-about-card">
 
-            <button
-              type="button"
-              className={
-                activeTab === 'about'
-                  ? 'profile-tab active'
-                  : 'profile-tab'
-              }
-              onClick={() => setActiveTab('about')}
+          <span className="profile-section-label">
+            ABOUT ME
+          </span>
+
+          <h2>
+            About
+          </h2>
+
+          <p>
+            {user.bio ||
+              'No bio yet. Add a short introduction so the Swaply community can learn more about you.'}
+          </p>
+
+        </div>
+
+        {/* SKILLS */}
+
+        <div className="profile-card profile-skills-card">
+
+          <div className="profile-skills-heading">
+
+            <div>
+              <span className="profile-section-label">
+                MY SKILLS
+              </span>
+
+              <h2>
+                Skills I Teach
+              </h2>
+
+              <p>
+                Share your skills with the Swaply community.
+              </p>
+            </div>
+
+            <Link
+              to="/skills/new"
+              state={{ from: '/profile' }}
+              className="profile-add-skill-button"
             >
-              About
-            </button>
-
-            <button
-              type="button"
-              className={
-                activeTab === 'skills'
-                  ? 'profile-tab active'
-                  : 'profile-tab'
-              }
-              onClick={() => setActiveTab('skills')}
-            >
-              Skills
-            </button>
-
-            <button
-              type="button"
-              className={
-                activeTab === 'reviews'
-                  ? 'profile-tab active'
-                  : 'profile-tab'
-              }
-              onClick={() => setActiveTab('reviews')}
-            >
-              Reviews
-            </button>
+              + Add a Skill
+            </Link>
 
           </div>
 
-          {/* ABOUT */}
+          {skills.length === 0 ? (
 
-          {activeTab === 'about' && (
-            <div className="profile-about">
+            <div className="profile-no-skills">
 
-              <span className="profile-section-label">
-                ABOUT ME
-              </span>
-
-              <h2>
-                About
-              </h2>
-
-              <p>
-                {user.bio || 'No bio yet.'}
-              </p>
-
-            </div>
-          )}
-
-          {/* SKILLS */}
-
-          {activeTab === 'skills' && (
-            <div className="profile-skills-content">
-
-              <div className="profile-skills-heading">
-
-                <div>
-                  <span className="profile-section-label">
-                    MY SKILLS
-                  </span>
-
-                  <h2>
-                    Skills I Teach
-                  </h2>
-
-                  <p>
-                    Share your skills with the Swaply community.
-                  </p>
-                </div>
-
-                <Link
-                  to="/skills/new"
-                  state={{ from: '/profile' }}
-                  className="profile-add-skill-button"
-                >
-                  + Add a Skill
-                </Link>
-
+              <div className="profile-no-skills-icon">
+                +
               </div>
 
-              {skills.length === 0 ? (
-
-                <div className="profile-no-skills">
-
-                  <div className="profile-no-skills-icon">
-                    +
-                  </div>
-
-                  <h3>
-                    No skills added yet
-                  </h3>
-
-                  <p>
-                    Add a skill you can teach to start connecting
-                    with people who want to learn from you.
-                  </p>
-
-                  <Link
-                    to="/skills/new"
-                    state={{ from: '/profile' }}
-                    className="profile-add-skill-button"
-                  >
-                    Add Your First Skill
-                  </Link>
-
-                </div>
-
-              ) : (
-
-                <div className="profile-skills-grid">
-
-                  {skills.map((skill) => (
-
-                    <article
-                      key={skill._id}
-                      className="profile-skill-card"
-                    >
-
-                      <div className="profile-skill-image">
-
-                        {skill.skillImage ? (
-                          <img
-                            src={skill.skillImage}
-                            alt={skill.name}
-                          />
-                        ) : (
-                          <span>
-                            {skill.name?.charAt(0).toUpperCase()}
-                          </span>
-                        )}
-
-                      </div>
-
-                      <div className="profile-skill-card-content">
-
-                        <h3>
-                          {skill.name}
-                        </h3>
-
-                        <span className="profile-skill-category">
-                          {skill.category}
-                        </span>
-
-                        <p>
-                          {skill.description}
-                        </p>
-
-                        <Link
-                          to={`/skills/${skill._id}`}
-                          className="profile-view-skill-button"
-                        >
-                          View Skill
-                        </Link>
-
-                      </div>
-
-                    </article>
-
-                  ))}
-
-                </div>
-
-              )}
-
-            </div>
-          )}
-
-          {/* REVIEWS */}
-
-          {activeTab === 'reviews' && (
-            <div className="profile-tab-content">
-
-              <span className="profile-section-label">
-                COMMUNITY FEEDBACK
-              </span>
-
-              <h2>
-                Reviews
-              </h2>
+              <h3>
+                No skills added yet
+              </h3>
 
               <p>
-                Reviews from other Swaply members will appear
-                here after you complete swaps.
+                Add a skill you can teach to start connecting
+                with people who want to learn from you.
               </p>
 
+              <Link
+                to="/skills/new"
+                state={{ from: '/profile' }}
+                className="profile-add-skill-button"
+              >
+                Add Your First Skill
+              </Link>
+
             </div>
+
+          ) : (
+
+            <div className="profile-skills-grid">
+
+              {skills.map((skill) => (
+
+                <article
+                  key={skill._id}
+                  className="profile-skill-card"
+                >
+
+                  <div className="profile-skill-image">
+
+                    {skill.skillImage ? (
+                      <img
+                        src={skill.skillImage}
+                        alt={skill.name}
+                      />
+                    ) : (
+                      <span>
+                        {skill.name?.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+
+                  </div>
+
+                  <div className="profile-skill-card-content">
+
+                    <h3>
+                      {skill.name}
+                    </h3>
+
+                    <span className="profile-skill-category">
+                      {skill.category}
+                    </span>
+
+                    <p>
+                      {skill.description}
+                    </p>
+
+                    <Link
+                      to={`/skills/${skill._id}`}
+                      className="profile-view-skill-button"
+                    >
+                      View Skill
+                    </Link>
+
+                  </div>
+
+                </article>
+
+              ))}
+
+            </div>
+
           )}
+
+        </div>
+
+        {/* REVIEWS */}
+
+        <div className="profile-card profile-reviews-card">
+
+          <span className="profile-section-label">
+            COMMUNITY FEEDBACK
+          </span>
+
+          <h2>
+            Reviews
+          </h2>
+
+          <p>
+            Reviews from other Swaply members will appear
+            here after you complete swaps.
+          </p>
 
         </div>
 
