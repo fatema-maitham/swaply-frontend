@@ -6100,3 +6100,60 @@ PROFILE PHOTO
     margin-left: 56px;
   }
 }
+
+
+.skills-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 38px;
+}
+
+.skills-eyebrow {
+  margin: 0 0 10px;
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.skills-header h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(38px, 4vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.skills-description {
+  max-width: 600px;
+  margin: 14px 0 0;
+  color: #717382;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.add-skill-button {
+  flex-shrink: 0;
+}
+
+
+.skills-eyebrow {
+  margin: 0 0 10px;
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.skills-eyebrow {
+  margin: 0 0 10px !important;
+  color: var(--purple) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.8px !important;
+}

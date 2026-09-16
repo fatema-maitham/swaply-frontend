@@ -137,13 +137,22 @@ const SkillsList = () => {
   return (
     <main className="skills-page">
       <section className="skills-header">
-        <div>
-          <h1>Explore Skills</h1>
 
-          <p>
+        <div>
+
+          <p className="skills-eyebrow">
+            EXPLORE
+          </p>
+
+          <h1>
+            Explore Skills
+          </h1>
+
+          <p className="skills-description">
             Discover skills from the Swaply community
             and find something new to learn.
           </p>
+
         </div>
 
         <Link
@@ -152,6 +161,7 @@ const SkillsList = () => {
         >
           + Add a Skill
         </Link>
+
       </section>
 
       {error && (
@@ -176,8 +186,8 @@ const SkillsList = () => {
               key={item}
               type="button"
               className={`category-tab ${category === item
-                  ? 'active'
-                  : ''
+                ? 'active'
+                : ''
                 }`}
               onClick={() =>
                 handleCategoryChange(item)

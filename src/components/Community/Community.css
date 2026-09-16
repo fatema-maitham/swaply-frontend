@@ -465,3 +465,42 @@
     border-color 0.2s ease,
     background 0.2s ease;
 }
+
+.community-header {
+  margin-bottom: 38px;
+}
+
+.community-label {
+  margin: 0 0 10px;
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.community-header h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(38px, 4vw, 50px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.community-description {
+  max-width: 600px;
+  margin: 14px 0 0;
+  color: #717382;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.community-label {
+  margin: 0 0 10px !important;
+  color: var(--purple) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.8px !important;
+}
