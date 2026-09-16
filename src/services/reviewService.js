@@ -62,8 +62,8 @@ const createReview = async (formData) => {
   const res = await fetch(BASE_URL, config);
   const data = await res.json();
 
-  if (data.err) {
-    throw new Error(data.err);
+  if (!res.ok) {
+    throw new Error(data.err || 'Failed to create review.');
   }
 
   return data.review;
