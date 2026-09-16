@@ -75,16 +75,10 @@ const UserDetails = () => {
 
         <div className="user-details-image">
 
-          {user.profileImage ? (
-            <img
-              src={user.profileImage}
-              alt={user.name}
-            />
-          ) : (
-            <div className="user-details-placeholder">
-              {user.name?.slice(0, 2).toUpperCase()}
-            </div>
-          )}
+          <img
+            src={user.profileImage || '/default-profile.png'}
+            alt={user.name}
+          />
 
         </div>
 

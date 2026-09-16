@@ -25,6 +25,25 @@ const getProfile = async () => {
   }
 };
 
+const getUsers = async () => {
+  try {
+    const res = await fetch(BASE_URL, {
+      headers: getAuthHeaders(),
+    });
+
+    const data = await res.json();
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
+
+    return data.users;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
 const updateProfile = async (formData) => {
   try {
     const res = await fetch(`${BASE_URL}/profile`, {
@@ -68,6 +87,7 @@ const deleteProfile = async () => {
 
 export {
   getProfile,
+  getUsers,
   updateProfile,
   deleteProfile,
 };

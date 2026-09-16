@@ -135,19 +135,11 @@ const Community = () => {
                 {/* PROFILE IMAGE */}
 
                 <div className="community-avatar-wrapper">
-                  {member.profileImage ? (
-                    <img
-                      src={member.profileImage}
-                      alt={member.name}
-                      className="community-avatar"
-                    />
-                  ) : (
-                    <div className="community-avatar-placeholder">
-                      {member.name
-                        ?.charAt(0)
-                        .toUpperCase()}
-                    </div>
-                  )}
+                  <img
+                    src={member.profileImage || '/default-profile.png'}
+                    alt={member.name}
+                    className="community-avatar"
+                  />
                 </div>
 
                 {/* NAME */}
