@@ -28,14 +28,6 @@ const AdminSkills = () => {
   }, []);
 
   const handleDelete = async (skillId) => {
-    const shouldDelete = window.confirm(
-      'Are you sure you want to delete this skill?'
-    );
-
-    if (!shouldDelete) {
-      return;
-    }
-
     try {
       setDeletingId(skillId);
       setMessage('');
@@ -43,7 +35,9 @@ const AdminSkills = () => {
       await deleteSkill(skillId);
 
       setSkills((currentSkills) =>
-        currentSkills.filter((skill) => skill._id !== skillId)
+        currentSkills.filter(
+          (skill) => skill._id !== skillId
+        )
       );
     } catch (err) {
       setMessage(err.message);
@@ -51,6 +45,7 @@ const AdminSkills = () => {
       setDeletingId(null);
     }
   };
+
 
   return (
     <main className="admin-page">

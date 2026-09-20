@@ -59,23 +59,16 @@ const AdminUsers = () => {
   };
 
   const handleDelete = async (userId) => {
-    const shouldDelete = window.confirm(
-      'Are you sure you want to permanently delete this user?'
-    );
-
-    if (!shouldDelete) {
-      return;
-    }
-
     try {
       setDeletingId(userId);
-
       setMessage('');
 
       await deleteUser(userId);
 
       setUsers((currentUsers) =>
-        currentUsers.filter((user) => user._id !== userId)
+        currentUsers.filter(
+          (user) => user._id !== userId
+        )
       );
     } catch (err) {
       setMessage(err.message);

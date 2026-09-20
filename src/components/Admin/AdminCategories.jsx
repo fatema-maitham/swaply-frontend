@@ -121,17 +121,8 @@ const AdminCategories = () => {
   };
 
   const handleDeleteCategory = async (categoryId) => {
-    const shouldDelete = window.confirm(
-      'Are you sure you want to delete this category?'
-    );
-
-    if (!shouldDelete) {
-      return;
-    }
-
     try {
       setDeletingId(categoryId);
-
       setMessage('');
 
       await deleteCategory(categoryId);

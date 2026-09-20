@@ -29,14 +29,6 @@ const AdminReviews = () => {
   }, []);
 
   const handleDelete = async (reviewId) => {
-    const shouldDelete = window.confirm(
-      'Are you sure you want to delete this review?'
-    );
-
-    if (!shouldDelete) {
-      return;
-    }
-
     try {
       setDeletingId(reviewId);
       setMessage('');
@@ -54,6 +46,7 @@ const AdminReviews = () => {
       setDeletingId(null);
     }
   };
+
 
   return (
     <main className="admin-page">
