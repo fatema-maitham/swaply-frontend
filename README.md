@@ -202,7 +202,7 @@ npm run build
 
 ## Deployed Website
 
-[Swaply](NOT COMPLETED)
+[Swaply](https://swaply-frontend-ten.vercel.app/)
 
 ## Attributions
 
