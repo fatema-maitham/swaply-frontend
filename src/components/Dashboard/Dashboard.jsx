@@ -5,8 +5,11 @@ import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
 import { getSkills } from '../../services/skillService';
+
 import { getReviews } from '../../services/reviewService';
+
 import { getSwaps } from '../../services/swapService';
+
 import { getUsers } from '../../services/userService';
 
 const Dashboard = () => {
@@ -51,7 +54,7 @@ const Dashboard = () => {
             getReviews(),
           ]);
 
-        setSkills(skillsData.slice(0, 4));
+        setSkills(skillsData);
         setReviews(reviewsData);
       } catch (err) {
         console.error(
@@ -102,7 +105,7 @@ const Dashboard = () => {
             new Date(a.createdAt)
         );
 
-        setSwaps(sortedSwaps.slice(0, 3));
+        setSwaps(sortedSwaps);
       } catch (err) {
         setSwaps([]);
       }
@@ -133,15 +136,68 @@ const Dashboard = () => {
     loadUsers();
   }, [user]);
 
+  const currentUserId = getUserId(user);
+
+  const activeSwaps = swaps.filter(
+    (swap) =>
+      swap.status === 'accepted' ||
+      swap.status === 'active'
+  ).length;
+
+  const pendingRequests = swaps.filter(
+    (swap) =>
+      swap.status === 'pending'
+  ).length;
+
+  const skillsOffered = skills.filter((skill) => {
+    const ownerId = getUserId(skill.owner);
+
+    return (
+      String(ownerId) ===
+      String(currentUserId)
+    );
+  }).length;
+
+  const skillsLearned = swaps.filter((swap) => {
+    const requesterId = getUserId(
+      swap.requester
+    );
+
+    const receiverId = getUserId(
+      swap.receiver
+    );
+
+    const isUserInSwap =
+      String(requesterId) ===
+      String(currentUserId) ||
+      String(receiverId) ===
+      String(currentUserId);
+
+    return (
+      isUserInSwap &&
+      (swap.status === 'accepted' ||
+        swap.status === 'active' ||
+        swap.status === 'completed')
+    );
+  }).length;
+
+  const recommendedSkills = skills
+    .filter((skill) => {
+      const ownerId = getUserId(skill.owner);
+
+      return (
+        String(ownerId) !==
+        String(currentUserId)
+      );
+    })
+    .slice(0, 4);
+
   return (
     <main className="dashboard-page">
-
       {/* Welcome */}
 
       <section className="dashboard-welcome">
-
         <div>
-
           <p className="dashboard-eyebrow">
             WELCOME BACK
           </p>
@@ -153,11 +209,9 @@ const Dashboard = () => {
           <p>
             Ready to learn something new or share your skills?
           </p>
-
         </div>
 
         <div className="dashboard-actions">
-
           <Link
             to="/skills"
             className="dashboard-primary-button"
@@ -171,20 +225,14 @@ const Dashboard = () => {
           >
             Offer a Skill
           </Link>
-
         </div>
-
       </section>
-
 
       {/* Your Activity */}
 
       <section className="dashboard-section">
-
         <div className="dashboard-section-heading">
-
           <div>
-
             <p className="dashboard-eyebrow">
               YOUR ACTIVITY
             </p>
@@ -192,46 +240,57 @@ const Dashboard = () => {
             <h2>
               Overview
             </h2>
-
           </div>
-
         </div>
 
         <div className="dashboard-activity-grid">
-
           <article className="dashboard-activity-card">
-            <span>Active Swaps</span>
-            <strong>3</strong>
+            <span>
+              Active Swaps
+            </span>
+
+            <strong>
+              {activeSwaps}
+            </strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>Pending Requests</span>
-            <strong>2</strong>
+            <span>
+              Pending Requests
+            </span>
+
+            <strong>
+              {pendingRequests}
+            </strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>Skills Offered</span>
-            <strong>5</strong>
+            <span>
+              Skills Offered
+            </span>
+
+            <strong>
+              {skillsOffered}
+            </strong>
           </article>
 
           <article className="dashboard-activity-card">
-            <span>Skills Learned</span>
-            <strong>4</strong>
-          </article>
+            <span>
+              Skills Learned
+            </span>
 
+            <strong>
+              {skillsLearned}
+            </strong>
+          </article>
         </div>
-
       </section>
-
 
       {/* Recommended Skills */}
 
       <section className="dashboard-section">
-
         <div className="dashboard-section-heading dashboard-heading-row">
-
           <div>
-
             <p className="dashboard-eyebrow">
               EXPLORE
             </p>
@@ -239,7 +298,6 @@ const Dashboard = () => {
             <h2>
               Skills You Might Like
             </h2>
-
           </div>
 
           <Link
@@ -248,13 +306,10 @@ const Dashboard = () => {
           >
             View All
           </Link>
-
         </div>
 
         <div className="dashboard-skill-grid">
-
-          {skills.map((skill) => {
-
+          {recommendedSkills.map((skill) => {
             const averageRating =
               getAverageRating(skill);
 
@@ -270,9 +325,7 @@ const Dashboard = () => {
                 key={skill._id}
                 className="dashboard-skill-card"
               >
-
                 <div className="dashboard-skill-image">
-
                   {skill.skillImage ? (
                     <img
                       src={skill.skillImage}
@@ -285,7 +338,6 @@ const Dashboard = () => {
                         .toUpperCase()}
                     </div>
                   )}
-
                 </div>
 
                 <span>
@@ -301,7 +353,6 @@ const Dashboard = () => {
                 </p>
 
                 <div className="dashboard-skill-bottom">
-
                   {displayRating !== null && (
                     <strong>
                       ★ {displayRating}/5
@@ -314,7 +365,6 @@ const Dashboard = () => {
                   >
                     ♡
                   </button>
-
                 </div>
 
                 <Link
@@ -323,24 +373,17 @@ const Dashboard = () => {
                 >
                   View Skill
                 </Link>
-
               </article>
             );
           })}
-
         </div>
-
       </section>
-
 
       {/* Recent Swaps */}
 
       <section className="dashboard-section">
-
         <div className="dashboard-section-heading dashboard-heading-row">
-
           <div>
-
             <p className="dashboard-eyebrow">
               YOUR ACTIVITY
             </p>
@@ -348,7 +391,6 @@ const Dashboard = () => {
             <h2>
               Your Recent Swaps
             </h2>
-
           </div>
 
           <Link
@@ -357,15 +399,11 @@ const Dashboard = () => {
           >
             View All
           </Link>
-
         </div>
 
         <div className="dashboard-swaps">
-
           {swaps.length === 0 ? (
-
             <div className="dashboard-empty-swaps">
-
               <p>
                 No swaps yet.
               </p>
@@ -373,16 +411,9 @@ const Dashboard = () => {
               <Link to="/skills">
                 Find a Skill
               </Link>
-
             </div>
-
           ) : (
-
-            swaps.map((swap) => {
-
-              const currentUserId =
-                getUserId(user);
-
+            swaps.slice(0, 3).map((swap) => {
               const requesterId =
                 getUserId(swap.requester);
 
@@ -406,11 +437,8 @@ const Dashboard = () => {
                   key={swap._id}
                   className="dashboard-swap-row"
                 >
-
                   <div className="dashboard-swap-content">
-
                     <div className="dashboard-swap-image">
-
                       {skill?.skillImage ? (
                         <img
                           src={skill.skillImage}
@@ -420,40 +448,34 @@ const Dashboard = () => {
                         <div className="dashboard-swap-image-placeholder">
                           {skill?.name
                             ?.slice(0, 2)
-                            .toUpperCase() || 'SK'}
+                            .toUpperCase() ||
+                            'SK'}
                         </div>
                       )}
-
                     </div>
 
                     <div className="dashboard-swap-text">
-
                       {skill?._id ? (
-
                         <h3>
-
                           <Link
                             to={`/skills/${skill._id}`}
                           >
                             {skill.name}
                           </Link>
-
                         </h3>
-
                       ) : (
-
                         <h3>
-                          {skill?.name || 'Unknown Skill'}
+                          {skill?.name ||
+                            'Unknown Skill'}
                         </h3>
-
                       )}
 
                       <p>
-                        With {otherUser?.name || 'Unknown User'}
+                        With{' '}
+                        {otherUser?.name ||
+                          'Unknown User'}
                       </p>
-
                     </div>
-
                   </div>
 
                   <span
@@ -461,26 +483,18 @@ const Dashboard = () => {
                   >
                     {swap.status}
                   </span>
-
                 </article>
               );
             })
-
           )}
-
         </div>
-
       </section>
-
 
       {/* Community */}
 
       <section className="dashboard-section">
-
         <div className="dashboard-section-heading dashboard-heading-row">
-
           <div>
-
             <p className="dashboard-eyebrow">
               COMMUNITY
             </p>
@@ -488,7 +502,6 @@ const Dashboard = () => {
             <h2>
               People You Might Learn From
             </h2>
-
           </div>
 
           <Link
@@ -497,34 +510,24 @@ const Dashboard = () => {
           >
             View Community
           </Link>
-
         </div>
 
         <div className="dashboard-community-grid">
-
           {users.length === 0 ? (
-
             <div className="dashboard-community-empty">
-
               <p>
                 No other users yet.
               </p>
-
             </div>
-
           ) : (
-
             users.map((communityUser) => (
-
               <article
                 key={communityUser._id}
                 className="dashboard-person-card"
               >
-
                 {/* PROFILE IMAGE */}
 
                 <div className="dashboard-avatar">
-
                   <img
                     src={
                       communityUser.profileImage ||
@@ -536,16 +539,13 @@ const Dashboard = () => {
                         '/default-profile.png';
                     }}
                   />
-
                 </div>
-
 
                 {/* NAME */}
 
                 <h3>
                   {communityUser.name}
                 </h3>
-
 
                 {/* BIO */}
 
@@ -554,7 +554,6 @@ const Dashboard = () => {
                     'Skill Swap Member'}
                 </p>
 
-
                 {/* PROFILE LINK */}
 
                 <Link
@@ -562,17 +561,11 @@ const Dashboard = () => {
                 >
                   View Profile
                 </Link>
-
               </article>
-
             ))
-
           )}
-
         </div>
-
       </section>
-
     </main>
   );
 };
