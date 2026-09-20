@@ -2,7 +2,12 @@
    NAVBAR
 ========================= */
 
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
+  position: relative;
   width: 94%;
   max-width: 1730px;
   height: 70px;
@@ -10,6 +15,7 @@
   background: var(--white);
   border-radius: 18px;
   box-shadow: 0 5px 22px rgba(26, 23, 84, 0.07);
+  z-index: 1000;
 }
 
 .navbar-container {
@@ -20,6 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .navbar-left {
@@ -41,6 +48,10 @@
   height: auto;
   display: block;
 }
+
+/* =========================
+   DESKTOP NAV LINKS
+========================= */
 
 .navbar-center {
   position: absolute;
@@ -65,6 +76,10 @@
   color: var(--purple);
 }
 
+/* =========================
+   RIGHT SIDE
+========================= */
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -72,19 +87,29 @@
   flex-shrink: 0;
 }
 
+/* =========================
+   SIGN IN
+========================= */
+
 .navbar-signin {
   min-height: 44px;
   padding: 0 22px;
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: var(--navy);
+
   font-size: 13px;
   font-weight: 500;
+
   text-decoration: none;
+
   border: 1px solid #dfe1e8;
   border-radius: 12px;
+
   background: var(--white);
+
   transition:
     color 0.2s ease,
     border-color 0.2s ease;
@@ -95,18 +120,29 @@
   border-color: var(--purple);
 }
 
+/* =========================
+   SIGN UP
+========================= */
+
 .navbar-signup {
   min-height: 44px;
   padding: 0 24px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: var(--white) !important;
+
   font-size: 13px;
   font-weight: 500;
+
   text-decoration: none;
+
   background: var(--pink);
+
   border-radius: 12px;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -114,23 +150,36 @@
 
 .navbar-signup:hover {
   color: var(--white) !important;
+
   transform: translateY(-1px);
+
   box-shadow: 0 5px 12px rgba(248, 54, 198, 0.18);
 }
+
+/* =========================
+   SIGN OUT
+========================= */
 
 .navbar-signout {
   min-height: 44px;
   padding: 0 20px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: var(--navy);
+
   font-size: 13px;
   font-weight: 500;
+
   text-decoration: none;
+
   border: 1px solid #dfe1e8;
   border-radius: 12px;
+
   background: var(--white);
+
   transition:
     color 0.2s ease,
     border-color 0.2s ease;
@@ -141,18 +190,28 @@
   border-color: var(--purple);
 }
 
+/* =========================
+   PROFILE IMAGE
+========================= */
+
 .navbar-profile {
   width: 40px;
   height: 40px;
+
   flex-shrink: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   text-decoration: none;
+
   border-radius: 50%;
   overflow: hidden;
+
   border: 2px solid var(--light-pink);
   background: var(--light-gray);
+
   transition:
     transform 0.2s ease,
     border-color 0.2s ease;
@@ -166,18 +225,53 @@
 .navbar-profile-image {
   width: 100%;
   height: 100%;
+
   display: block;
+
   object-fit: cover;
 }
 
+/* =========================
+   HAMBURGER
+========================= */
+
+.navbar-menu-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: var(--navy);
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+}
 
 /* =========================
-   NAVBAR RESPONSIVE
+   MOBILE AUTH
+========================= */
+
+.navbar-mobile-auth {
+  display: none;
+}
+
+/* =========================
+   TABLET
 ========================= */
 
 @media (max-width: 1000px) {
+
   .navbar {
-    width: 94%;
     height: 66px;
     margin-top: 18px;
   }
@@ -209,92 +303,183 @@
   }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 800px) {
+
   .navbar {
-    height: auto;
-    min-height: 62px;
+    width: 94%;
+    height: 62px;
+    margin-top: 14px;
+    border-radius: 14px;
   }
 
   .navbar-container {
-    min-height: 62px;
-    padding: 8px 12px 8px 16px;
+    height: 62px;
+    padding: 8px 14px 8px 16px;
   }
 
   .navbar-left {
-    gap: 16px;
+    width: auto;
+    gap: 0;
   }
+
+  /* LOGO */
 
   .navbar-logo img {
     width: 120px;
   }
 
+  /* HIDE DESKTOP NAV LINKS */
+
   .navbar-center {
-    gap: 14px;
+    display: none;
   }
 
-  .navbar-center a {
-    font-size: 11px;
+  /* KEEP PROFILE IMAGE VISIBLE */
+
+  .navbar-profile {
+    width: 38px;
+    height: 38px;
   }
 
-  .navbar-signin,
-  .navbar-signup,
-  .navbar-signout {
-    min-height: 36px;
-    padding: 0 14px;
-    border-radius: 10px;
-    font-size: 11px;
+  /* HIDE DESKTOP BUTTONS */
+
+  .navbar-desktop-only {
+    display: none;
+  }
+
+  /* SHOW HAMBURGER */
+
+  .navbar-menu-button {
+    display: flex;
+  }
+
+  /* =========================
+     MOBILE DROPDOWN
+  ========================= */
+
+  .navbar-center.navbar-menu-open {
+    position: absolute;
+
+    top: calc(100% + 8px);
+
+    left: 0;
+    right: 0;
+
+    width: auto;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 2px;
+
+    padding: 10px;
+
+    background: var(--white);
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 14px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    z-index: 2000;
+
+    transform: none;
+  }
+
+  .navbar-center.navbar-menu-open a {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    box-sizing: border-box;
+
+    color: var(--navy);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    white-space: nowrap;
+  }
+
+  .navbar-center.navbar-menu-open a:hover {
+    background: var(--light-gray);
+    color: var(--purple);
+  }
+
+  /* SHOW MOBILE SIGN IN / SIGN UP / SIGN OUT */
+
+  .navbar-center.navbar-menu-open .navbar-mobile-auth {
+    display: block;
+  }
+
+  /* SIGN UP */
+
+  .navbar-center.navbar-menu-open .navbar-mobile-signup {
+    margin-top: 4px;
+
+    background: var(--pink);
+
+    color: var(--white) !important;
+
+    text-align: center;
+  }
+
+  .navbar-center.navbar-menu-open .navbar-mobile-signup:hover {
+    background: var(--pink);
+    color: var(--white) !important;
   }
 }
 
+/* =========================
+   SMALL PHONES
+========================= */
+
 @media (max-width: 600px) {
+
   .navbar {
     width: 94%;
-    height: auto;
     margin-top: 10px;
     border-radius: 14px;
   }
 
   .navbar-container {
-    min-height: auto;
-    padding: 12px 14px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .navbar-left {
-    width: 100%;
-    justify-content: space-between;
-    gap: 12px;
+    height: 62px;
+    padding: 10px 14px;
   }
 
   .navbar-logo img {
     width: 115px;
   }
 
-  .navbar-center {
-    gap: 10px 16px;
-    flex-wrap: wrap;
+  .navbar-profile {
+    width: 36px;
+    height: 36px;
   }
 
-  .navbar-center a {
-    font-size: 10px;
-  }
-
-  .navbar-right {
-    gap: 8px;
-  }
-
-  .navbar-signin,
-  .navbar-signup,
-  .navbar-signout {
-    min-height: 34px;
-    padding: 0 13px;
-    border-radius: 9px;
-    font-size: 10px;
+  .navbar-menu-button {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
   }
 }
 
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
 @media (max-width: 400px) {
+
   .navbar {
     width: 95%;
   }
@@ -307,19 +492,15 @@
     width: 105px;
   }
 
-  .navbar-center {
-    gap: 8px 11px;
+  .navbar-profile {
+    width: 34px;
+    height: 34px;
   }
 
-  .navbar-center a {
-    font-size: 9px;
-  }
-
-  .navbar-signin,
-  .navbar-signup,
-  .navbar-signout {
-    min-height: 32px;
-    padding: 0 11px;
+  .navbar-menu-button {
+    width: 36px;
+    height: 36px;
+    font-size: 23px;
   }
 }
 
