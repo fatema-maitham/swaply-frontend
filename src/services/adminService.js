@@ -1,9 +1,16 @@
 const BASE_URL =
   `${import.meta.env.VITE_BACK_END_SERVER_URL}/admin`;
 
+const CATEGORIES_URL =
+  `${import.meta.env.VITE_BACK_END_SERVER_URL}/categories`;
+
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
+
+// ========================================
+// DASHBOARD
+// ========================================
 
 const getDashboard = async () => {
   const response = await fetch(
@@ -24,6 +31,10 @@ const getDashboard = async () => {
   return data.statistics;
 };
 
+// ========================================
+// USERS
+// ========================================
+
 const getUsers = async () => {
   const response = await fetch(
     `${BASE_URL}/users`,
@@ -42,6 +53,10 @@ const getUsers = async () => {
 
   return data.users;
 };
+
+// ========================================
+// SKILLS
+// ========================================
 
 const getSkills = async () => {
   const response = await fetch(
@@ -62,6 +77,10 @@ const getSkills = async () => {
   return data.skills;
 };
 
+// ========================================
+// SWAPS
+// ========================================
+
 const getSwaps = async () => {
   const response = await fetch(
     `${BASE_URL}/swaps`,
@@ -80,6 +99,10 @@ const getSwaps = async () => {
 
   return data.swaps;
 };
+
+// ========================================
+// REVIEWS
+// ========================================
 
 const getReviews = async () => {
   const response = await fetch(
@@ -100,6 +123,10 @@ const getReviews = async () => {
   return data.reviews;
 };
 
+// ========================================
+// AUDIT LOGS
+// ========================================
+
 const getAuditLogs = async () => {
   const response = await fetch(
     `${BASE_URL}/audit-logs`,
@@ -119,9 +146,13 @@ const getAuditLogs = async () => {
   return data.auditLogs;
 };
 
+// ========================================
+// CATEGORIES
+// ========================================
+
 const getCategories = async () => {
   const response = await fetch(
-    `${BASE_URL}/categories`,
+    `${CATEGORIES_URL}`,
     {
       headers: getAuthHeaders(),
     }
@@ -140,7 +171,7 @@ const getCategories = async () => {
 
 const createCategory = async (name) => {
   const response = await fetch(
-    `${BASE_URL}/categories`,
+    `${CATEGORIES_URL}`,
     {
       method: 'POST',
       headers: {
@@ -164,12 +195,9 @@ const createCategory = async (name) => {
   return data.category;
 };
 
-const updateCategory = async (
-  categoryId,
-  name
-) => {
+const updateCategory = async (categoryId, name) => {
   const response = await fetch(
-    `${BASE_URL}/categories/${categoryId}`,
+    `${CATEGORIES_URL}/${categoryId}`,
     {
       method: 'PATCH',
       headers: {
@@ -195,7 +223,7 @@ const updateCategory = async (
 
 const deleteCategory = async (categoryId) => {
   const response = await fetch(
-    `${BASE_URL}/categories/${categoryId}`,
+    `${CATEGORIES_URL}/${categoryId}`,
     {
       method: 'DELETE',
       headers: getAuthHeaders(),
@@ -212,6 +240,10 @@ const deleteCategory = async (categoryId) => {
 
   return data;
 };
+
+// ========================================
+// USER STATUS
+// ========================================
 
 const toggleUserStatus = async (userId) => {
   const response = await fetch(
@@ -233,6 +265,10 @@ const toggleUserStatus = async (userId) => {
   return data.user;
 };
 
+// ========================================
+// DELETE USER
+// ========================================
+
 const deleteUser = async (userId) => {
   const response = await fetch(
     `${BASE_URL}/users/${userId}`,
@@ -253,6 +289,10 @@ const deleteUser = async (userId) => {
   return data;
 };
 
+// ========================================
+// DELETE SKILL
+// ========================================
+
 const deleteSkill = async (skillId) => {
   const response = await fetch(
     `${BASE_URL}/skills/${skillId}`,
@@ -272,6 +312,10 @@ const deleteSkill = async (skillId) => {
 
   return data;
 };
+
+// ========================================
+// DELETE REVIEW
+// ========================================
 
 const deleteReview = async (reviewId) => {
   const response = await fetch(
@@ -300,12 +344,10 @@ export {
   getSwaps,
   getReviews,
   getAuditLogs,
-
   getCategories,
   createCategory,
   updateCategory,
   deleteCategory,
-
   toggleUserStatus,
   deleteUser,
   deleteSkill,
