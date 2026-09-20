@@ -4,9 +4,15 @@ const BASE_URL =
 const CATEGORIES_URL =
   `${import.meta.env.VITE_BACK_END_SERVER_URL}/categories`;
 
-const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`,
-});
+const getAuthHeaders = () => {
+  const token =
+    localStorage.getItem('token') ||
+    sessionStorage.getItem('token');
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+};
 
 // ========================================
 // DASHBOARD
